@@ -2,17 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerState : MonoBehaviour
+public class PlayerState
 {
-    // Start is called before the first frame update
-    void Start()
+    protected PlayerStateMachine stateMachine;
+    protected Player player;
+    protected string animBoolName;
+
+    public PlayerState(PlayerStateMachine stateMachine, Player player, string animBoolName)
     {
-        
+        this.stateMachine = stateMachine;
+        this.player = player;
+        this.animBoolName = animBoolName;
     }
 
-    // Update is called once per frame
-    void Update()
+    public virtual void Enter()
     {
-        
+        player.anim.SetBool(animBoolName, true);
+    }
+
+    public virtual void Update()
+    {
+
+    }
+
+    public virtual void Exit()
+    {
+        player.anim.SetBool(animBoolName, false);
     }
 }
