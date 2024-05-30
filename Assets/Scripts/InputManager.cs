@@ -1,18 +1,28 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class InputManager : MonoBehaviour
+public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
 {
-    // Start is called before the first frame update
-    void Start()
+    private PlayerControls controls;
+    public Vector2 Movement { get; private set; }
+
+    private void Start()
     {
-        
+        controls = new PlayerControls();
+        controls.Player.SetCallbacks(this);
+        controls.Enable();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnMovement(InputAction.CallbackContext context)
     {
-        
+        Movement = context.ReadValue<Vector2>();
+    }
+
+    private void OnDestroy()
+    {
+        controls.Dispose();
     }
 }

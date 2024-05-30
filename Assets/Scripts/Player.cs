@@ -4,26 +4,33 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    protected PlayerStateMachine StateMachine { get; private set; }
+    public PlayerStateMachine stateMachine { get; private set; }
+    public InputManager inputManager { get; private set; }
     public Animator anim {  get; private set; }
+    public Camera mainCamera { get; private set; }
 
     public PlayerFreeLookState IdleState { get; private set; }
 
+    public float moveSpeed;
+    public float runSpeed;
+
     private void Awake()
     {
-        StateMachine  = new PlayerStateMachine();
+        stateMachine  = new PlayerStateMachine();
+        inputManager = GetComponent<InputManager>();
         anim = GetComponentInChildren<Animator>();
+        mainCamera = Camera.main;
     }
 
     private void Start()
     {
-        IdleState = new PlayerFreeLookState(StateMachine, this, "Idle");
+        IdleState = new PlayerFreeLookState(stateMachine, this, "FreeLook");
 
-        StateMachine.InitializeState(IdleState);
+        stateMachine.InitializeState(IdleState);
     }
 
     private void Update()
     {
-        StateMachine.currentState.Update();
+        stateMachine.currentState.Update();
     }
 }

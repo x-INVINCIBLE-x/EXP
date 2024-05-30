@@ -29,4 +29,9 @@ public class PlayerState
     {
         player.anim.SetBool(animBoolName, false);
     }
+
+    public void Move(Vector3 movement)
+    {
+
+    }
 }
