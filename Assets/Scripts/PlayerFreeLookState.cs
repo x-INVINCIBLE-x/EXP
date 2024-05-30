@@ -21,10 +21,18 @@ public class PlayerFreeLookState : PlayerState
         Vector3 movement = CalculateMovement();
         if (movement != Vector3.zero)
         {
+            FreeLookDirection(movement);
+
             if (Input.GetKey(KeyCode.Space))
+            {
                 player.anim.SetFloat("FreeLookSpeed", 1f, 0.1f, Time.deltaTime);
+                player.characterController.Move(player.runSpeed * Time.deltaTime * movement);
+            }
             else
+            {
                 player.anim.SetFloat("FreeLookSpeed", 0.5f, 0.1f, Time.deltaTime);
+                player.characterController.Move(player.moveSpeed * Time.deltaTime * movement);
+            }
         }
         else
             player.anim.SetFloat("FreeLookSpeed", 0, 0.15f, Time.deltaTime);
@@ -44,5 +52,10 @@ public class PlayerFreeLookState : PlayerState
         right.y = 0;
 
         return (player.inputManager.Movement.x * right) + (player.inputManager.Movement.y * forward);
+    }
+
+    private void FreeLookDirection(Vector3 movement)
+    {
+        player.transform.rotation = Quaternion.Lerp(player.transform.rotation, Quaternion.LookRotation(movement), Time.deltaTime * player.rotationDamping);
     }
 }
