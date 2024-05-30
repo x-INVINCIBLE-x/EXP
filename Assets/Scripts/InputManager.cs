@@ -8,6 +8,7 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
 {
     private PlayerControls controls;
     public Vector2 Movement { get; private set; }
+    public event Action TargetEvent;
 
     private void Start()
     {
@@ -21,8 +22,14 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
         Movement = context.ReadValue<Vector2>();
     }
 
+
+    public void OnTarget(InputAction.CallbackContext context)
+    {
+        TargetEvent?.Invoke();
+    }
+
     private void OnDestroy()
     {
-        controls.Dispose();
+        controls.Disable();
     }
 }

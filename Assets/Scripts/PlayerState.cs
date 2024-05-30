@@ -22,7 +22,10 @@ public class PlayerState
 
     public virtual void Update()
     {
-
+        if (Input.GetKeyUp(KeyCode.Space) || player.inputManager.Movement.sqrMagnitude == 0)
+        {
+            player.anim.SetBool("Run", false);
+        }
     }
 
     public virtual void Exit()
@@ -30,8 +33,41 @@ public class PlayerState
         player.anim.SetBool(animBoolName, false);
     }
 
-    public void Move(Vector3 movement)
+    public void Move(Vector3 movement, float speed)
     {
+        player.characterController.Move(speed * Time.deltaTime * movement);
+    }
 
+    public void FaceTarget()
+    {
+        Target target = player.targeter.currentTarget;
+        if (target == null) return;
+
+        Vector3 dir = (player.transform.position - target.transform.position).normalized;
+        dir.y = 0;
+
+        player.transform.rotation = Quaternion.LookRotation(-dir);
+    }
+
+    public void Run(Vector3 movement)
+    {
+        player.anim.SetBool("Run", true);
+        Move(movement, player.runSpeed);
+    }
+
+    protected Vector3 CalculateMovement()
+    {
+        Vector3 forward = (player.mainCamera.transform.forward).normalized;
+        Vector3 right = (player.mainCamera.transform.right).normalized;
+
+        forward.y = 0;
+        right.y = 0;
+
+        return (player.inputManager.Movement.x * right) + (player.inputManager.Movement.y * forward);
+    }
+
+    protected void FreeLookDirection(Vector3 movement)
+    {
+        player.transform.rotation = Quaternion.Lerp(player.transform.rotation, Quaternion.LookRotation(movement), Time.deltaTime * player.rotationDamping);
     }
 }

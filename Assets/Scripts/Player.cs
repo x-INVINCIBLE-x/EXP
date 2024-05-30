@@ -8,11 +8,13 @@ public class Player : MonoBehaviour
     public InputManager inputManager { get; private set; }
     public Animator anim {  get; private set; }
     public CharacterController characterController { get; private set; }
+    public Targeter targeter { get; private set; }
     public Camera mainCamera { get; private set; }
 
     public PlayerFreeLookState IdleState { get; private set; }
+    public PlayerTargetState TargetState { get; private set; }
 
-    public float moveSpeed;
+    public float walkSpeed;
     public float runSpeed;
     public float rotationDamping;
 
@@ -22,12 +24,14 @@ public class Player : MonoBehaviour
         inputManager = GetComponent<InputManager>();
         anim = GetComponentInChildren<Animator>();
         characterController = GetComponent<CharacterController>();
+        targeter = GetComponentInChildren<Targeter>();
         mainCamera = Camera.main;
     }
 
     private void Start()
     {
         IdleState = new PlayerFreeLookState(stateMachine, this, "FreeLook");
+        TargetState = new PlayerTargetState(stateMachine, this, "TargetLook");
 
         stateMachine.InitializeState(IdleState);
     }
