@@ -6,7 +6,7 @@ public enum DodgeType { DodgeRoll, DodgeStand}
 
 public class PlayerDodgeState : PlayerState
 {
-    private int dodgeType;
+    private readonly int dodgeType;
     private Vector2 dodgeDir;
 
     public PlayerDodgeState(PlayerStateMachine stateMachine, Player player, string animBoolName, DodgeType dodgeType, Vector2 dodgeDir) : base(stateMachine, player, animBoolName)
@@ -19,11 +19,11 @@ public class PlayerDodgeState : PlayerState
     {
         player.anim.CrossFadeInFixedTime(animBoolName, 0, 0);
         player.anim.SetInteger("DodgeType", dodgeType);
-        Debug.Log(dodgeDir);
+
         if(dodgeType == 1)
         {
-            player.anim.SetFloat("DodgeForward", dodgeDir.y);
-            player.anim.SetFloat("DodgeRight", dodgeDir.x);
+            player.anim.SetFloat("DodgeForward", dodgeDir.y, 0.1f, Time.deltaTime);
+            player.anim.SetFloat("DodgeRight", dodgeDir.x, 0.1f, Time.deltaTime);
         }
     }
 
@@ -31,8 +31,28 @@ public class PlayerDodgeState : PlayerState
     {
         base.Update();
 
-        if(IsAnimationComplete(animBoolName))
-                ChangeToLocomotion();
+        Vector3 movement = new();
+        movement = CalculateDodgeMovement(movement);
+
+        Move(movement, 1);
+
+        if (IsAnimationComplete(animBoolName))
+            ChangeToLocomotion();
+    }
+
+    private Vector3 CalculateDodgeMovement(Vector3 movement)
+    {
+        if (dodgeType == 1)
+        {
+            movement += dodgeDir.x * player.dodgeLength * 0.65f * player.transform.right / player.dodgeDuration;
+            movement += dodgeDir.y * player.dodgeLength * player.transform.forward / player.dodgeDuration;
+        }
+        else
+        {
+            movement += player.dodgeLength * player.transform.forward / player.dodgeDuration;
+        }
+
+        return movement;
     }
 
     public override void Exit()

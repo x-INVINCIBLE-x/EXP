@@ -299,7 +299,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 446778148}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.1244271, y: 0.000000057740124, z: -0.0000000072407054, w: 0.99222875}
+  m_LocalRotation: {x: 0.1244271, y: 0.00000001505846, z: -0.0000000018883552, w: 0.99222875}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -655,6 +655,8 @@ MonoBehaviour:
   walkSpeed: 0
   runSpeed: 0
   rotationDamping: 0
+  dodgeLength: 0
+  dodgeDuration: 0
 --- !u!1 &784346546
 GameObject:
   m_ObjectHideFlags: 0
@@ -1244,8 +1246,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1406959693}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.6689541, y: 0.009753567, z: -0.008779326, w: -0.7431879}
-  m_LocalPosition: {x: -0.14715129, y: 3.8684735, z: 0.6741967}
+  m_LocalRotation: {x: -0.009357361, y: -0.7133096, z: 0.7007219, w: -0.009525456}
+  m_LocalPosition: {x: -0.12782824, y: 3.836732, z: -0.052784443}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1541,6 +1543,8 @@ MonoBehaviour:
   walkSpeed: 4
   runSpeed: 6
   rotationDamping: 5
+  dodgeLength: 17
+  dodgeDuration: 1.5
 --- !u!114 &1611424501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1624,7 +1628,7 @@ Transform:
   m_GameObject: {fileID: 1735464526}
   serializedVersion: 2
   m_LocalRotation: {x: 0.08516997, y: -0.8795553, z: 0.43533713, w: -0.17207631}
-  m_LocalPosition: {x: 0.000000009778887, y: -0.5798993, z: 3.5000005}
+  m_LocalPosition: {x: -0.000000006519258, y: -0.5798993, z: 3.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

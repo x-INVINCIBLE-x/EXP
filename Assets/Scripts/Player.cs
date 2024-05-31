@@ -19,6 +19,9 @@ public class Player : MonoBehaviour
     public float runSpeed;
     public float rotationDamping;
 
+    public float dodgeLength;
+    public float dodgeDuration;
+
     private void Awake()
     {
         stateMachine  = new PlayerStateMachine();
