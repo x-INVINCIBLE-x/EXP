@@ -17,7 +17,8 @@ public class PlayerState
 
     public virtual void Enter()
     {
-        player.anim.SetBool(animBoolName, true);
+        //player.anim.SetBool(animBoolName, true);
+        player.anim.CrossFadeInFixedTime(animBoolName, 0.5f, 0);
     }
 
     public virtual void Update()
@@ -26,7 +27,7 @@ public class PlayerState
 
     public virtual void Exit()
     {
-        player.anim.SetBool(animBoolName, false);
+        //player.anim.SetBool(animBoolName, false);
     }
 
     public void Move(Vector3 movement, float speed)
@@ -43,12 +44,6 @@ public class PlayerState
         dir.y = 0;
 
         player.transform.rotation = Quaternion.LookRotation(-dir);
-    }
-
-    public void Run(Vector3 movement)
-    {
-        player.anim.SetBool("Run", true);
-        Move(movement, player.runSpeed);
     }
 
     protected Vector3 CalculateMovement()
@@ -85,8 +80,7 @@ public class PlayerState
 
         if (stateInfo.IsName(animationName))
         {
-            Debug.Log(stateInfo.normalizedTime);
-            if (stateInfo.normalizedTime >= 0.95)
+            if (stateInfo.normalizedTime >= 1f)
             {
                 return true;
             }

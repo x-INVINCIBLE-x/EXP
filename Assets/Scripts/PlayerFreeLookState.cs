@@ -59,10 +59,9 @@ public class PlayerFreeLookState : PlayerState
 
     private void OnDodge()
     {
-        Vector3 movement = CalculateMovement();
-        if (movement == Vector3.zero)
-            return;
+        Vector2 movement = player.inputManager.Movement;
 
-        stateMachine.ChangeState(new PlayerDodgeState(stateMachine, player, "Dodge", DodgeType.DodgeRoll, movement));
+        if(movement != Vector2.zero) 
+            stateMachine.ChangeState(new PlayerDodgeState(stateMachine, player, "FreeDodge", DodgeType.DodgeRoll, movement));
     }
 }

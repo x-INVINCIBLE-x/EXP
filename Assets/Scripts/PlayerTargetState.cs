@@ -75,10 +75,9 @@ public class PlayerTargetState : PlayerState
 
     private void OnDodge()
     {
-        Vector3 movement = CalculateMovement();
-        if (movement == Vector3.zero)
-            return;
+        Vector2 movement = player.inputManager.Movement;
 
-        stateMachine.ChangeState(new PlayerDodgeState(stateMachine, player, "Dodge", DodgeType.DodgeStand, movement));
+        if (movement != Vector2.zero)
+            stateMachine.ChangeState(new PlayerDodgeState(stateMachine, player, "TargetDodge", DodgeType.DodgeStand, movement));
     }
 }
