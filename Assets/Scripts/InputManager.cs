@@ -40,9 +40,7 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
 
     public void OnSprint(InputAction.CallbackContext context)
     {
-        if (!context.performed)
-            return;
-
+        if(context.performed)
         SprintEvent?.Invoke();
 
         if(context.canceled)
@@ -53,6 +51,7 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
 
     public void OnDodge(InputAction.CallbackContext context)
     {
+        if(context.performed)
         DodgeEvent?.Invoke();
     }
 }
