@@ -22,10 +22,6 @@ public class PlayerState
 
     public virtual void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Space) || player.inputManager.Movement.sqrMagnitude == 0)
-        {
-            player.anim.SetBool("Run", false);
-        }
     }
 
     public virtual void Exit()
@@ -69,5 +65,17 @@ public class PlayerState
     protected void FreeLookDirection(Vector3 movement)
     {
         player.transform.rotation = Quaternion.Lerp(player.transform.rotation, Quaternion.LookRotation(movement), Time.deltaTime * player.rotationDamping);
+    }
+
+    protected void ChangeToLocomotion()
+    {
+        if (player.targeter.currentTarget == null)
+        {
+            stateMachine.ChangeState(player.FreeLookState);
+        }
+        else
+        {
+            stateMachine.ChangeState(player.TargetState);
+        }
     }
 }

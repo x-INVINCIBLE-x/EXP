@@ -14,6 +14,7 @@ public class PlayerFreeLookState : PlayerState
     {
         base.Enter();
         player.inputManager.TargetEvent += OnTarget;
+        player.inputManager.SprintEvent += OnSprint;
     }
 
     public override void Update()
@@ -25,15 +26,8 @@ public class PlayerFreeLookState : PlayerState
         {
             FreeLookDirection(movement);
 
-            if (Input.GetKey(KeyCode.Space))
-            {
-                Run(movement);
-            }
-            else
-            {
-                player.anim.SetFloat(FreeLookHash, 1f, 0.1f, Time.deltaTime);
-                Move(movement, player.walkSpeed);
-            }
+            player.anim.SetFloat(FreeLookHash, 1f, 0.1f, Time.deltaTime);
+            Move(movement, player.walkSpeed);
         }
         else
             player.anim.SetFloat(FreeLookHash, 0, 0.15f, Time.deltaTime);
@@ -43,6 +37,7 @@ public class PlayerFreeLookState : PlayerState
     {
         base.Exit();
         player.inputManager.TargetEvent -= OnTarget;
+        player.inputManager.SprintEvent -= OnSprint;
     }
 
     private void OnTarget()
@@ -50,5 +45,13 @@ public class PlayerFreeLookState : PlayerState
         if (!player.targeter.SelectTarget()) return;
 
         stateMachine.ChangeState(player.TargetState);
+    }
+
+    private void OnSprint()
+    {
+        if(player.inputManager.Movement == Vector2.zero)
+            return;
+
+        stateMachine.ChangeState(player.SprintState);
     }
 }

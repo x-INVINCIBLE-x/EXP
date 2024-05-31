@@ -11,8 +11,9 @@ public class Player : MonoBehaviour
     public Targeter targeter { get; private set; }
     public Camera mainCamera { get; private set; }
 
-    public PlayerFreeLookState IdleState { get; private set; }
+    public PlayerFreeLookState FreeLookState { get; private set; }
     public PlayerTargetState TargetState { get; private set; }
+    public PlayerSprintState SprintState { get; private set; }
 
     public float walkSpeed;
     public float runSpeed;
@@ -30,10 +31,11 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        IdleState = new PlayerFreeLookState(stateMachine, this, "FreeLook");
+        FreeLookState = new PlayerFreeLookState(stateMachine, this, "FreeLook");
         TargetState = new PlayerTargetState(stateMachine, this, "TargetLook");
+        SprintState = new PlayerSprintState(stateMachine, this, "Sprint");
 
-        stateMachine.InitializeState(IdleState);
+        stateMachine.InitializeState(FreeLookState);
     }
 
     private void Update()

@@ -8,7 +8,11 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
 {
     private PlayerControls controls;
     public Vector2 Movement { get; private set; }
+
     public event Action TargetEvent;
+    public event Action SprintEvent;
+
+    public bool isSprinting = false;
 
     private void Start()
     {
@@ -31,5 +35,15 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
     private void OnDestroy()
     {
         controls.Disable();
+    }
+
+    public void OnSprint(InputAction.CallbackContext context)
+    {
+        SprintEvent?.Invoke();
+
+        if(context.canceled)
+            isSprinting = false;
+        else
+            isSprinting = true;
     }
 }

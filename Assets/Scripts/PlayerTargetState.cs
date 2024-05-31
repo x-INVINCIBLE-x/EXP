@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,33 +15,26 @@ public class PlayerTargetState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        player.inputManager.SprintEvent += OnSprint;
     }
 
     public override void Update()
     {
         base.Update();
 
-
         Vector3 movement = CalculateMovement();
         UpdateAnimation();
         if (movement != Vector3.zero)
         {
-            if(Input.GetKey(KeyCode.Space))
-            { 
-                Run(movement);
-                FreeLookDirection(movement);
-            }
-            else
-            {
-                Move(movement, player.walkSpeed);
-                FaceTarget();
-            }
+            Move(movement, player.walkSpeed);
+            FaceTarget(); 
         }
     }
 
     public override void Exit()
     {
         base.Exit();
+        player.inputManager.SprintEvent -= OnSprint;
     }
 
     private void UpdateAnimation()
@@ -67,7 +61,13 @@ public class PlayerTargetState : PlayerState
         }
 
         player.anim.SetFloat(TargetRightHash, value, 0.1f, Time.deltaTime);
+    }
 
+    private void OnSprint()
+    {
+        if (player.inputManager.Movement == Vector2.zero)
+            return;
 
+        stateMachine.ChangeState(player.SprintState);
     }
 }
