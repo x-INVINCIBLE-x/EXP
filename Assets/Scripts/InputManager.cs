@@ -11,6 +11,7 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
 
     public event Action TargetEvent;
     public event Action SprintEvent;
+    public event Action DodgeEvent;
 
     public bool isSprinting = false;
 
@@ -39,11 +40,19 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
 
     public void OnSprint(InputAction.CallbackContext context)
     {
+        if (!context.performed)
+            return;
+
         SprintEvent?.Invoke();
 
         if(context.canceled)
             isSprinting = false;
         else
             isSprinting = true;
+    }
+
+    public void OnDodge(InputAction.CallbackContext context)
+    {
+        DodgeEvent?.Invoke();
     }
 }

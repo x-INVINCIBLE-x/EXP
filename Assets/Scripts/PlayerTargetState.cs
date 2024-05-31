@@ -16,6 +16,7 @@ public class PlayerTargetState : PlayerState
     {
         base.Enter();
         player.inputManager.SprintEvent += OnSprint;
+        player.inputManager.DodgeEvent += OnDodge;
     }
 
     public override void Update()
@@ -35,6 +36,7 @@ public class PlayerTargetState : PlayerState
     {
         base.Exit();
         player.inputManager.SprintEvent -= OnSprint;
+        player.inputManager.DodgeEvent -= OnDodge;
     }
 
     private void UpdateAnimation()
@@ -69,5 +71,14 @@ public class PlayerTargetState : PlayerState
             return;
 
         stateMachine.ChangeState(player.SprintState);
+    }
+
+    private void OnDodge()
+    {
+        Vector3 movement = CalculateMovement();
+        if (movement == Vector3.zero)
+            return;
+
+        stateMachine.ChangeState(new PlayerDodgeState(stateMachine, player, "Dodge", DodgeType.DodgeStand, movement));
     }
 }

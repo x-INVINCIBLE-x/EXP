@@ -6,12 +6,21 @@
             "id": "b9c9fe28-646b-4e1e-9b11-57ab49c7e2e0",
             "actions": [
                 {
+                    "name": "Dodge",
+                    "type": "Button",
+                    "id": "6afbc02d-7c83-42c2-b40d-db971862f802",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "MultiTap",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Sprint",
                     "type": "Button",
                     "id": "4c2724e8-afe6-472d-b632-4d6aaf8ae7f6",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "Hold(duration=0.6)",
                     "initialStateCheck": false
                 },
                 {
@@ -163,6 +172,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "34b296d5-735f-4acd-9e52-21c51de34b1e",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dodge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -78,4 +78,20 @@ public class PlayerState
             stateMachine.ChangeState(player.TargetState);
         }
     }
+
+    protected bool IsAnimationComplete(string animationName)
+    {
+        AnimatorStateInfo stateInfo = player.anim.GetCurrentAnimatorStateInfo(0);
+
+        if (stateInfo.IsName(animationName))
+        {
+            Debug.Log(stateInfo.normalizedTime);
+            if (stateInfo.normalizedTime >= 0.95)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
