@@ -17,7 +17,7 @@ public class PlayerDodgeState : PlayerState
 
     public override void Enter()
     {
-        player.anim.CrossFadeInFixedTime(animBoolName, 0, 0);
+        player.anim.CrossFadeInFixedTime(animName, 0, 0);
         player.anim.SetInteger("DodgeType", dodgeType);
 
         if(dodgeType == 1)
@@ -36,7 +36,7 @@ public class PlayerDodgeState : PlayerState
 
         Move(movement, 1);
 
-        if (IsAnimationComplete(animBoolName))
+        if (IsAnimationComplete(animName))
             ChangeToLocomotion();
     }
 
@@ -44,7 +44,7 @@ public class PlayerDodgeState : PlayerState
     {
         if (dodgeType == 1)
         {
-            movement += dodgeDir.x * player.dodgeLength * 0.65f * player.transform.right / player.dodgeDuration;
+            movement += dodgeDir.x * player.dodgeLength * 0.075f * player.transform.right / player.dodgeDuration;
             movement += dodgeDir.y * player.dodgeLength * player.transform.forward / player.dodgeDuration;
         }
         else

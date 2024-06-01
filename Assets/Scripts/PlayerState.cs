@@ -6,19 +6,18 @@ public class PlayerState
 {
     protected PlayerStateMachine stateMachine;
     protected Player player;
-    protected string animBoolName;
+    protected string animName;
 
-    public PlayerState(PlayerStateMachine stateMachine, Player player, string animBoolName)
+    public PlayerState(PlayerStateMachine stateMachine, Player player, string animName)
     {
         this.stateMachine = stateMachine;
         this.player = player;
-        this.animBoolName = animBoolName;
+        this.animName = animName;
     }
 
     public virtual void Enter()
     {
-        //player.anim.SetBool(animBoolName, true);
-        player.anim.CrossFadeInFixedTime(animBoolName, 0.5f, 0);
+        player.anim.CrossFadeInFixedTime(animName, 0.5f, 0);
     }
 
     public virtual void Update()
@@ -27,12 +26,11 @@ public class PlayerState
 
     public virtual void Exit()
     {
-        //player.anim.SetBool(animBoolName, false);
     }
 
-    public void Move(Vector3 movement, float speed)
+    public void Move(Vector3 movement, float speed = 1)
     {
-        player.characterController.Move(speed * Time.deltaTime * movement);
+        player.characterController.Move(((speed * movement) + player.forceReciever.Movement) * Time.deltaTime);
     }
 
     public void FaceTarget()
