@@ -17,7 +17,7 @@ public class PlayerJumpState : PlayerState
 
         player.forceReciever.Jump(player.jumpForce);
         momentum = player.characterController.velocity;
-        momentum.y = 0; 
+        momentum.y = 0;
     }
 
     public override void Update()
@@ -25,7 +25,7 @@ public class PlayerJumpState : PlayerState
         base.Update();
         stateTimer -= Time.deltaTime;
 
-        Move(momentum, player.jumpLength/player.jumpDuration);
+        Move(momentum);
         if (player.characterController.isGrounded && stateTimer <= 0)
             stateMachine.ChangeState(new PlayerFallState(stateMachine, player, "FallRoll"));
     }

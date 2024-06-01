@@ -23,10 +23,6 @@ public class Player : MonoBehaviour
 
     public float dodgeLength;
     public float dodgeDuration;
-    public float dodgeRollLength;
-
-    public float jumpLength;
-    public float jumpDuration;
 
     public float jumpForce;
 

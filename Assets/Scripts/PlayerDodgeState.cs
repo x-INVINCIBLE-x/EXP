@@ -49,7 +49,7 @@ public class PlayerDodgeState : PlayerState
         }
         else
         {
-            movement += player.dodgeRollLength * player.transform.forward / player.dodgeDuration;
+            movement += player.dodgeLength * player.transform.forward / player.dodgeDuration;
         }
 
         return movement;
