@@ -22,6 +22,8 @@ public class PlayerAttackState : PlayerState
         player.inputManager.ChargeAttackEvent += OnChargeAttack;
 
         movement = player.inputManager.Movement;
+
+        StopMovement();
     }
 
     public override void Update()

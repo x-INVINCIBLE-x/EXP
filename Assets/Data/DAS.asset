@@ -20,27 +20,34 @@ MonoBehaviour:
   lightAttack:
   - AnimationName: Sword Light 1
     PhysicalATK: 0
-    TransitionTime: 0
+    TransitionTime: 0.15
+    movementSpeed: 2
   - AnimationName: Sword Light 2
     PhysicalATK: 0
-    TransitionTime: 0
+    TransitionTime: 0.15
+    movementSpeed: 2
   - AnimationName: Sword Light 3
     PhysicalATK: 0
-    TransitionTime: 0
+    TransitionTime: 0.15
+    movementSpeed: 1
   heavyAttack:
   - AnimationName: Sword Heavy 1
     PhysicalATK: 0
     TransitionTime: 0
+    movementSpeed: 0
   chargeAttack:
     AnimationName: Sword Charge
     PhysicalATK: 0
     TransitionTime: 0
+    movementSpeed: 0
   runLightAttack:
     AnimationName: Sword Run Attack
     PhysicalATK: 0
     TransitionTime: 0
+    movementSpeed: 0
   runHeavyAttack:
     AnimationName: Sword Run Attack
     PhysicalATK: 0
     TransitionTime: 0
+    movementSpeed: 0
   guardAmount: 0

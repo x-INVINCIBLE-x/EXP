@@ -505,7 +505,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 634852214}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09701501, y: 0.000000042359197, z: -0.0000000041289545, w: 0.99528295}
+  m_LocalRotation: {x: 0.09701501, y: 0.000000007054663, z: -6.8765127e-10, w: 0.99528295}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -652,6 +652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b81de0098323a2b4889174e25851bef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponHolder: {fileID: 0}
   walkSpeed: 0
   runSpeed: 0
   rotationDamping: 0
@@ -661,6 +662,7 @@ MonoBehaviour:
   jumpLength: 0
   jumpDuration: 0
   jumpForce: 0
+  currentWeapon: {fileID: 0}
 --- !u!1 &784346546
 GameObject:
   m_ObjectHideFlags: 0
@@ -1054,7 +1056,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.097015016, y: 0.000000059223908, z: -0.0000000057728395, w: 0.99528295}
+  m_LocalRotation: {x: 0.097015016, y: -0.00000000981005, z: 9.562328e-10, w: 0.99528295}
   m_LocalPosition: {x: 0, y: 3.047, z: -29.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1250,8 +1252,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1406959693}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7009024, y: -0.000008386927, z: 0.000008241652, w: -0.7132572}
-  m_LocalPosition: {x: -0.14163482, y: 3.8365607, z: -21.756807}
+  m_LocalRotation: {x: 0.000009271507, y: -0.74334663, z: 0.6689064, w: 0.000010303299}
+  m_LocalPosition: {x: -0.1416528, y: 3.8685331, z: -22.484203}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1545,6 +1547,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b81de0098323a2b4889174e25851bef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponHolder: {fileID: 2883248724160441363}
   walkSpeed: 4
   runSpeed: 6
   rotationDamping: 12
@@ -1554,6 +1557,7 @@ MonoBehaviour:
   jumpLength: 3
   jumpDuration: 1.5
   jumpForce: 3
+  currentWeapon: {fileID: 2883248724160441364}
 --- !u!114 &1611424501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1650,7 +1654,7 @@ Transform:
   m_GameObject: {fileID: 1735464526}
   serializedVersion: 2
   m_LocalRotation: {x: 0.08516997, y: -0.8795553, z: 0.43533713, w: -0.17207631}
-  m_LocalPosition: {x: 0.000000008347342, y: -0.579901, z: 3.5}
+  m_LocalPosition: {x: -0.0000000037643986, y: -0.57989526, z: 3.5000014}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3487,6 +3491,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2883248724160441363}
+  - component: {fileID: 2883248724160441364}
   m_Layer: 0
   m_Name: Sci-Fi_Sword
   m_TagString: Untagged
@@ -3767,6 +3772,19 @@ Transform:
   - {fileID: 1828744133739582155}
   m_Father: {fileID: 4989304529972861048}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: -90}
+--- !u!114 &2883248724160441364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2542435770285569705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24b51da3fa658c54a887b25ec0cd22dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponData: {fileID: 11400000, guid: 206d1656af236cf4cac0fed11f0165ee, type: 2}
 --- !u!4 &2954080464732126960
 Transform:
   m_ObjectHideFlags: 0

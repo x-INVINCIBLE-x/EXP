@@ -55,6 +55,11 @@ public class PlayerState
         return (player.inputManager.Movement.x * right) + (player.inputManager.Movement.y * forward);
     }
 
+    protected void StopMovement()
+    {
+        player.characterController.Move(Vector3.zero);
+    }
+
     protected void FreeLookDirection(Vector3 movement)
     {
         player.transform.rotation = Quaternion.Lerp(player.transform.rotation, Quaternion.LookRotation(movement), Time.deltaTime * player.rotationDamping);
