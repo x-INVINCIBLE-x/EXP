@@ -72,13 +72,15 @@ public class PlayerState
         }
     }
 
-    protected bool IsAnimationComplete(string animationName)
+    protected bool IsAnimationComplete(string animationName) => HasAnimationPassed(animationName, 1f);
+ 
+    protected bool HasAnimationPassed(string animationName, float normalizedTime)
     {
         AnimatorStateInfo stateInfo = player.anim.GetCurrentAnimatorStateInfo(0);
 
         if (stateInfo.IsName(animationName))
         {
-            if (stateInfo.normalizedTime >= 1f)
+            if (stateInfo.normalizedTime >= normalizedTime)
             {
                 return true;
             }

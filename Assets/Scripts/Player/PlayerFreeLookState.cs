@@ -16,6 +16,9 @@ public class PlayerFreeLookState : PlayerState
         player.inputManager.TargetEvent += OnTarget;
         player.inputManager.SprintEvent += OnSprint;
         player.inputManager.DodgeEvent += OnDodge;
+        player.inputManager.LightAttackEvent += OnLightAttack;
+        player.inputManager.HeavyAttackEvent += OnHeavyAttack;
+        player.inputManager.ChargeAttackEvent += OnChargeAttack;
     }
 
     public override void Update()
@@ -40,6 +43,9 @@ public class PlayerFreeLookState : PlayerState
         player.inputManager.TargetEvent -= OnTarget;
         player.inputManager.SprintEvent -= OnSprint;
         player.inputManager.DodgeEvent -= OnDodge;
+        player.inputManager.LightAttackEvent -= OnLightAttack;
+        player.inputManager.HeavyAttackEvent -= OnHeavyAttack;
+        player.inputManager.ChargeAttackEvent -= OnChargeAttack;
     }
 
     private void OnTarget()
@@ -63,5 +69,21 @@ public class PlayerFreeLookState : PlayerState
 
         if(movement != Vector2.zero) 
             stateMachine.ChangeState(new PlayerDodgeState(stateMachine, player, "FreeDodge", DodgeType.DodgeRoll, movement));
+    }
+
+    private void OnLightAttack()
+    {
+        Attack currentAttack = player.weaponController.SelectLightAttack();
+        stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, currentAttack));
+    }
+
+    private void OnHeavyAttack()
+    {
+
+    }
+
+    private void OnChargeAttack()
+    {
+
     }
 }

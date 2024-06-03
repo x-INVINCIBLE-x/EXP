@@ -9,4 +9,5 @@ public class Attack
     public string AnimationName;
     public float PhysicalATK;
     public float TransitionTime;
+    public float movementSpeed;
 }

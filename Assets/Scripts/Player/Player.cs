@@ -16,6 +16,9 @@ public class Player : MonoBehaviour
     public PlayerTargetState TargetState { get; private set; }
     public PlayerSprintState SprintState { get; private set; }
     public PlayerJumpState JumpState { get; private set; }
+    public PlayerWeaponController weaponController { get; private set; }
+
+    public Transform weaponHolder;
 
     public float walkSpeed;
     public float runSpeed;
@@ -30,9 +33,15 @@ public class Player : MonoBehaviour
 
     public float jumpForce;
 
+    #region TEMP
+    public Weapon currentWeapon;
+    #endregion
+
     private void Awake()
     {
         stateMachine  = new PlayerStateMachine();
+        weaponController = new PlayerWeaponController();
+        weaponController.currentWeapon = currentWeapon;
 
         inputManager = GetComponent<InputManager>();
         anim = GetComponentInChildren<Animator>();
