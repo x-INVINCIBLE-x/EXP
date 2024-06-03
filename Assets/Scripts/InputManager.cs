@@ -12,6 +12,9 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
     public event Action TargetEvent;
     public event Action SprintEvent;
     public event Action DodgeEvent;
+    public event Action LightAttackEvent;
+    public event Action HeavyAttackEvent;
+    public event Action ChargeAttackEvent;
 
     public bool isSprinting = false;
 
@@ -54,5 +57,21 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
         if (context.performed)
             DodgeEvent?.Invoke();
         
+    }
+
+    public void OnLightAttack(InputAction.CallbackContext context)
+    {
+        LightAttackEvent?.Invoke();
+    }
+
+    public void OnHeavyAttack(InputAction.CallbackContext context)
+    {
+        HeavyAttackEvent?.Invoke();
+    }
+
+    public void OnChargeAttack(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            ChargeAttackEvent?.Invoke();
     }
 }
