@@ -42,6 +42,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "ChargeAttack",
+                    "type": "Button",
+                    "id": "f29618c1-96a0-4f64-b60d-2f0236b14457",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "LightAttack",
                     "type": "Button",
                     "id": "ab9e5c41-1101-4573-9544-fe6871b59339",
@@ -57,15 +66,6 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Tap",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "ChargeAttack",
-                    "type": "Button",
-                    "id": "f29618c1-96a0-4f64-b60d-2f0236b14457",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Hold",
                     "initialStateCheck": false
                 }
             ],

@@ -69,6 +69,10 @@ public class PlayerAttackState : PlayerState
 
     private void OnChargeAttack()
     {
+        if (!HasAnimationPassed(animName, 0.9f))
+            return;
 
+        Attack nextAttack = player.weaponController.SelectChargeAttack();
+        stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, nextAttack));
     }
 }

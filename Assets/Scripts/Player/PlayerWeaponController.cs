@@ -20,8 +20,7 @@ public class PlayerWeaponController
 
         if(heavyAttackindex > 0)
         {
-            lightAttackIndex = 0;
-            heavyAttackindex = 0;
+            ResetIndexes();
         }
 
         Attack attack = currentWeapon.weaponData.lightAttack[lightAttackIndex];
@@ -38,8 +37,7 @@ public class PlayerWeaponController
 
         if (lightAttackIndex > 0)
         {
-            lightAttackIndex = 0;
-            heavyAttackindex = 0;
+            ResetIndexes();
         }
 
         Attack attack = currentWeapon.weaponData.heavyAttack[heavyAttackindex];
@@ -47,9 +45,12 @@ public class PlayerWeaponController
         return attack;
     }
 
-    public void SelectChargeAttack()
+    public Attack SelectChargeAttack()
     {
-
+        ResetIndexes();
+        Attack attack = currentWeapon.weaponData.chargeAttack;
+        lastAttack = null;
+        return attack;
     }
 
     public bool CanCombo()
@@ -61,5 +62,11 @@ public class PlayerWeaponController
             return true;
 
         return false;
+    }
+
+    private void ResetIndexes()
+    {
+        lightAttackIndex = 0;
+        heavyAttackindex = 0;
     }
 }
