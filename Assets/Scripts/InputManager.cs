@@ -66,7 +66,8 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
 
     public void OnHeavyAttack(InputAction.CallbackContext context)
     {
-        HeavyAttackEvent?.Invoke();
+        if(context.performed)
+            HeavyAttackEvent?.Invoke();
     }
 
     public void OnChargeAttack(InputAction.CallbackContext context)

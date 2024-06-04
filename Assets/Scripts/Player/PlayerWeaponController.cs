@@ -8,9 +8,14 @@ public class PlayerWeaponController
     public Weapon currentWeapon;
     private int lightAttackIndex = -1;
     private int heavyAttackindex = -1;
+    private Attack lastAttack;
+    private float lastTimeAttacked;
 
     public Attack SelectLightAttack()
     {
+        if (!CanCombo())
+            return currentWeapon.weaponData.lightAttack[0];
+
         lightAttackIndex = lightAttackIndex + 1 >= currentWeapon.weaponData.lightAttack.Length? 0 : lightAttackIndex + 1;
 
         if(heavyAttackindex > 0)
@@ -18,17 +23,43 @@ public class PlayerWeaponController
             lightAttackIndex = 0;
             heavyAttackindex = 0;
         }
-        
-        return currentWeapon.weaponData.lightAttack[lightAttackIndex];
+
+        Attack attack = currentWeapon.weaponData.lightAttack[lightAttackIndex];
+        lastAttack = attack;
+        return attack;
     }
 
-    public void SelectHeavyAttack()
+    public Attack SelectHeavyAttack()
     {
+        if(!CanCombo())
+            return currentWeapon.weaponData.heavyAttack[0];
 
+        heavyAttackindex = heavyAttackindex + 1 >= currentWeapon.weaponData.heavyAttack.Length ? 0 : heavyAttackindex + 1; 
+
+        if (lightAttackIndex > 0)
+        {
+            lightAttackIndex = 0;
+            heavyAttackindex = 0;
+        }
+
+        Attack attack = currentWeapon.weaponData.heavyAttack[heavyAttackindex];
+        lastAttack = attack;
+        return attack;
     }
 
     public void SelectChargeAttack()
     {
 
+    }
+
+    public bool CanCombo()
+    {
+        if(lastAttack == null)
+            return true;
+
+        if(Time.time > lastTimeAttacked + lastAttack.clip.length * 0.9f + lastAttack.comboTime)
+            return true;
+
+        return false;
     }
 }

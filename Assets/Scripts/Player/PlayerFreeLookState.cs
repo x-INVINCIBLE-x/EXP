@@ -79,7 +79,8 @@ public class PlayerFreeLookState : PlayerState
 
     private void OnHeavyAttack()
     {
-
+        Attack currentAttack = player.weaponController.SelectHeavyAttack();
+        stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, currentAttack));
     }
 
     private void OnChargeAttack()

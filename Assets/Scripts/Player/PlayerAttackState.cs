@@ -60,7 +60,11 @@ public class PlayerAttackState : PlayerState
 
     private void OnHeavyAttack()
     {
-        //Attack newAttack = player.weaponController.SelectHeavyAttack();
+        if (!HasAnimationPassed(animName, 0.9f))
+            return;
+
+        Attack nextAttack = player.weaponController.SelectHeavyAttack();
+        stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, nextAttack));
     }
 
     private void OnChargeAttack()

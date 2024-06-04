@@ -6,8 +6,10 @@ using UnityEngine;
 [System.Serializable]
 public class Attack
 {
-    public string AnimationName;
+    public AnimationClip clip;
+    public string AnimationName => clip.name;
     public float PhysicalATK;
     public float TransitionTime;
     public float movementSpeed;
+    public float comboTime;
 }
