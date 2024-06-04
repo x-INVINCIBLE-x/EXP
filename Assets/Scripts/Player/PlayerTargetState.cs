@@ -17,6 +17,9 @@ public class PlayerTargetState : PlayerState
         base.Enter();
         player.inputManager.SprintEvent += OnSprint;
         player.inputManager.DodgeEvent += OnDodge;
+        player.inputManager.LightAttackEvent += OnLightAttack;
+        player.inputManager.HeavyAttackEvent += OnHeavyAttack;
+        player.inputManager.ChargeAttackEvent += OnChargeAttack;
     }
 
     public override void Update()
@@ -37,6 +40,9 @@ public class PlayerTargetState : PlayerState
         base.Exit();
         player.inputManager.SprintEvent -= OnSprint;
         player.inputManager.DodgeEvent -= OnDodge;
+        player.inputManager.LightAttackEvent -= OnLightAttack;
+        player.inputManager.HeavyAttackEvent -= OnHeavyAttack;
+        player.inputManager.ChargeAttackEvent -= OnChargeAttack;
     }
 
     private void UpdateAnimation()
@@ -79,5 +85,23 @@ public class PlayerTargetState : PlayerState
 
         if (movement != Vector2.zero)
             stateMachine.ChangeState(new PlayerDodgeState(stateMachine, player, "TargetDodge", DodgeType.DodgeStand, movement));
+    }
+
+    private void OnLightAttack()
+    {
+        Attack currentAttack = player.weaponController.SelectLightAttack();
+        stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, currentAttack));
+    }
+
+    private void OnHeavyAttack()
+    {
+        Attack currentAttack = player.weaponController.SelectHeavyAttack();
+        stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, currentAttack));
+    }
+
+    private void OnChargeAttack()
+    {
+        Attack currentAttack = player.weaponController.SelectChargeAttack();
+        stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, currentAttack));
     }
 }
