@@ -65,15 +65,17 @@ public class PlayerState
         player.transform.rotation = Quaternion.Lerp(player.transform.rotation, Quaternion.LookRotation(movement), Time.deltaTime * player.rotationDamping);
     }
 
-    protected void ChangeToLocomotion()
+    protected void ChangeToLocomotion(float transitionDuration = 0.5f)
     {
         if (player.targeter.currentTarget == null)
         {
-            stateMachine.ChangeState(player.FreeLookState);
+            //stateMachine.ChangeState(player.FreeLookState);
+            stateMachine.ChangeState(new PlayerFreeLookState(stateMachine, player, "FreeLook", transitionDuration));
         }
         else
         {
-            stateMachine.ChangeState(player.TargetState);
+            //stateMachine.ChangeState(player.TargetState);
+            stateMachine.ChangeState(new PlayerTargetState(stateMachine, player, "TargetLook", transitionDuration));
         }
     }
 

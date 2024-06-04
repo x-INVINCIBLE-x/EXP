@@ -8,13 +8,16 @@ public class PlayerTargetState : PlayerState
     private readonly int TargetForwardHash = Animator.StringToHash("TargetForward");
     private readonly int TargetRightHash = Animator.StringToHash("TargetRight");
 
-    public PlayerTargetState(PlayerStateMachine stateMachine, Player player, string animBoolName) : base(stateMachine, player, animBoolName)
+    private float transitionDuration;
+
+    public PlayerTargetState(PlayerStateMachine stateMachine, Player player, string animBoolName, float transitionDuration = 0.5f) : base(stateMachine, player, animBoolName)
     {
+        this.transitionDuration = transitionDuration;
     }
 
     public override void Enter()
     {
-        base.Enter();
+        player.anim.CrossFadeInFixedTime(animName, transitionDuration, 0);
         player.inputManager.SprintEvent += OnSprint;
         player.inputManager.DodgeEvent += OnDodge;
         player.inputManager.LightAttackEvent += OnLightAttack;

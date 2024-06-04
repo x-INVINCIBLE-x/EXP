@@ -21,6 +21,7 @@ public class PlayerWeaponController
         if(heavyAttackindex > 0)
         {
             ResetIndexes();
+            lightAttackIndex = 0;
         }
 
         lastTimeAttacked = Time.time;
@@ -39,6 +40,7 @@ public class PlayerWeaponController
         if (lightAttackIndex > 0)
         {
             ResetIndexes();
+            heavyAttackindex = 0;
         }
         
         lastTimeAttacked = Time.time;
@@ -63,13 +65,14 @@ public class PlayerWeaponController
         if(Time.time < lastTimeAttacked + lastAttack.clip.length + lastAttack.comboTime)
             return true;
 
+        lastAttack = null;
         ResetIndexes();
         return false;
     }
 
     private void ResetIndexes()
     {
-        lightAttackIndex = 0;
-        heavyAttackindex = 0;
+        lightAttackIndex = -1;
+        heavyAttackindex = -1;
     }
 }

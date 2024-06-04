@@ -6,13 +6,16 @@ using UnityEngine;
 public class PlayerFreeLookState : PlayerState
 {
     private readonly int FreeLookHash = Animator.StringToHash("FreeLookSpeed");
-    public PlayerFreeLookState(PlayerStateMachine stateMachine, Player player, string animBoolName) : base(stateMachine, player, animBoolName)
+
+    private float transitionDuration;
+    public PlayerFreeLookState(PlayerStateMachine stateMachine, Player player, string animBoolName, float transitionDuration = 0.5f) : base(stateMachine, player, animBoolName)
     {
+        this.transitionDuration = transitionDuration;
     }
 
     public override void Enter()
     {
-        base.Enter();
+        player.anim.CrossFadeInFixedTime(animName, transitionDuration, 0);
         player.inputManager.TargetEvent += OnTarget;
         player.inputManager.SprintEvent += OnSprint;
         player.inputManager.DodgeEvent += OnDodge;

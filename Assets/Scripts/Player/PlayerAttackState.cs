@@ -15,7 +15,7 @@ public class PlayerAttackState : PlayerState
 
     public override void Enter()
     {
-        player.anim.CrossFadeInFixedTime(animName, attack.TransitionTime, 0);
+        player.anim.CrossFadeInFixedTime(animName, attack.TransitionTime, 0, 0f);
 
         player.inputManager.LightAttackEvent += OnLIghtAttack;
         player.inputManager.HeavyAttackEvent += OnHeavyAttack;
@@ -34,10 +34,10 @@ public class PlayerAttackState : PlayerState
             Move(player.transform.forward, attack.movementSpeed);
 
         if (IsAnimationComplete(animName))
-            ChangeToLocomotion();
+            ChangeToLocomotion(0.3f);
 
         if (HasAnimationPassed(animName, 0.9f) && movement.sqrMagnitude != 0)
-            ChangeToLocomotion();
+            ChangeToLocomotion(0.3f);
     }
 
     public override void Exit()
