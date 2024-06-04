@@ -13,6 +13,8 @@ public class PlayerSprintState : PlayerState
     {
         base.Enter();
         player.inputManager.DodgeEvent += OnDodge;
+        player.inputManager.LightAttackEvent += OnLightAttack;
+        player.inputManager.HeavyAttackEvent += OnHeavyAttack;
     }
 
     public override void Update()
@@ -33,6 +35,8 @@ public class PlayerSprintState : PlayerState
     {
         base.Exit();
         player.inputManager.DodgeEvent -= OnDodge;
+        player.inputManager.LightAttackEvent -= OnLightAttack;
+        player.inputManager.HeavyAttackEvent -= OnHeavyAttack;
     }
 
     private void MovementTimer()
@@ -45,7 +49,18 @@ public class PlayerSprintState : PlayerState
 
     private void OnDodge()
     {
-        Debug.Log("jump");
         stateMachine.ChangeState(player.JumpState);
+    }
+
+    private void OnLightAttack()
+    {
+        Attack currentAttack = player.weaponController.currentWeapon.weaponData.sprintLightAttack;
+        stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, currentAttack));
+    }
+
+    private void OnHeavyAttack()
+    {
+        Attack currentAttack = player.weaponController.currentWeapon.weaponData.sprintHeavyAttack;
+        stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, currentAttack));
     }
 }

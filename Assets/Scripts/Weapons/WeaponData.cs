@@ -11,7 +11,7 @@ public class WeaponData : ScriptableObject
     public Attack[] lightAttack;
     public Attack[] heavyAttack;
     public Attack chargeAttack;
-    public Attack runLightAttack;
-    public Attack runHeavyAttack;
+    public Attack sprintLightAttack;
+    public Attack sprintHeavyAttack;
     public float guardAmount;
 }
