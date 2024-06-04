@@ -23,6 +23,7 @@ public class PlayerWeaponController
             ResetIndexes();
         }
 
+        lastTimeAttacked = Time.time;
         Attack attack = currentWeapon.weaponData.lightAttack[lightAttackIndex];
         lastAttack = attack;
         return attack;
@@ -39,7 +40,8 @@ public class PlayerWeaponController
         {
             ResetIndexes();
         }
-
+        
+        lastTimeAttacked = Time.time;
         Attack attack = currentWeapon.weaponData.heavyAttack[heavyAttackindex];
         lastAttack = attack;
         return attack;
@@ -58,9 +60,10 @@ public class PlayerWeaponController
         if(lastAttack == null)
             return true;
 
-        if(Time.time > lastTimeAttacked + lastAttack.clip.length * 0.9f + lastAttack.comboTime)
+        if(Time.time < lastTimeAttacked + lastAttack.clip.length + lastAttack.comboTime)
             return true;
 
+        ResetIndexes();
         return false;
     }
 
