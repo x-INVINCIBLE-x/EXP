@@ -36,25 +36,25 @@ MonoBehaviour:
   heavyAttack:
   - clip: {fileID: -203655887218126122, guid: fd02281d8b0033041a31218e8fac635f, type: 3}
     PhysicalATK: 0
-    TransitionTime: 0
+    TransitionTime: 0.3
     movementSpeed: 0
     comboTime: 0
   chargeAttack:
     clip: {fileID: -203655887218126122, guid: de5150e3baeda7d41ba70de2f43c2ac4, type: 3}
     PhysicalATK: 0
-    TransitionTime: 0
+    TransitionTime: 0.3
     movementSpeed: 0
     comboTime: 0
   sprintLightAttack:
     clip: {fileID: -203655887218126122, guid: 1dd6e24c8b0ee854898fde960ff26938, type: 3}
     PhysicalATK: 0
-    TransitionTime: 0
-    movementSpeed: 0
+    TransitionTime: 0.2
+    movementSpeed: 4
     comboTime: 0
   sprintHeavyAttack:
     clip: {fileID: -203655887218126122, guid: 1dd6e24c8b0ee854898fde960ff26938, type: 3}
     PhysicalATK: 0
-    TransitionTime: 0
-    movementSpeed: 0
+    TransitionTime: 0.2
+    movementSpeed: 4
     comboTime: 0
   guardAmount: 0
