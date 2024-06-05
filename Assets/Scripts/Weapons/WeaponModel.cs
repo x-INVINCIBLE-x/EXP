@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum RangeType { Melee, Ranged };
 public enum HoldType { Upper, Lower };
-public enum EquipType { Belt, Back };
+public enum EquipType { Belt , Back };
 
 [System.Serializable]
 public class WeaponModel 

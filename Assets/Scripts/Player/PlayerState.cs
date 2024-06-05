@@ -33,17 +33,6 @@ public class PlayerState
         player.characterController.Move(((speed * movement) + player.forceReciever.Movement) * Time.deltaTime);
     }
 
-    public void FaceTarget()
-    {
-        Target target = player.targeter.currentTarget;
-        if (target == null) return;
-
-        Vector3 dir = (player.transform.position - target.transform.position).normalized;
-        dir.y = 0;
-
-        player.transform.rotation = Quaternion.LookRotation(-dir);
-    }
-
     protected Vector3 CalculateMovement()
     {
         Vector3 forward = (player.mainCamera.transform.forward).normalized;
@@ -58,6 +47,17 @@ public class PlayerState
     protected void StopMovement()
     {
         player.characterController.Move(Vector3.zero);
+    }
+
+    public void FaceTarget()
+    {
+        Target target = player.targeter.currentTarget;
+        if (target == null) return;
+
+        Vector3 dir = (player.transform.position - target.transform.position).normalized;
+        dir.y = 0;
+
+        player.transform.rotation = Quaternion.LookRotation(-dir);
     }
 
     protected void FreeLookDirection(Vector3 movement)

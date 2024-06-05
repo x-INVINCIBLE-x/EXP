@@ -16,7 +16,7 @@ MonoBehaviour:
   model:
     rangeType: 0
     holdType: 0
-    equipType: 1
+    equipType: 0
   lightAttack:
   - clip: {fileID: -203655887218126122, guid: 45b42f1a65c91bd4191afcf2ccccb019, type: 3}
     PhysicalATK: 0

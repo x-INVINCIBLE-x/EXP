@@ -15,7 +15,8 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
     public event Action LightAttackEvent;
     public event Action HeavyAttackEvent;
     public event Action ChargeAttackEvent;
-
+    public event Action WeaponSwitchEvent;
+    
     public bool isSprinting = false;
 
     private void Start()
@@ -74,5 +75,10 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
     {
         if (context.performed)
             ChargeAttackEvent?.Invoke();
+    }
+
+    public void OnWeaponSwitch(InputAction.CallbackContext context)
+    {
+        WeaponSwitchEvent?.Invoke();
     }
 }

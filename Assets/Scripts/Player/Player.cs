@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     public PlayerSprintState SprintState { get; private set; }
     public PlayerJumpState JumpState { get; private set; }
     public PlayerWeaponController weaponController { get; private set; }
+    public PlayerWeaponVisuals weaponVisiuals { get; private set; }
 
     public Transform weaponHolder;
 
@@ -35,6 +36,7 @@ public class Player : MonoBehaviour
 
     #region TEMP
     public WeaponData currentWeapon;
+    public WeaponData backupWeapon;
     #endregion
 
     private void Awake()
@@ -42,12 +44,14 @@ public class Player : MonoBehaviour
         stateMachine  = new PlayerStateMachine();
         weaponController = new PlayerWeaponController();
         weaponController.currentWeapon = currentWeapon;
+        weaponController.backupWeapon = backupWeapon;
 
         inputManager = GetComponent<InputManager>();
         anim = GetComponentInChildren<Animator>();
         characterController = GetComponent<CharacterController>();
         targeter = GetComponentInChildren<Targeter>();
         forceReciever = GetComponentInChildren<ForceReciever>();
+        weaponVisiuals = GetComponent<PlayerWeaponVisuals>();
 
         mainCamera = Camera.main;
     }
@@ -65,5 +69,11 @@ public class Player : MonoBehaviour
     private void Update()
     {
         stateMachine.currentState.Update();
+    }
+
+    public void SwitchWeapon()
+    {
+        weaponController.SwitchWeapon();
+        weaponVisiuals.SwitchWeapon(weaponController.backupWeapon);
     }
 }
