@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerWeaponController
 {
-    public Weapon currentWeapon;
+    public WeaponData currentWeapon;
     private int lightAttackIndex = -1;
     private int heavyAttackindex = -1;
     private Attack lastAttack;
@@ -14,9 +14,9 @@ public class PlayerWeaponController
     public Attack SelectLightAttack()
     {
         if (!CanCombo())
-            return currentWeapon.weaponData.lightAttack[0];
+            return currentWeapon.lightAttack[0];
 
-        lightAttackIndex = lightAttackIndex + 1 >= currentWeapon.weaponData.lightAttack.Length? 0 : lightAttackIndex + 1;
+        lightAttackIndex = lightAttackIndex + 1 >= currentWeapon.lightAttack.Length? 0 : lightAttackIndex + 1;
 
         if(heavyAttackindex > 0)
         {
@@ -25,7 +25,7 @@ public class PlayerWeaponController
         }
 
         lastTimeAttacked = Time.time;
-        Attack attack = currentWeapon.weaponData.lightAttack[lightAttackIndex];
+        Attack attack = currentWeapon.lightAttack[lightAttackIndex];
         lastAttack = attack;
         return attack;
     }
@@ -33,9 +33,9 @@ public class PlayerWeaponController
     public Attack SelectHeavyAttack()
     {
         if(!CanCombo())
-            return currentWeapon.weaponData.heavyAttack[0];
+            return currentWeapon.heavyAttack[0];
 
-        heavyAttackindex = heavyAttackindex + 1 >= currentWeapon.weaponData.heavyAttack.Length ? 0 : heavyAttackindex + 1; 
+        heavyAttackindex = heavyAttackindex + 1 >= currentWeapon.heavyAttack.Length ? 0 : heavyAttackindex + 1; 
 
         if (lightAttackIndex > 0)
         {
@@ -44,7 +44,7 @@ public class PlayerWeaponController
         }
         
         lastTimeAttacked = Time.time;
-        Attack attack = currentWeapon.weaponData.heavyAttack[heavyAttackindex];
+        Attack attack = currentWeapon.heavyAttack[heavyAttackindex];
         lastAttack = attack;
         return attack;
     }
@@ -52,7 +52,7 @@ public class PlayerWeaponController
     public Attack SelectChargeAttack()
     {
         ResetIndexes();
-        Attack attack = currentWeapon.weaponData.chargeAttack;
+        Attack attack = currentWeapon.chargeAttack;
         lastAttack = null;
         return attack;
     }

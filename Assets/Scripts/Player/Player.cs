@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
     public float jumpForce;
 
     #region TEMP
-    public Weapon currentWeapon;
+    public WeaponData currentWeapon;
     #endregion
 
     private void Awake()
