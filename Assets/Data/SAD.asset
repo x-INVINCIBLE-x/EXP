@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83844660c29b60a4ba50adc3acaa6c33, type: 3}
+  m_Name: SAD
+  m_EditorClassIdentifier: 
+  weaponName: SAD
+  model:
+    rangeType: 0
+    holdType: 0
+    equipType: 1
+  lightAttack:
+  - clip: {fileID: -203655887218126122, guid: 45b42f1a65c91bd4191afcf2ccccb019, type: 3}
+    PhysicalATK: 0
+    TransitionTime: 0.15
+    movementSpeed: 0.5
+    comboTime: 0.3
+  - clip: {fileID: -203655887218126122, guid: be4de75a8195b2341b7c5a330d55d623, type: 3}
+    PhysicalATK: 0
+    TransitionTime: 0.15
+    movementSpeed: 1.5
+    comboTime: 0.6
+  - clip: {fileID: -203655887218126122, guid: 3b7ff2bdd06d0bc4db4bd90d9f48aef1, type: 3}
+    PhysicalATK: 0
+    TransitionTime: 0.15
+    movementSpeed: 1
+    comboTime: 0.3
+  heavyAttack:
+  - clip: {fileID: -203655887218126122, guid: 78dcdc12309d1014289d997a1492f12d, type: 3}
+    PhysicalATK: 0
+    TransitionTime: 0.15
+    movementSpeed: 0.5
+    comboTime: 0
+  chargeAttack:
+    clip: {fileID: -203655887218126122, guid: 8187962add44f2d4ca1922248306ccda, type: 3}
+    PhysicalATK: 0
+    TransitionTime: 0.15
+    movementSpeed: 1
+    comboTime: 0
+  sprintLightAttack:
+    clip: {fileID: -203655887218126122, guid: 2ebb3fb86ecdb674f97244e8b8bdbc51, type: 3}
+    PhysicalATK: 0
+    TransitionTime: 0.2
+    movementSpeed: 2
+    comboTime: 0
+  sprintHeavyAttack:
+    clip: {fileID: -203655887218126122, guid: 13f964f6f4db9b44cb2096929fa3f10b, type: 3}
+    PhysicalATK: 0
+    TransitionTime: 0.2
+    movementSpeed: 2
+    comboTime: 0
+  guardAmount: 0

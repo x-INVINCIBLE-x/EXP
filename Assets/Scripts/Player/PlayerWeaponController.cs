@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerWeaponController
 {
     public WeaponData currentWeapon;
+    public WeaponData backupWeapon;
     private int lightAttackIndex = -1;
     private int heavyAttackindex = -1;
     private Attack lastAttack;
@@ -74,5 +75,10 @@ public class PlayerWeaponController
     {
         lightAttackIndex = -1;
         heavyAttackindex = -1;
+    }
+
+    public void SwitchWeapon()
+    {
+        (currentWeapon, backupWeapon) = (backupWeapon, currentWeapon);
     }
 }
