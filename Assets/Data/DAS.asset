@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: DAS
   m_EditorClassIdentifier: 
   weaponName: DAS
-  model:
+  weaponDetails:
+    model: {fileID: 3593510174321219780, guid: 895abe2f103939a4786111d4fb53b013, type: 3}
     rangeType: 0
-    holdType: 1
+    holdType: 0
     equipType: 0
   lightAttack:
   - clip: {fileID: -203655887218126122, guid: 7e882e54851aa5445bb7c3bc772dd6bd, type: 3}

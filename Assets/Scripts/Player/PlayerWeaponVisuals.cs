@@ -35,10 +35,12 @@ public class PlayerWeaponVisuals : MonoBehaviour
 
     public void SwitchWeapon(WeaponData newWeapon)
     {
-        int index = ((int)newWeapon.model.equipType);
+        int index = ((int)newWeapon.weaponDetails.equipType);
         //float animLength = CurrentAnimationLenght(index);
-        anim.CrossFade(weaponEquipHash[newWeapon.model.equipType], transitionDuration, 1);
+
+        anim.CrossFade(weaponEquipHash[newWeapon.weaponDetails.equipType], transitionDuration, 1);
         StartCoroutine(StartChangeLayerWeight(1.4f));
+
         currentWeapon = newWeapon;
     }
 
@@ -50,6 +52,11 @@ public class PlayerWeaponVisuals : MonoBehaviour
 
         anim.CrossFade(idleHash, 1, 1);
         increaseWeight = false;
+    }
+
+    private void ChangeWeaponmodel()
+    {
+
     }
 
     private void UpdateLayerWeight()

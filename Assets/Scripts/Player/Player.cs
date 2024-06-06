@@ -19,8 +19,6 @@ public class Player : MonoBehaviour
     public PlayerWeaponController weaponController { get; private set; }
     public PlayerWeaponVisuals weaponVisiuals { get; private set; }
 
-    public Transform weaponHolder;
-
     public float walkSpeed;
     public float runSpeed;
     public float rotationDamping;
@@ -34,17 +32,10 @@ public class Player : MonoBehaviour
 
     public float jumpForce;
 
-    #region TEMP
-    public WeaponData currentWeapon;
-    public WeaponData backupWeapon;
-    #endregion
-
     private void Awake()
     {
         stateMachine  = new PlayerStateMachine();
-        weaponController = new PlayerWeaponController();
-        weaponController.currentWeapon = currentWeapon;
-        weaponController.backupWeapon = backupWeapon;
+        weaponController = GetComponent<PlayerWeaponController>();
 
         inputManager = GetComponent<InputManager>();
         anim = GetComponentInChildren<Animator>();

@@ -3,14 +3,23 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerWeaponController
+public class PlayerWeaponController : MonoBehaviour
 {
+    [SerializeField] private Transform weaponHolder;
+
     public WeaponData currentWeapon;
     public WeaponData backupWeapon;
+    private GameObject currentWeaponModel;
+
     private int lightAttackIndex = -1;
     private int heavyAttackindex = -1;
     private Attack lastAttack;
     private float lastTimeAttacked;
+
+    private void Start()
+    {
+        currentWeaponModel = Instantiate(currentWeapon.weaponDetails.model, weaponHolder);
+    }
 
     public Attack SelectLightAttack()
     {
@@ -79,6 +88,8 @@ public class PlayerWeaponController
 
     public void SwitchWeapon()
     {
+        Destroy(currentWeaponModel);
         (currentWeapon, backupWeapon) = (backupWeapon, currentWeapon);
+        currentWeaponModel = Instantiate(currentWeapon.weaponDetails.model, weaponHolder);
     }
 }

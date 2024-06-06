@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: SAD
   m_EditorClassIdentifier: 
   weaponName: SAD
-  model:
+  weaponDetails:
+    model: {fileID: 407118192572563512, guid: dc5dda22158a8f042979d71969bff4a7, type: 3}
     rangeType: 0
     holdType: 0
     equipType: 0

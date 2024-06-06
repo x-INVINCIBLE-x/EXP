@@ -7,7 +7,7 @@ using UnityEngine;
 public class WeaponData : ScriptableObject
 {
     public string weaponName;
-    public WeaponModel model;
+    public WeaponModel weaponDetails;
     public Attack[] lightAttack;
     public Attack[] heavyAttack;
     public Attack chargeAttack;

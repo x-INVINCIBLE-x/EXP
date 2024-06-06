@@ -9,6 +9,7 @@ public enum EquipType { Belt , Back };
 [System.Serializable]
 public class WeaponModel 
 {
+    public GameObject model;
     public RangeType rangeType;
     public HoldType holdType;
     public EquipType equipType;
