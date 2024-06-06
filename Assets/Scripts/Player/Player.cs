@@ -32,6 +32,9 @@ public class Player : MonoBehaviour
 
     public float jumpForce;
 
+    private float weaponSwitchCooldown = 1.5f;
+    private float lastTimeWeaponswitched = -10f;
+
     private void Awake()
     {
         stateMachine  = new PlayerStateMachine();
@@ -64,7 +67,13 @@ public class Player : MonoBehaviour
 
     public void SwitchWeapon()
     {
-        weaponController.SwitchWeapon();
-        weaponVisiuals.SwitchWeapon(weaponController.backupWeapon);
+        if (Time.time < weaponSwitchCooldown + lastTimeWeaponswitched)
+            return;
+
+        weaponController.SwitchWeapon();// changes current weapon to backup weapon
+        weaponVisiuals.SwitchWeapon(weaponController.currentWeapon);
+        lastTimeWeaponswitched = Time.time;
     }
+
+    public void ChangeWeaponModel() => weaponController.ChangeWeaponModel();
 }

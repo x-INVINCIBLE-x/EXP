@@ -18,7 +18,7 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
     public event Action WeaponSwitchEvent;
     
     public bool isSprinting = false;
-
+    
     private void Start()
     {
         controls = new PlayerControls();

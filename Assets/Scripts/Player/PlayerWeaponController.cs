@@ -90,6 +90,10 @@ public class PlayerWeaponController : MonoBehaviour
     {
         Destroy(currentWeaponModel);
         (currentWeapon, backupWeapon) = (backupWeapon, currentWeapon);
+    }
+
+    public void ChangeWeaponModel()
+    {
         currentWeaponModel = Instantiate(currentWeapon.weaponDetails.model, weaponHolder);
     }
 }

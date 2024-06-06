@@ -38,7 +38,7 @@ public class PlayerWeaponVisuals : MonoBehaviour
         int index = ((int)newWeapon.weaponDetails.equipType);
         //float animLength = CurrentAnimationLenght(index);
 
-        anim.CrossFade(weaponEquipHash[newWeapon.weaponDetails.equipType], transitionDuration, 1);
+        anim.CrossFadeInFixedTime(weaponEquipHash[newWeapon.weaponDetails.equipType], transitionDuration, 1);
         StartCoroutine(StartChangeLayerWeight(1.4f));
 
         currentWeapon = newWeapon;
