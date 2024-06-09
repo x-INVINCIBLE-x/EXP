@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using UnityEngine;
 
 [Serializable]
 public class Stat
@@ -25,7 +26,7 @@ public class Stat
         }
     }
 
-    protected readonly List<StatModifier> statModifiers;
+    [SerializeField] protected List<StatModifier> statModifiers;
     public readonly ReadOnlyCollection<StatModifier> StatModifiers;
 
     public Stat()
