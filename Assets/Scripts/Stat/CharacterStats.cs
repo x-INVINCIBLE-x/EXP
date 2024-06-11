@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum Stats
@@ -27,7 +29,7 @@ public enum Stats
     ShockRes,
     BreakRes
 }
-public enum Ailment
+public enum AilmentType
 {
     Fire,
     Electric,
@@ -36,6 +38,7 @@ public enum Ailment
     Shock,
     Break
 }
+
 public class CharacterStats : MonoBehaviour
 {
     [Header("Default Abilities")]
@@ -77,21 +80,63 @@ public class CharacterStats : MonoBehaviour
     public Stat breakRes;
 
     [Header("Ailment Status")]
-    public float fireStatus;
-    public float electricStatus;
-    public float acidStatus;
-    public float disruptionStatus;
-    public float shockStatus;
-    public float breakStatus;
+    public AilmentStatus fireStatus;
+    public AilmentStatus electricStatus;
+    public AilmentStatus acidStatus;
+    public AilmentStatus disruptionStatus;
+    public AilmentStatus shockStatus;
+    public AilmentStatus breakStatus;
 
     public float ailmentLimit = 100;
     public float ailmentLimitOffset = 10;
 
     public float currentHealth;
 
+    private Dictionary<AilmentType, System.Action> ailmentActions;
+
+    public class AilmentStatus
+    {
+        public float Value = 0f;
+        public bool isMaxed = false;
+    }
+
+    private void Awake()
+    {
+        ailmentActions = new Dictionary<AilmentType, System.Action>
+        {
+            { AilmentType.Fire, ApplyFireAilment },
+            { AilmentType.Electric, ApplyElectricAilment },
+            { AilmentType.Acid, ApplyAcidAilment },
+            { AilmentType.Disruption, ApplyDisruptionAilment },
+            { AilmentType.Shock, ApplyShockAilment },
+            { AilmentType.Break, ApplyBreakAilment }
+        };
+    }
+
+    private void Update()
+    {
+        ReduceAilmentStatus();
+    }
+
+    private void ReduceAilmentStatus()
+    {
+        if (fireStatus.Value > 0f)
+            fireStatus.Value -= fireRes.Value * Time.deltaTime;
+        if (breakStatus.Value > 0f)
+            breakStatus.Value -= breakRes.Value * Time.deltaTime;
+        if (electricStatus.Value > 0f)
+            electricStatus.Value -= electricRes.Value * Time.deltaTime;
+        if (acidStatus.Value > 0f)
+            acidStatus.Value -= acidRes.Value * Time.deltaTime;
+        if (disruptionStatus.Value > 0f)
+            disruptionStatus.Value -= disruptionRes.Value * Time.deltaTime;
+        if (shockStatus.Value > 0f)
+            shockStatus.Value -= ShockRes.Value * Time.deltaTime;
+    }
+
     public void DoDamage(CharacterStats targetStats)
     {
-        targetStats.TakeDamage(physicalAtk.Value);
+        targetStats.TakePhysicalDamage(physicalAtk.Value);
 
 
     }
@@ -111,40 +156,101 @@ public class CharacterStats : MonoBehaviour
             return;
 
         if (_fireAtk > 0)
-            targetStats.TryApplyAilmentEffect(_fireAtk, targetStats.fireRes.Value, ref targetStats.fireStatus, Ailment.Fire);
+            targetStats.TryApplyAilmentEffect(_fireAtk, targetStats.fireRes.Value, ref targetStats.fireStatus, AilmentType.Fire);
         else if (_electricAtk > 0)
-            targetStats.TryApplyAilmentEffect(_electricAtk, targetStats.electricRes.Value, ref targetStats.electricStatus, Ailment.Electric);
+            targetStats.TryApplyAilmentEffect(_electricAtk, targetStats.electricRes.Value, ref targetStats.electricStatus, AilmentType.Electric);
         else if (_acidAtk > 0)
-            targetStats.TryApplyAilmentEffect(_acidAtk, targetStats.acidRes.Value, ref targetStats.acidStatus, Ailment.Acid);
+            targetStats.TryApplyAilmentEffect(_acidAtk, targetStats.acidRes.Value, ref targetStats.acidStatus, AilmentType.Acid);
         else if (_disruptionAtk > 0)
-            targetStats.TryApplyAilmentEffect(_disruptionAtk, targetStats.disruptionRes.Value, ref targetStats.disruptionStatus, Ailment.Disruption);
+            targetStats.TryApplyAilmentEffect(_disruptionAtk, targetStats.disruptionRes.Value, ref targetStats.disruptionStatus, AilmentType.Disruption);
         else if(_shockAtk > 0)
-            targetStats.TryApplyAilmentEffect(_shockAtk, targetStats.ShockRes.Value, ref targetStats.shockStatus, Ailment.Shock);
+            targetStats.TryApplyAilmentEffect(_shockAtk, targetStats.ShockRes.Value, ref targetStats.shockStatus, AilmentType.Shock);
         else if(_breakAtk > 0)
-            targetStats.TryApplyAilmentEffect(_breakAtk, targetStats.breakRes.Value, ref targetStats.breakStatus, Ailment.Break);
+            targetStats.TryApplyAilmentEffect(_breakAtk, targetStats.breakRes.Value, ref targetStats.breakStatus, AilmentType.Break);
 
     }
 
-    private void TryApplyAilmentEffect(float ailmentAtk, float ailmentDef, ref float ailmentStatus, Ailment ailmentType)
+    private void TryApplyAilmentEffect(float ailmentAtk, float ailmentDef, ref AilmentStatus ailmentStatus, AilmentType ailmentType)
     {
-        float effectAmount = ailmentAtk - ailmentDef;
-        ailmentStatus = Mathf.Max(ailmentLimit + ailmentLimitOffset, ailmentStatus + effectAmount);
+        if (ailmentStatus.isMaxed)
+            return;
 
-        if (ailmentStatus >= ailmentLimit)
+        float effectAmount = ailmentAtk - ailmentDef;
+        ReduceHealthBy(effectAmount);
+        ailmentStatus.Value = Mathf.Min(ailmentLimit + ailmentLimitOffset, ailmentStatus.Value + effectAmount);
+
+        if (ailmentStatus.Value >= ailmentLimit)
         {
-            ApplyAilment(ailmentType);   
+            ApplyAilment(ailmentType);
+            SetMax(ailmentStatus, ailmentDef);
         }
     }
 
-    private void ApplyAilment(Ailment ailmentType)
+    private void ApplyAilment(AilmentType ailmentType)
+    {
+        if (ailmentActions.TryGetValue(ailmentType,out var ailmentEffect))
+            ailmentEffect();
+    }
+
+    #region Ailment Specific functions
+
+    private void ApplyFireAilment()
     {
 
     }
 
-    public void TakeDamage(float damage)
+    private void ApplyElectricAilment()
+    {
+
+    }
+
+    private void ApplyAcidAilment()
+    {
+
+    }
+
+    private void ApplyDisruptionAilment()
+    {
+
+    }
+
+    private void ApplyShockAilment()
+    {
+
+    }
+
+    private void ApplyBreakAilment()
+    {
+
+    }
+
+    #endregion
+
+    private void SetMax(AilmentStatus ailmentStatus, float def)
+    {
+        float time = ailmentLimit / def;
+        StartCoroutine(StartSetMax(ailmentStatus, time));
+    }
+
+    private IEnumerator StartSetMax(AilmentStatus ailmentStatus, float time)
+    {
+        ailmentStatus.isMaxed = true;
+
+        yield return new WaitForSeconds(time);
+
+        ailmentStatus.Value = 0f;
+        ailmentStatus.isMaxed = false;
+    }
+
+    public void TakePhysicalDamage(float damage)
     {
         float reducedDamage = Mathf.Max(0, damage - physicalDef.Value);
 
-        currentHealth = Mathf.Max(0f, currentHealth - reducedDamage);
+        ReduceHealthBy(reducedDamage);
+    }
+
+    public void ReduceHealthBy(float damage)
+    {
+        currentHealth = Mathf.Max(0f, currentHealth - damage);
     }
 }
