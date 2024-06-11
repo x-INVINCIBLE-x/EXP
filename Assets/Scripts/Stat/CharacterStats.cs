@@ -94,6 +94,7 @@ public class CharacterStats : MonoBehaviour
 
     private Dictionary<AilmentType, System.Action> ailmentActions;
 
+    [System.Serializable]
     public class AilmentStatus
     {
         public float Value = 0f;
