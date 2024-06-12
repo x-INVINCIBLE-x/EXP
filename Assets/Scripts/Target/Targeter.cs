@@ -34,7 +34,7 @@ public class Targeter : MonoBehaviour
         {
             Vector2 viewPos = Camera.main.WorldToViewportPoint(target.transform.position);
             
-            if(!target.GetComponent<Renderer>().isVisible)
+            if(!target.GetComponentInChildren<Renderer>().isVisible)
                 continue;
 
             Vector2 toCentre = viewPos - new Vector2(0.5f, 0.5f);

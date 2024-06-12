@@ -103,6 +103,8 @@ public class CharacterStats : MonoBehaviour
 
     private void Awake()
     {
+        currentHealth = health.Value;
+
         ailmentActions = new Dictionary<AilmentType, System.Action>
         {
             { AilmentType.Fire, ApplyFireAilment },
@@ -139,7 +141,7 @@ public class CharacterStats : MonoBehaviour
     {
         targetStats.TakePhysicalDamage(physicalAtk.Value);
 
-
+        DoAilmentDamage(targetStats);
     }
 
     public void DoAilmentDamage(CharacterStats targetStats)

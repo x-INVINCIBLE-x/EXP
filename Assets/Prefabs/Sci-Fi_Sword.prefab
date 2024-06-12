@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5153393939675453877}
   - component: {fileID: 4515119785075294124}
-  m_Layer: 0
+  - component: {fileID: 8606841761475788676}
+  m_Layer: 8
   m_Name: Sci-Fi_Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,6 +48,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24b51da3fa658c54a887b25ec0cd22dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterStats: {fileID: 0}
+--- !u!65 &8606841761475788676
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3593510174321219780}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 0.10928367, y: 0.025145255, z: 1.6173747}
+  m_Center: {x: 0, y: 0.08238168, z: 1.091206}
 --- !u!1 &5668691406578213730
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,7 +81,7 @@ GameObject:
   - component: {fileID: 786090777425270546}
   - component: {fileID: 4215038533903571816}
   - component: {fileID: 1389582689889125156}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sword_Handle_Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +164,7 @@ GameObject:
   - component: {fileID: 6981896293837100075}
   - component: {fileID: 8098975768148457735}
   - component: {fileID: 5598146436159336084}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wires_Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,7 +247,7 @@ GameObject:
   - component: {fileID: 6296980042750895587}
   - component: {fileID: 1189641788345520865}
   - component: {fileID: 75059440324005078}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sword_Blade_Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
