@@ -14,4 +14,6 @@ public class WeaponData : ScriptableObject
     public Attack sprintLightAttack;
     public Attack sprintHeavyAttack;
     public float guardAmount;
+
+    public FableArt fableBlade;
 }

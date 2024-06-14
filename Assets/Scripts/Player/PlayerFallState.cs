@@ -25,7 +25,7 @@ public class PlayerFallState : PlayerState
         momentum = Vector3.Lerp(momentum, Vector3.zero, 3 * Time.deltaTime);
         Move(momentum);
 
-        if(IsAnimationComplete(animName))
+        if(HasAnimationCompleted(animName))
             ChangeToLocomotion();
     }
 

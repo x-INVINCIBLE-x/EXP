@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee0e7eb2ac3a4054097426d72b7b5c90, type: 3}
+  m_Name: Hold Attack
+  m_EditorClassIdentifier: 
+  holdAttacks:
+  - holdAnim: {fileID: 0}
+    attackAnim: {fileID: -203655887218126122, guid: 45b42f1a65c91bd4191afcf2ccccb019, type: 3}
+    duration: 3
+  - holdAnim: {fileID: 0}
+    attackAnim: {fileID: -203655887218126122, guid: 8187962add44f2d4ca1922248306ccda, type: 3}
+    duration: 3
+  - holdAnim: {fileID: 0}
+    attackAnim: {fileID: -203655887218126122, guid: 13f964f6f4db9b44cb2096929fa3f10b, type: 3}
+    duration: 3
+  canHold: 0
+  attacks: []

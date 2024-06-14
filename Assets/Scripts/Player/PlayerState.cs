@@ -79,7 +79,7 @@ public class PlayerState
         }
     }
 
-    protected bool IsAnimationComplete(string animationName) => HasAnimationPassed(animationName, 1f);
+    protected bool HasAnimationCompleted(string animationName) => HasAnimationPassed(animationName, 1f);
  
     protected bool HasAnimationPassed(string animationName, float normalizedTime)
     {
@@ -94,5 +94,10 @@ public class PlayerState
         }
 
         return false;
+    }
+
+    protected void OnFableArt()
+    {
+        player.weaponController.currentWeapon.fableBlade.Execute();
     }
 }

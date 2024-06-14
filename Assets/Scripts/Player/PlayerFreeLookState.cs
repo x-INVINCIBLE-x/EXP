@@ -23,6 +23,7 @@ public class PlayerFreeLookState : PlayerState
         player.inputManager.HeavyAttackEvent += OnHeavyAttack;
         player.inputManager.ChargeAttackEvent += OnChargeAttack;
         player.inputManager.WeaponSwitchEvent += player.SwitchWeapon;
+        player.inputManager.FableArtsEvent += OnFableArt;
     }
 
     public override void Update()
@@ -51,6 +52,7 @@ public class PlayerFreeLookState : PlayerState
         player.inputManager.HeavyAttackEvent -= OnHeavyAttack;
         player.inputManager.ChargeAttackEvent -= OnChargeAttack;
         player.inputManager.WeaponSwitchEvent -= player.SwitchWeapon;
+        player.inputManager.FableArtsEvent -= OnFableArt;
     }
 
     private void OnTarget()

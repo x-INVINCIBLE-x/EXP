@@ -33,7 +33,7 @@ public class PlayerAttackState : PlayerState
         if(!HasAnimationPassed(animName, 0.8f))
             Move(player.transform.forward, attack.movementSpeed);
 
-        if (IsAnimationComplete(animName))
+        if (HasAnimationCompleted(animName))
             ChangeToLocomotion(0.3f);
 
         if (HasAnimationPassed(animName, 0.9f) && movement.sqrMagnitude != 0)

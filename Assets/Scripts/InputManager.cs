@@ -16,8 +16,10 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
     public event Action HeavyAttackEvent;
     public event Action ChargeAttackEvent;
     public event Action WeaponSwitchEvent;
+    public event Action FableArtsEvent;
     
     public bool isSprinting = false;
+    public bool isHolding = false;
     
     private void Start()
     {
@@ -80,5 +82,17 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
     public void OnWeaponSwitch(InputAction.CallbackContext context)
     {
         WeaponSwitchEvent?.Invoke();
+    }
+
+    public void OnFableArts(InputAction.CallbackContext context)
+    {
+        if (!context.canceled)
+        {
+            FableArtsEvent?.Invoke();
+            isHolding = true;
+        }
+
+        if(context.canceled)
+            isHolding = false;
     }
 }

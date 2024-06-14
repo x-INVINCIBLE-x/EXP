@@ -36,7 +36,7 @@ public class PlayerDodgeState : PlayerState
 
         Move(movement, 1);
 
-        if (IsAnimationComplete(animName))
+        if (HasAnimationCompleted(animName))
             ChangeToLocomotion();
     }
 
