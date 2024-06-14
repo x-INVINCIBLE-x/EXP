@@ -14,6 +14,9 @@ public class PlayerStateMachine
 
     public void ChangeState(PlayerState newState)
     {
+        if (PlayerManager.instance.player.isBusy)
+            return;
+
         currentState?.Exit();
         currentState = newState;
         currentState?.Enter();

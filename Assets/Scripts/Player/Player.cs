@@ -35,6 +35,8 @@ public class Player : MonoBehaviour
     private float weaponSwitchCooldown = 1.5f;
     private float lastTimeWeaponswitched = -10f;
 
+    public bool isBusy = false;
+
     private void Awake()
     {
         stateMachine  = new PlayerStateMachine();
@@ -67,6 +69,9 @@ public class Player : MonoBehaviour
 
     public void SwitchWeapon()
     {
+        if (isBusy)
+            return;
+
         if (Time.time < weaponSwitchCooldown + lastTimeWeaponswitched)
             return;
 
@@ -76,4 +81,6 @@ public class Player : MonoBehaviour
     }
 
     public void ChangeWeaponModel() => weaponController.ChangeWeaponModel();
+
+    public void SetBusy(bool busy) => isBusy = busy;
 }

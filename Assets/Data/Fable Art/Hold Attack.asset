@@ -13,14 +13,29 @@ MonoBehaviour:
   m_Name: Hold Attack
   m_EditorClassIdentifier: 
   holdAttacks:
-  - holdAnim: {fileID: 0}
-    attackAnim: {fileID: -203655887218126122, guid: 45b42f1a65c91bd4191afcf2ccccb019, type: 3}
+  - holdAnim: {fileID: -203655887218126122, guid: 0ea2655e71653f14fa5150284ef1d1e5, type: 3}
+    attackAnim:
+      clip: {fileID: -203655887218126122, guid: 78dcdc12309d1014289d997a1492f12d, type: 3}
+      PhysicalATK: 0
+      TransitionTime: 0
+      movementSpeed: 0
+      comboTime: 0
     duration: 3
-  - holdAnim: {fileID: 0}
-    attackAnim: {fileID: -203655887218126122, guid: 8187962add44f2d4ca1922248306ccda, type: 3}
+  - holdAnim: {fileID: -203655887218126122, guid: b0b478d374d8f6244a5ac2e72fd1a310, type: 3}
+    attackAnim:
+      clip: {fileID: -203655887218126122, guid: 8187962add44f2d4ca1922248306ccda, type: 3}
+      PhysicalATK: 0
+      TransitionTime: 0
+      movementSpeed: 0
+      comboTime: 0
     duration: 3
-  - holdAnim: {fileID: 0}
-    attackAnim: {fileID: -203655887218126122, guid: 13f964f6f4db9b44cb2096929fa3f10b, type: 3}
+  - holdAnim: {fileID: -203655887218126122, guid: 64518a886fcee0c4f9ba73265d3dc627, type: 3}
+    attackAnim:
+      clip: {fileID: -203655887218126122, guid: 13f964f6f4db9b44cb2096929fa3f10b, type: 3}
+      PhysicalATK: 0
+      TransitionTime: 0
+      movementSpeed: 0
+      comboTime: 0
     duration: 3
   canHold: 0
   attacks: []

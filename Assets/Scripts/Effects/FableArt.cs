@@ -13,7 +13,7 @@ public class FableArt : ScriptableObject
     public class HoldAttack
     {
         public AnimationClip holdAnim;
-        public AnimationClip attackAnim;
+        public Attack attackAnim;
         public float duration;
     }
 

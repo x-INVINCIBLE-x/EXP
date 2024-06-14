@@ -12,7 +12,7 @@ public class PlayerFableArtState : PlayerState
     {
         base.Enter();
 
-        player.anim.CrossFadeInFixedTime(animName, 0.1f, 0);
+        player.anim.CrossFadeInFixedTime(animName, 0.05f, 0);
     }
 
     public override void Update()
