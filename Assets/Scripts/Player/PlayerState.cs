@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PlayerState
@@ -30,6 +31,9 @@ public class PlayerState
 
     public void Move(Vector3 movement, float speed = 1)
     {
+        if (player.isBusy)
+            return;
+
         player.characterController.Move(((speed * movement) + player.forceReciever.Movement) * Time.deltaTime);
     }
 
@@ -98,6 +102,6 @@ public class PlayerState
 
     protected void OnFableArt()
     {
-        player.weaponController.currentWeapon.fableBlade.Execute();
+        player.weaponController.FableAttack();
     }
 }

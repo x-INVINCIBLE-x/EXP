@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63df8c0904876ab40aa861ba4a0281e8, type: 3}
+  m_Name: Multi Attack
+  m_EditorClassIdentifier: 
+  holdAttacks: []
+  canHold: 0
+  attacks: []
+  lastCalled: -1
+  bufferTime: 0

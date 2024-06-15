@@ -3,9 +3,17 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum FableArtType
+{
+    Slashes,
+    MultiAttack,
+    Hold
+}
+
 public class FableArt : ScriptableObject
 {
     public Player player => PlayerManager.instance.player;
+    public FableArtType type;
     public HoldAttack[] holdAttacks;
     public bool canHold;
 

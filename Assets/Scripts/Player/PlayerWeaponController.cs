@@ -16,6 +16,12 @@ public class PlayerWeaponController : MonoBehaviour
     private Attack lastAttack;
     private float lastTimeAttacked;
 
+    [Header("Multi Fable Attack")]
+    public float lastCalled = 0f;
+    public float animTime = -10f;
+    public float bufferTime = 1f;
+    public int lastIndex = -1;
+
     private void Start()
     {
         currentWeaponModel = Instantiate(currentWeapon.weaponDetails.model, weaponHolder);
@@ -95,5 +101,36 @@ public class PlayerWeaponController : MonoBehaviour
     public void ChangeWeaponModel()
     {
         currentWeaponModel = Instantiate(currentWeapon.weaponDetails.model, weaponHolder);
+    }
+
+    public void FableAttack()
+    {
+        if (currentWeapon.fableBlade.type == FableArtType.MultiAttack)
+        {
+            MultiFableAttack();
+            return;
+        }
+            
+        currentWeapon.fableBlade.Execute();
+    }
+
+    public void MultiFableAttack()
+    {
+        FableMultiAttack fableAttack = currentWeapon.fableBlade as FableMultiAttack;
+        
+        if (Time.time < lastCalled + animTime)
+            return;
+
+        if (Time.time < lastCalled + animTime + bufferTime)
+            lastCalled = Time.time;
+        else
+            lastIndex = -1;
+
+        lastCalled = Time.time;
+
+        int _index = lastIndex + 1 == fableAttack.attacks.Length ? 0 : lastIndex + 1;
+        lastIndex = _index;
+        animTime = fableAttack.attacks[_index].clip.length;
+        fableAttack.Execute(_index);
     }
 }
