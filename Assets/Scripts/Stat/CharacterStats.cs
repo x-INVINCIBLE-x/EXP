@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -92,7 +94,12 @@ public class CharacterStats : MonoBehaviour
 
     public float currentHealth;
 
-    private Dictionary<AilmentType, System.Action> ailmentActions;
+    public bool isInvincible { get; private set; } = false;
+    public bool isBlocking { get; private set; } = false;
+    public bool isPerfectBlock { get; private set; } = false;
+    public bool hasBeenHit { get; private set; } = false;
+
+    private Dictionary<AilmentType, Action> ailmentActions;
 
     [System.Serializable]
     public class AilmentStatus
@@ -105,7 +112,7 @@ public class CharacterStats : MonoBehaviour
     {
         currentHealth = health.Value;
 
-        ailmentActions = new Dictionary<AilmentType, System.Action>
+        ailmentActions = new Dictionary<AilmentType, Action>
         {
             { AilmentType.Fire, ApplyFireAilment },
             { AilmentType.Electric, ApplyElectricAilment },
@@ -139,6 +146,9 @@ public class CharacterStats : MonoBehaviour
 
     public void DoDamage(CharacterStats targetStats)
     {
+        if(targetStats.isPerfectBlock)
+            return;
+
         targetStats.TakePhysicalDamage(physicalAtk.Value);
 
         DoAilmentDamage(targetStats);
@@ -254,6 +264,37 @@ public class CharacterStats : MonoBehaviour
 
     public void ReduceHealthBy(float damage)
     {
+        if (isInvincible)
+            return;
+
         currentHealth = Mathf.Max(0f, currentHealth - damage);
+    }
+
+    public void SetInvincibleFor(float time) => StartCoroutine(MakeInvincibleFor(time));
+
+    private IEnumerator MakeInvincibleFor(float time)
+    {
+        isInvincible = true;
+
+        yield return new WaitForSeconds(time);
+
+        isInvincible = false;
+    }
+
+    public void SetInvincible(bool invincible) => isInvincible = invincible;
+
+    public void SetBlocking(bool blocking) => isBlocking = blocking;
+    
+    public void SetPerfectBlock(bool perfectBlock) => isPerfectBlock = perfectBlock;
+
+    public void ResetBool() => hasBeenHit = false;
+    public void ResetBoolAfterDelay() => StartCoroutine(ResetHitBool());
+    public IEnumerator ResetHitBool()
+    {
+        hasBeenHit = true;
+
+        yield return new WaitForSeconds(0.1f);
+
+        hasBeenHit = false;
     }
 }

@@ -61,7 +61,6 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
     {
         if (context.performed)
             DodgeEvent?.Invoke();
-        
     }
 
     public void OnLightAttack(InputAction.CallbackContext context)

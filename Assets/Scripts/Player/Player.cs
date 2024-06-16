@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public CharacterController characterController { get; private set; }
     public Targeter targeter { get; private set; }
     public ForceReciever forceReciever { get; private set; }
+    public PlayerStat stats { get; private set; }
     public Camera mainCamera { get; private set; }
 
     public PlayerFreeLookState FreeLookState { get; private set; }
@@ -40,14 +41,15 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         stateMachine  = new PlayerStateMachine();
-        weaponController = GetComponent<PlayerWeaponController>();
 
+        weaponController = GetComponent<PlayerWeaponController>();
         inputManager = GetComponent<InputManager>();
         anim = GetComponentInChildren<Animator>();
         characterController = GetComponent<CharacterController>();
         targeter = GetComponentInChildren<Targeter>();
         forceReciever = GetComponentInChildren<ForceReciever>();
         weaponVisiuals = GetComponent<PlayerWeaponVisuals>();
+        stats = GetComponent<PlayerStat>();
 
         mainCamera = Camera.main;
     }

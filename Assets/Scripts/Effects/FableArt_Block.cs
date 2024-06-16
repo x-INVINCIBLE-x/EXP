@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FableArt_Block : MonoBehaviour
+[CreateAssetMenu(menuName = "Fable Art/ Block/ Absolute Block", fileName = "Absolute Block")]
+public class FableArt_Block : FableArt
 {
-    // Start is called before the first frame update
-    void Start()
+    public float invincibleTime;
+    public override void Execute(int index = 0)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        player.GetComponent<PlayerStat>().SetInvincibleFor(invincibleTime);
+        player.stateMachine.ChangeState(new PlayerBlockState(player.stateMachine, player, "Standing Block Idle", 1));
     }
 }

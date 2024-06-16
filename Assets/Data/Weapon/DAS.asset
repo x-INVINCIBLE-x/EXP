@@ -59,4 +59,4 @@ MonoBehaviour:
     movementSpeed: 4
     comboTime: 0
   guardAmount: 0
-  fableBlade: {fileID: 11400000, guid: 9db4ece821875884d9564b96b3c352c4, type: 2}
+  fableBlade: {fileID: 11400000, guid: 0bc96c2f8708fdf4289d0938b66ddd26, type: 2}
