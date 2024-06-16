@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee0e7eb2ac3a4054097426d72b7b5c90, type: 3}
-  m_Name: Hold Attack
+  m_Name: Charge Attack
   m_EditorClassIdentifier: 
   type: 0
   holdAttacks:

@@ -15,11 +15,13 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
     public event Action LightAttackEvent;
     public event Action HeavyAttackEvent;
     public event Action ChargeAttackEvent;
+    public event Action BlockEvent;
     public event Action WeaponSwitchEvent;
     public event Action FableArtsEvent;
-    
+
     public bool isSprinting = false;
     public bool isHolding = false;
+    public bool isBlocking = false;
     
     private void Start()
     {
@@ -94,5 +96,17 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
 
         if(context.canceled)
             isHolding = false;
+    }
+
+    public void OnBlock(InputAction.CallbackContext context)
+    {
+        if (context.canceled)
+        {
+            isBlocking = false;
+            return;
+        }
+        
+        isBlocking = true;
+        BlockEvent?.Invoke();
     }
 }

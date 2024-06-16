@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.FullSerializer;
@@ -21,10 +22,12 @@ public class PlayerFreeLookState : PlayerState
         player.inputManager.DodgeEvent += OnDodge;
         player.inputManager.LightAttackEvent += OnLightAttack;
         player.inputManager.HeavyAttackEvent += OnHeavyAttack;
+        player.inputManager.BlockEvent += OnBlock;
         player.inputManager.ChargeAttackEvent += OnChargeAttack;
         player.inputManager.WeaponSwitchEvent += player.SwitchWeapon;
         player.inputManager.FableArtsEvent += OnFableArt;
     }
+
 
     public override void Update()
     {
@@ -51,6 +54,7 @@ public class PlayerFreeLookState : PlayerState
         player.inputManager.LightAttackEvent -= OnLightAttack;
         player.inputManager.HeavyAttackEvent -= OnHeavyAttack;
         player.inputManager.ChargeAttackEvent -= OnChargeAttack;
+        player.inputManager.BlockEvent -= OnBlock;
         player.inputManager.WeaponSwitchEvent -= player.SwitchWeapon;
         player.inputManager.FableArtsEvent -= OnFableArt;
     }
@@ -94,5 +98,9 @@ public class PlayerFreeLookState : PlayerState
     {
         Attack currentAttack = player.weaponController.SelectChargeAttack();
         stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, currentAttack));
+    }
+    private void OnBlock()
+    {
+        stateMachine.ChangeState(new PlayerBlockState(stateMachine, player, "Standing Block Idle"));
     }
 }
