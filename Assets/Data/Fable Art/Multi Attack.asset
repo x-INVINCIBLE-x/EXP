@@ -12,8 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63df8c0904876ab40aa861ba4a0281e8, type: 3}
   m_Name: Multi Attack
   m_EditorClassIdentifier: 
+  type: 1
   holdAttacks: []
   canHold: 0
-  attacks: []
-  lastCalled: -1
-  bufferTime: 0
+  attacks:
+  - clip: {fileID: -203655887218126122, guid: 7e882e54851aa5445bb7c3bc772dd6bd, type: 3}
+    PhysicalATK: 0
+    TransitionTime: 0
+    movementSpeed: 0
+    comboTime: 0
+  - clip: {fileID: -203655887218126122, guid: 764e4b36334b1344ebb5dd6cb66b9ade, type: 3}
+    PhysicalATK: 0
+    TransitionTime: 0
+    movementSpeed: 0
+    comboTime: 0
+  - clip: {fileID: -203655887218126122, guid: e81713359da10984585929c3087c4dcf, type: 3}
+    PhysicalATK: 0
+    TransitionTime: 0
+    movementSpeed: 0
+    comboTime: 0

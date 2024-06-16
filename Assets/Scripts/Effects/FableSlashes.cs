@@ -15,7 +15,7 @@ public class FableSlashes : FableArt_Attack
         int i = 0;
         while (i < attacks.Length)
         {
-            player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, attacks[i].AnimationName));
+            player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, attacks[i]));
             yield return new WaitForSeconds(attacks[i].clip.length);
             i++;
         }

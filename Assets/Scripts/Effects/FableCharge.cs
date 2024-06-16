@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Fable Art/ Attack/ Charge Attack", fileName = "Charge Attack")]
-public class ChargeFable : FableArt_Attack
+public class FableCharge : FableArt_Attack
 {
     private float timer = 0;
     private float elapsedTime = 0;

@@ -4,20 +4,40 @@ using UnityEngine;
 
 public class PlayerFableArtState : PlayerState
 {
-    public PlayerFableArtState(PlayerStateMachine stateMachine, Player player, string animName) : base(stateMachine, player, animName)
+    private Vector3 movement;
+    private Attack attack;
+
+    public PlayerFableArtState(PlayerStateMachine stateMachine, Player player, string animName, Attack attack = null) : base(stateMachine, player, animName)
     {
+        this.attack = attack;
     }
+
+    public PlayerFableArtState(PlayerStateMachine stateMachine, Player player, Attack attack) : this(stateMachine, player, null, attack) { }
 
     public override void Enter()
     {
         base.Enter();
+        if(attack != null) 
+            player.anim.CrossFadeInFixedTime(attack.AnimationName, attack.TransitionTime, 0);
+        else
+            player.anim.CrossFadeInFixedTime(animName, 0.05f, 0);
 
-        player.anim.CrossFadeInFixedTime(animName, 0.05f, 0);
+        movement = player.inputManager.Movement;
+        StopMovement();
     }
 
     public override void Update()
     {
         base.Update();
+
+        if(attack != null)
+        {
+            Move(movement, attack.movementSpeed);
+            if(HasAnimationCompleted(attack.AnimationName))
+                ChangeToLocomotion();
+
+            return;
+        }
 
         if (HasAnimationCompleted(animName))
             ChangeToLocomotion();

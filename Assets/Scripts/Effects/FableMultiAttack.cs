@@ -13,6 +13,6 @@ public class FableMultiAttack : FableArt_Attack
 
     private void StartAttack(int index)
     {
-        player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, attacks[index].AnimationName));
+        player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, attacks[index]));
     }
 }
