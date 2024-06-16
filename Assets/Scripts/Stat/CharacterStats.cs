@@ -97,9 +97,10 @@ public class CharacterStats : MonoBehaviour
     public bool isInvincible { get; private set; } = false;
     public bool isBlocking { get; private set; } = false;
     public bool isPerfectBlock { get; private set; } = false;
-    public bool hasBeenHit { get; private set; } = false;
 
     private Dictionary<AilmentType, Action> ailmentActions;
+
+    public event Action Hit;
 
     [System.Serializable]
     public class AilmentStatus
@@ -149,6 +150,7 @@ public class CharacterStats : MonoBehaviour
         if(targetStats.isPerfectBlock)
             return;
 
+        targetStats.Hit?.Invoke();
         targetStats.TakePhysicalDamage(physicalAtk.Value);
 
         DoAilmentDamage(targetStats);
@@ -286,15 +288,4 @@ public class CharacterStats : MonoBehaviour
     public void SetBlocking(bool blocking) => isBlocking = blocking;
     
     public void SetPerfectBlock(bool perfectBlock) => isPerfectBlock = perfectBlock;
-
-    public void ResetBool() => hasBeenHit = false;
-    public void ResetBoolAfterDelay() => StartCoroutine(ResetHitBool());
-    public IEnumerator ResetHitBool()
-    {
-        hasBeenHit = true;
-
-        yield return new WaitForSeconds(0.1f);
-
-        hasBeenHit = false;
-    }
 }

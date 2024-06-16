@@ -9,6 +9,7 @@ public class PlayerBlockState : PlayerState
     private float perfectblockTimer;
     private bool isPerfectBlockTriggered;
     private bool isPerfectBlockOnly;
+    private bool isPerfectBlock;
 
     public PlayerBlockState(PlayerStateMachine stateMachine, Player player, string animName, float blockTime = 0, bool isPerfectBlockOnly = false) : base(stateMachine, player, animName)
     {
@@ -22,10 +23,14 @@ public class PlayerBlockState : PlayerState
     {
         base.Enter();
 
+        player.stats.Hit += OnHit;
+
         perfectblockTimer = 1f;
+
         player.stats.SetBlocking(true);
         player.stats.SetPerfectBlock(true);
         isPerfectBlockTriggered = false;
+        isPerfectBlock = true;
 
         hasTimer = blockTime > 0.1f;
 
@@ -63,6 +68,7 @@ public class PlayerBlockState : PlayerState
 
         if (perfectblockTimer < 0f && !isPerfectBlockTriggered)
         {
+            isPerfectBlock = false;
             player.stats.SetPerfectBlock(false);
             isPerfectBlockTriggered = true;
         }
@@ -75,5 +81,10 @@ public class PlayerBlockState : PlayerState
 
         player.stats.SetBlocking(false);
         player.stats.SetPerfectBlock(false);
+    }
+
+    private void OnHit()
+    {
+        stateMachine.ChangeState(new PlayerFableArtState(stateMachine, player, "Counter Attack"));
     }
 }
