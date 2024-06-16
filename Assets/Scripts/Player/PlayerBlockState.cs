@@ -10,6 +10,7 @@ public class PlayerBlockState : PlayerState
     private bool isPerfectBlockTriggered;
     private bool isPerfectBlockOnly;
     private bool isPerfectBlock;
+    private string counterAnimName;
 
     public PlayerBlockState(PlayerStateMachine stateMachine, Player player, string animName, float blockTime = 0, bool isPerfectBlockOnly = false) : base(stateMachine, player, animName)
     {
@@ -17,7 +18,10 @@ public class PlayerBlockState : PlayerState
         this.isPerfectBlockOnly = isPerfectBlockOnly;
     }
 
-    public PlayerBlockState(PlayerStateMachine stateMachine, Player player, string animName, string counterAnimName) : this(stateMachine, player, animName) { }
+    public PlayerBlockState(PlayerStateMachine stateMachine, Player player, string animName, string counterAnimName) : this(stateMachine, player, animName)
+    {
+        this.counterAnimName = counterAnimName;
+    }
 
     public override void Enter()
     {
@@ -64,6 +68,9 @@ public class PlayerBlockState : PlayerState
         if(isPerfectBlockOnly)
             return;
 
+        if (!isPerfectBlock)
+            return;
+
         perfectblockTimer -= Time.deltaTime;
 
         if (perfectblockTimer < 0f && !isPerfectBlockTriggered)
@@ -79,12 +86,20 @@ public class PlayerBlockState : PlayerState
     {
         base.Exit();
 
+        player.stats.Hit -= OnHit;
+
         player.stats.SetBlocking(false);
         player.stats.SetPerfectBlock(false);
     }
 
     private void OnHit()
     {
-        stateMachine.ChangeState(new PlayerFableArtState(stateMachine, player, "Counter Attack"));
+        if (!isPerfectBlock)
+            return;
+
+        if (string.IsNullOrEmpty(counterAnimName))
+            return;
+
+        stateMachine.ChangeState(new PlayerFableArtState(stateMachine, player, counterAnimName));
     }
 }
