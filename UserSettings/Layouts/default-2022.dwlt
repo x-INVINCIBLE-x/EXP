@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1536
     height: 868.8
   m_ShowMode: 4
-  m_Title: Project
+  m_Title: Game
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 492}
   m_MaxSize: {x: 10000, y: 10000}
@@ -120,7 +120,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 146
+  controlID: 144
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 83
+  controlID: 106
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -848,7 +848,7 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: 0.0524089, y: 0.7081715, z: -0.052708294, w: 0.702263}
     speed: 2
-    m_Value: {x: 0.05240353, y: 0.7080989, z: -0.052702893, w: 0.702191}
+    m_Value: {x: 0.0524089, y: 0.7081715, z: -0.052708294, w: 0.702263}
   m_Size:
     m_Target: 0.9344651
     speed: 2
@@ -919,14 +919,14 @@ MonoBehaviour:
     - {fileID: 7179814952609802818, guid: cc8e3e541e40c104e98170d79e793a88, type: 2}
     - {fileID: -4900083168645267854, guid: cc8e3e541e40c104e98170d79e793a88, type: 2}
     m_ValueSerializationHelper:
-    - e00: 0.58267343
+    - e00: 0.88617337
       e01: 0
       e02: 0
-      e03: -172.24307
+      e03: -321.5371
       e10: 0
-      e11: 0.58267343
+      e11: 0.88617337
       e12: 0
-      e13: 84.76372
+      e13: -8.242882
       e20: 0
       e21: 0
       e22: 1
@@ -1305,9 +1305,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: e2460000
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 0cfbffff
+      m_ExpandedIDs: f6faffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1376,7 +1376,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/Effects
+    - Assets/Data/Weapon
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -1392,7 +1392,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 119.80002}
     m_SelectedIDs: e2450000
     m_LastClickedID: 17890
-    m_ExpandedIDs: 0000000050600000826400008464000086640000886400008a6400008c6400008e64000090640000926400009464000096640000986400009a6400009c6400009e640000a0640000a2640000a4640000a6640000a8640000aa640000ac640000ae640000b0640000b2640000b4640000b6640000b8640000ba640000bc640000be640000c0640000
+    m_ExpandedIDs: 0000000090600000886400008a6400008c6400008e64000090640000926400009464000096640000986400009a6400009c6400009e640000a0640000a2640000a4640000a6640000a8640000aa640000ac640000ae640000b0640000b2640000b4640000b6640000b8640000ba640000bc640000be640000c0640000c2640000c4640000c6640000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1417,24 +1417,24 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_AssetTreeState:
-    scrollPos: {x: 0, y: 288.2}
+    scrollPos: {x: 0, y: 344.2}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff0000000050600000826400008464000086640000886400008a6400008c6400008e64000090640000926400009464000096640000986400009a6400009c6400009e640000a0640000a2640000a4640000a6640000a8640000aa640000ac640000ae640000b0640000b2640000b4640000b6640000b8640000ba640000bc640000be640000c0640000
+    m_ExpandedIDs: ffffffff0000000090600000886400008a6400008c6400008e64000090640000926400009464000096640000986400009a6400009c6400009e640000a0640000a2640000a4640000a6640000a8640000aa640000ac640000ae640000b0640000b2640000b4640000b6640000b8640000ba640000bc640000be640000c0640000c2640000c4640000c6640000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: FableArt_Block
-      m_OriginalName: FableArt_Block
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 18146
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 11}
     m_SearchString: 

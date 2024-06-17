@@ -116,7 +116,7 @@ public class PlayerWeaponController : MonoBehaviour
 
     public void MultiFableAttack()
     {
-        FableMultiAttack fableAttack = currentWeapon.fableBlade as FableMultiAttack;
+        FableArt_MultiAttack fableAttack = currentWeapon.fableBlade as FableArt_MultiAttack;
         
         if (Time.time < lastCalled + animTime)
             return;

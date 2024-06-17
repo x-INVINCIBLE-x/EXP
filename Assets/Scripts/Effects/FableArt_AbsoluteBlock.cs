@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Fable Art/ Block/ Absolute Block", fileName = "Absolute Block")]
-public class FableArt_Block : FableArt
+public class FableArt_AbsoluteBlock : FableArt
 {
     public float invincibleTime;
     public override void Execute(int index = 0)

@@ -1593,6 +1593,9 @@ MonoBehaviour:
   jumpLength: 3
   jumpDuration: 1.5
   jumpForce: 3
+  perfectBlockTimer: 1
+  isBusy: 0
+  canCounter: 0
 --- !u!114 &1611424501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1607,6 +1610,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isSprinting: 0
   isHolding: 0
+  isBlocking: 0
 --- !u!4 &1611424502
 Transform:
   m_ObjectHideFlags: 0
@@ -1694,6 +1698,10 @@ MonoBehaviour:
   weaponHolder: {fileID: 1503004039}
   currentWeapon: {fileID: 11400000, guid: 206d1656af236cf4cac0fed11f0165ee, type: 2}
   backupWeapon: {fileID: 11400000, guid: fe981c30017027e49ad855f052e7ca7c, type: 2}
+  lastCalled: 0
+  animTime: -10
+  bufferTime: 1
+  lastIndex: -1
 --- !u!114 &1611424507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1837,7 +1845,7 @@ Transform:
   m_GameObject: {fileID: 1735464526}
   serializedVersion: 2
   m_LocalRotation: {x: 0.08516997, y: -0.8795553, z: 0.43533713, w: -0.17207631}
-  m_LocalPosition: {x: -0.0000000071631803, y: -0.5798979, z: 3.500001}
+  m_LocalPosition: {x: -0.000000004984031, y: -0.579901, z: 3.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

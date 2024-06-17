@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Fable Art/ Attack/ Slash", fileName = "Slash")]
-public class FableSlashes : FableArt_Attack
+public class FableArt_Slashes : FableArt_Attack
 {
     public override void Execute(int index = 0)
     {

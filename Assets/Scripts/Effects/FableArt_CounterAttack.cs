@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Fable Art/ Block/ Counter Block", fileName = "Counter Block")]
-public class FableBlockCounter : FableArt
+public class FableArt_CounterAttack : FableArt
 {
     public float counterTimer = 1f;
 
