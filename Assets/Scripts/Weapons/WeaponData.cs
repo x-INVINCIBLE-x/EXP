@@ -15,5 +15,7 @@ public class WeaponData : ScriptableObject
     public Attack sprintHeavyAttack;
     public float guardAmount;
 
+    public AnimationClip counterAttackAnim;
+
     public FableArt fableBlade;
 }

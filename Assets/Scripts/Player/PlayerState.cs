@@ -104,4 +104,19 @@ public class PlayerState
     {
         player.weaponController.FableAttack();
     }
+
+    public void ChangeToBlock()
+    {
+        if (player.canCounter)
+        {
+            AnimationClip counterClip = player.weaponController.currentWeapon.counterAttackAnim;
+            string counterAttackName = counterClip == null ? "Universal Counter" : counterClip.name;
+            stateMachine.ChangeState(new PlayerBlockState(stateMachine, player, "Standing Block Idle", counterAttackName));
+            Debug.Log("Counter Block");
+            return;
+        }
+
+        Debug.Log("Simple Block");
+        stateMachine.ChangeState(new PlayerBlockState(stateMachine, player, "Standing Block Idle"));
+    }
 }

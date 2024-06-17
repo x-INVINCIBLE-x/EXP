@@ -9,6 +9,6 @@ public class FableArt_Block : FableArt
     public override void Execute(int index = 0)
     {
         player.GetComponent<PlayerStat>().SetInvincibleFor(invincibleTime);
-        player.stateMachine.ChangeState(new PlayerBlockState(player.stateMachine, player, "Standing Block Idle", 1));
+        player.stateMachine.ChangeState(new PlayerBlockState(player.stateMachine, player, "Standing Block Idle", invincibleTime));
     }
 }

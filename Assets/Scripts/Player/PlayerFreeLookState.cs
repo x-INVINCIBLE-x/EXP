@@ -101,6 +101,6 @@ public class PlayerFreeLookState : PlayerState
     }
     private void OnBlock()
     {
-        stateMachine.ChangeState(new PlayerBlockState(stateMachine, player, "Standing Block Idle"));
+        ChangeToBlock();
     }
 }

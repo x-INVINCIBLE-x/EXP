@@ -33,10 +33,13 @@ public class Player : MonoBehaviour
 
     public float jumpForce;
 
+    public float perfectBlockTimer;
+
     private float weaponSwitchCooldown = 1.5f;
     private float lastTimeWeaponswitched = -10f;
 
     public bool isBusy = false;
+    public bool canCounter = false;
 
     private void Awake()
     {

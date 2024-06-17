@@ -29,12 +29,14 @@ public class PlayerBlockState : PlayerState
 
         player.stats.Hit += OnHit;
 
-        perfectblockTimer = 1f;
+        perfectblockTimer = player.perfectBlockTimer;
 
         player.stats.SetBlocking(true);
         player.stats.SetPerfectBlock(true);
         isPerfectBlockTriggered = false;
         isPerfectBlock = true;
+
+        Debug.Log("IsPerfectBlocking");
 
         hasTimer = blockTime > 0.1f;
 
@@ -78,6 +80,8 @@ public class PlayerBlockState : PlayerState
             isPerfectBlock = false;
             player.stats.SetPerfectBlock(false);
             isPerfectBlockTriggered = true;
+
+            Debug.Log("IsPerfectBlockingOver");
         }
 
     }
