@@ -38,7 +38,8 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
 
     public void OnTarget(InputAction.CallbackContext context)
     {
-        TargetEvent?.Invoke();
+        if(context.performed)
+            TargetEvent?.Invoke();
     }
 
     private void OnDestroy()

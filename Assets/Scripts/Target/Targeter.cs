@@ -20,7 +20,7 @@ public class Targeter : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         if(!other.TryGetComponent(out Target target)) return;
-        targets.Remove(target);
+        RemoveTarget(target);
     }
 
     public bool SelectTarget()
@@ -61,5 +61,13 @@ public class Targeter : MonoBehaviour
 
         target.OnDestroyed -= RemoveTarget;
         targets.Remove(target);
+    }
+
+    public void RemoveCurrentTarget()
+    {
+        if (currentTarget == null) return;
+
+        targetGroup.RemoveMember(currentTarget.transform);
+        currentTarget = null;
     }
 }

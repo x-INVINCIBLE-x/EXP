@@ -23,6 +23,7 @@ public class PlayerTargetState : PlayerState
         player.inputManager.LightAttackEvent += OnLightAttack;
         player.inputManager.HeavyAttackEvent += OnHeavyAttack;
         player.inputManager.ChargeAttackEvent += OnChargeAttack;
+        player.inputManager.TargetEvent += OnCancelTarget;
     }
 
     public override void Update()
@@ -46,6 +47,7 @@ public class PlayerTargetState : PlayerState
         player.inputManager.LightAttackEvent -= OnLightAttack;
         player.inputManager.HeavyAttackEvent -= OnHeavyAttack;
         player.inputManager.ChargeAttackEvent -= OnChargeAttack;
+        player.inputManager.TargetEvent -= OnCancelTarget;
     }
 
     private void UpdateAnimation()
@@ -106,5 +108,13 @@ public class PlayerTargetState : PlayerState
     {
         Attack currentAttack = player.weaponController.SelectChargeAttack();
         stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, currentAttack));
+    }
+
+    private void OnCancelTarget()
+    {
+        if(player.targeter.currentTarget != null)
+            player.targeter.RemoveCurrentTarget();
+
+        stateMachine.ChangeState(player.FreeLookState);
     }
 }
