@@ -7,7 +7,8 @@ public enum FableArtType
 {
     Slashes,
     MultiAttack,
-    Hold
+    Hold,
+    Buff
 }
 
 public class FableArt : ScriptableObject

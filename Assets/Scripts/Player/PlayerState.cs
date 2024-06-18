@@ -102,7 +102,7 @@ public class PlayerState
 
     protected void OnFableArt()
     {
-        player.weaponController.FableAttack();
+        player.weaponController.ExecuteFableArt();
     }
 
     public void ChangeToBlock()

@@ -88,10 +88,10 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
     public void OnFableArts(InputAction.CallbackContext context)
     {
         if (!context.canceled)
-        {
-            FableArtsEvent?.Invoke();
             isHolding = true;
-        }
+
+        if(context.performed)
+            FableArtsEvent?.Invoke();
 
         if(context.canceled)
             isHolding = false;

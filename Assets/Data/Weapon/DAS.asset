@@ -60,4 +60,4 @@ MonoBehaviour:
     comboTime: 0
   guardAmount: 0
   counterAttackAnim: {fileID: 0}
-  fableBlade: {fileID: 11400000, guid: 1e609f9655fd6444f85e56083290a002, type: 2}
+  fableBlade: {fileID: 11400000, guid: fde54fb60db80a94fbb0bc370b979a09, type: 2}
