@@ -147,8 +147,11 @@ public class CharacterStats : MonoBehaviour
 
     public void DoDamage(CharacterStats targetStats)
     {
-        if(targetStats.isPerfectBlock)
+        if (targetStats.isPerfectBlock)
+        {
+            Debug.Log("Perfect Block Successful!");
             return;
+        }
 
         targetStats.Hit?.Invoke();
         targetStats.TakePhysicalDamage(physicalAtk.Value);
