@@ -7,6 +7,8 @@ public class FableArt_Buff : FableArt
 {
     public AnimationClip activateAnimation;
     public int duration;
+
+    [Header("Buffs")]
     public int physicalAtk;
     public int physicalDef;
     public int stamina;
@@ -16,10 +18,20 @@ public class FableArt_Buff : FableArt
         if (activateAnimation != null)
             player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, activateAnimation.name));
 
-        CoroutineManager.Instance.StartRoutine(StartBuffEffect(player.stats));
+        CoroutineManager.instance.StartRoutine(StartBuffEffect(player.stats));
     }
 
     private IEnumerator StartBuffEffect(CharacterStats stat)
+    {
+        AddBuffs(stat);
+
+        yield return new WaitForSeconds(duration);
+
+        RemoveBuffs(stat);
+    }
+
+
+    private void AddBuffs(CharacterStats stat)
     {
         if (physicalAtk != 0)
             stat.physicalAtk.AddModifier(new StatModifier(physicalAtk, StatModType.Flat, this));
@@ -27,9 +39,9 @@ public class FableArt_Buff : FableArt
             stat.physicalDef.AddModifier(new StatModifier(physicalDef, StatModType.Flat, this));
         if (stamina != 0)
             stat.stamina.AddModifier(new StatModifier(stamina, StatModType.Flat, this));
-
-        yield return new WaitForSeconds(duration);
-
+    }
+    private void RemoveBuffs(CharacterStats stat)
+    {
         stat.physicalAtk.RemoveAllModifiersFromSource(this);
         stat.physicalDef.RemoveAllModifiersFromSource(this);
         stat.stamina.RemoveAllModifiersFromSource(this);

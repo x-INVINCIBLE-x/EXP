@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Fable Art/ Attack/ Slash", fileName = "Slash")]
-public class FableArt_Slashes : FableArt_Attack
+public class FableArt_Slashes : FableArt
 {
+    public Attack[] attacks;
+
     public override void Execute(int index = 0)
     {
-        CoroutineManager.Instance.StartRoutine(StartAttack());
+        CoroutineManager.instance.StartRoutine(StartAttack());
     }
 
     private IEnumerator StartAttack()

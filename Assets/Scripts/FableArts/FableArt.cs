@@ -5,24 +5,22 @@ using UnityEngine;
 
 public enum FableArtType
 {
-    Slashes,
+    Attack,
     MultiAttack,
-    Hold,
-    Buff
+    Buff,
+    Block
 }
 
 public class FableArt : ScriptableObject
 {
     public Player player => PlayerManager.instance.player;
     public FableArtType type;
-    public HoldAttack[] holdAttacks;
-    public bool canHold;
 
     [System.Serializable]
     public class HoldAttack
     {
         public AnimationClip holdAnim;
-        public Attack attackAnim;
+        public Attack attackData;
         public float duration;
     }
 

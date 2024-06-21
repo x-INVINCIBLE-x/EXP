@@ -2,8 +2,10 @@ using System.Collections;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Fable Art/ Attack/ Charge Attack", fileName = "Charge Attack")]
-public class FableArt_ChargeAttack : FableArt_Attack
+public class FableArt_ChargeAttack : FableArt
 {
+    public HoldAttack[] chargeAttacks;
+
     private float timer = 0;
     private float elapsedTime = 0;
     
@@ -12,7 +14,7 @@ public class FableArt_ChargeAttack : FableArt_Attack
         if(player.isBusy)
             return;
 
-        CoroutineManager.Instance.StartRoutine(StartAttack());
+        CoroutineManager.instance.StartRoutine(StartAttack());
     }
 
     private IEnumerator StartAttack()
@@ -22,7 +24,7 @@ public class FableArt_ChargeAttack : FableArt_Attack
 
         int i = -1;
         InputManager input = player.inputManager;
-        while (input.isHolding && i < holdAttacks.Length)
+        while (input.isHolding && i < chargeAttacks.Length)
         {
             yield return new WaitForEndOfFrame();
             timer += Time.deltaTime;
@@ -32,18 +34,18 @@ public class FableArt_ChargeAttack : FableArt_Attack
 
             i++;
 
-            if (i == holdAttacks.Length)
+            if (i == chargeAttacks.Length)
                 break;
 
-            player.anim.CrossFadeInFixedTime(holdAttacks[i].holdAnim.name, 0.051f, 0);
-            if (i != holdAttacks.Length)
-                elapsedTime += holdAttacks[i].duration;
+            player.anim.CrossFadeInFixedTime(chargeAttacks[i].holdAnim.name, 0.051f, 0);
+            if (i != chargeAttacks.Length)
+                elapsedTime += chargeAttacks[i].duration;
 
         }
 
-        i = Mathf.Clamp(i, 0, holdAttacks.Length - 1);
+        i = Mathf.Clamp(i, 0, chargeAttacks.Length - 1);
         
         player.SetBusy(false);
-        player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, holdAttacks[i].attackAnim.AnimationName));
+        player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, chargeAttacks[i].attackData.AnimationName));
     }
 }

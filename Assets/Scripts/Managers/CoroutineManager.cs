@@ -6,7 +6,7 @@ public class CoroutineManager : MonoBehaviour
 {
     private static CoroutineManager _instance;
 
-    public static CoroutineManager Instance
+    public static CoroutineManager instance
     {
         get
         {

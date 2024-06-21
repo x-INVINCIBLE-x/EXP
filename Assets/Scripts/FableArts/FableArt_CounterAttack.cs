@@ -10,8 +10,7 @@ public class FableArt_CounterAttack : FableArt
 
     public override void Execute(int index = 0)
     {
-        CoroutineManager.Instance.StartRoutine(StartCounterCooldown());
-        //player.stateMachine.ChangeState(new PlayerBlockState(player.stateMachine, player, "Standing block Idle", counterAttackClip.name));
+        CoroutineManager.instance.StartRoutine(StartCounterCooldown());
     }
 
     public IEnumerator StartCounterCooldown()
