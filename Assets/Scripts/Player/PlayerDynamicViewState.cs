@@ -69,7 +69,7 @@ public class PlayerDynamicViewState : PlayerState
         if (player.inputManager.Movement == Vector2.zero)
             return;
 
-        if (player.staminaThreshold <= player.stats.GetCurrentStamina())
+        if (player.sprintStaminaThreshold <= player.stats.GetCurrentStamina())
             stateMachine.ChangeState(player.SprintState);
     }
 

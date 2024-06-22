@@ -36,7 +36,8 @@ public class Player : MonoBehaviour
     public float perfectBlockTimer;
 
     public float sprintStaminaRate;
-    public float staminaThreshold;
+    public float sprintStaminaThreshold;
+    public float dodgeStamina;
 
     private float weaponSwitchCooldown = 1.5f;
     private float lastTimeWeaponswitched = -10f;
