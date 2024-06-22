@@ -19,6 +19,7 @@ public class PlayerFreeLookState : PlayerDynamicViewState
         base.Enter();
 
         player.anim.CrossFadeInFixedTime(animName, transitionDuration, 0);
+        player.inputManager.DodgeEvent += OnDodge;
         player.inputManager.TargetEvent += OnTarget;
     }
 
@@ -43,7 +44,16 @@ public class PlayerFreeLookState : PlayerDynamicViewState
     {
         base.Exit();
 
+        player.inputManager.DodgeEvent -= OnDodge;
         player.inputManager.TargetEvent -= OnTarget;
+    }
+
+    private void OnDodge()
+    {
+        Vector2 movement = player.inputManager.Movement;
+
+        if (movement != Vector2.zero)
+            stateMachine.ChangeState(new PlayerDodgeState(stateMachine, player, "FreeDodge", DodgeType.DodgeRoll, movement));
     }
 
     private void OnTarget()

@@ -20,6 +20,7 @@ public class PlayerTargetState : PlayerDynamicViewState
         base.Enter();
 
         player.anim.CrossFadeInFixedTime(animName, transitionDuration, 0);
+        player.inputManager.DodgeEvent += OnDodge;
         player.inputManager.TargetEvent += OnCancelTarget;
     }
 
@@ -40,6 +41,7 @@ public class PlayerTargetState : PlayerDynamicViewState
     {
         base.Exit();
 
+        player.inputManager.DodgeEvent -= OnDodge;
         player.inputManager.TargetEvent -= OnCancelTarget;
     }
 
@@ -67,6 +69,14 @@ public class PlayerTargetState : PlayerDynamicViewState
         }
 
         player.anim.SetFloat(TargetRightHash, value, 0.1f, Time.deltaTime);
+    }
+
+    private void OnDodge()
+    {
+        Vector2 movement = player.inputManager.Movement;
+
+        if (movement != Vector2.zero)
+            stateMachine.ChangeState(new PlayerDodgeState(stateMachine, player, "TargetDodge", DodgeType.DodgeStand, movement));
     }
 
     private void OnCancelTarget()

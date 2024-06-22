@@ -15,7 +15,6 @@ public class PlayerDynamicViewState : PlayerState
         player.inputManager.LightAttackEvent += OnLightAttack;
         player.inputManager.HeavyAttackEvent += OnHeavyAttack;
         player.inputManager.ChargeAttackEvent += OnChargeAttack;
-        player.inputManager.DodgeEvent += OnDodge;
         player.inputManager.SprintEvent += OnSprint;
         player.inputManager.BlockEvent += OnBlock;
         player.inputManager.FableArtsEvent += OnFableArt;
@@ -34,7 +33,6 @@ public class PlayerDynamicViewState : PlayerState
         player.inputManager.LightAttackEvent -= OnLightAttack;
         player.inputManager.HeavyAttackEvent -= OnHeavyAttack;
         player.inputManager.ChargeAttackEvent -= OnChargeAttack;
-        player.inputManager.DodgeEvent -= OnDodge;
         player.inputManager.SprintEvent -= OnSprint;
         player.inputManager.BlockEvent -= OnBlock;
         player.inputManager.FableArtsEvent -= OnFableArt;
@@ -59,20 +57,13 @@ public class PlayerDynamicViewState : PlayerState
         stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, currentAttack));
     }
 
-    protected void OnDodge()
-    {
-        Vector2 movement = player.inputManager.Movement;
-
-        if (movement != Vector2.zero)
-            stateMachine.ChangeState(new PlayerDodgeState(stateMachine, player, "TargetDodge", DodgeType.DodgeStand, movement));
-    }
-
     protected void OnSprint()
     {
         if (player.inputManager.Movement == Vector2.zero)
             return;
 
-        stateMachine.ChangeState(player.SprintState);
+        if (player.staminaThreshold <= player.stats.GetCurrentStamina())
+            stateMachine.ChangeState(player.SprintState);
     }
 
     protected void OnBlock()
