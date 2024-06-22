@@ -1321,8 +1321,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1406959693}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.69908065, y: 0.0007137572, z: 0.00069782435, w: 0.7150422}
-  m_LocalPosition: {x: -0.14209764, y: -9.67049, z: -22.501186}
+  m_LocalRotation: {x: -0.69908035, y: 0.0007255847, z: 0.0007093871, w: 0.7150425}
+  m_LocalPosition: {x: -0.14210512, y: -9.67049, z: -22.501196}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1849,7 +1849,7 @@ MonoBehaviour:
     BaseValue: 0
     statModifiers: []
   fireRes:
-    BaseValue: 0
+    BaseValue: 1
     statModifiers: []
   electricRes:
     BaseValue: 0
@@ -1913,7 +1913,7 @@ Transform:
   m_GameObject: {fileID: 1735464526}
   serializedVersion: 2
   m_LocalRotation: {x: 0.08516997, y: -0.8795553, z: 0.43533713, w: -0.17207631}
-  m_LocalPosition: {x: 0.0000000016880222, y: -0.0000019073486, z: 10.000002}
+  m_LocalPosition: {x: -0.0000000054424163, y: -0.0000038146973, z: 10.000003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5624,7 +5624,7 @@ MonoBehaviour:
     BaseValue: 10
     statModifiers: []
   fireAtk:
-    BaseValue: 0
+    BaseValue: 50
     statModifiers: []
   electricAtk:
     BaseValue: 0

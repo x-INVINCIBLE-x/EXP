@@ -54,6 +54,7 @@ public class CharacterStats : MonoBehaviour
     [Header("Common Abilities")]
     public Stat health;
     public Stat stamina;
+    public Stat staminaRegain;
     public Stat legion;
     public Stat fableSlot;
     public Stat guardRegain;
@@ -93,10 +94,12 @@ public class CharacterStats : MonoBehaviour
     public float ailmentLimitOffset = 10;
 
     public float currentHealth;
+    public float currentStamina;
 
     public bool isInvincible { get; private set; } = false;
     public bool isBlocking { get; private set; } = false;
     public bool isPerfectBlock { get; private set; } = false;
+    public bool isConsumingStamina { get; private set; } = false;
 
     private Dictionary<AilmentType, Action> ailmentActions;
 
@@ -112,6 +115,7 @@ public class CharacterStats : MonoBehaviour
     private void Awake()
     {
         currentHealth = health.Value;
+        currentStamina = stamina.Value;
 
         ailmentActions = new Dictionary<AilmentType, Action>
         {
@@ -127,6 +131,9 @@ public class CharacterStats : MonoBehaviour
     private void Update()
     {
         ReduceAilmentStatus();
+
+        if (!isConsumingStamina && currentStamina < stamina.Value)
+            currentStamina += staminaRegain.Value * Time.deltaTime;
     }
 
     private void ReduceAilmentStatus()
@@ -291,4 +298,18 @@ public class CharacterStats : MonoBehaviour
     public void SetBlocking(bool blocking) => isBlocking = blocking;
     
     public void SetPerfectBlock(bool perfectBlock) => isPerfectBlock = perfectBlock;
+    public void SetConsumingStamina(bool status) => isConsumingStamina = status;
+
+    public bool HasEnoughStamina(float staminaAmount)
+    {
+        if(currentStamina > staminaAmount)
+        {
+            currentStamina -= staminaAmount;
+            return true;
+        }
+
+        return false;
+    }
+
+    public float GetCurrentStamina() => currentStamina;
 }

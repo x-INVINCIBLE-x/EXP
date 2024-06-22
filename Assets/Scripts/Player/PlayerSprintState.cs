@@ -12,6 +12,8 @@ public class PlayerSprintState : PlayerState
     public override void Enter()
     {
         base.Enter();
+
+        player.stats.SetConsumingStamina(true);
         player.inputManager.DodgeEvent += OnDodge;
         player.inputManager.LightAttackEvent += OnLightAttack;
         player.inputManager.HeavyAttackEvent += OnHeavyAttack;
@@ -21,6 +23,12 @@ public class PlayerSprintState : PlayerState
     {
         base.Update();
         MovementTimer();
+
+        if (!player.stats.HasEnoughStamina(player.sprintStaminaRate * Time.deltaTime))
+        {
+            ChangeToLocomotion();
+            return;
+        }
 
         if (timer > 0.12f || (!player.inputManager.isSprinting && timer > 0.2f))
         {
@@ -34,6 +42,8 @@ public class PlayerSprintState : PlayerState
     public override void Exit()
     {
         base.Exit();
+
+        player.stats.SetConsumingStamina(false);
         player.inputManager.DodgeEvent -= OnDodge;
         player.inputManager.LightAttackEvent -= OnLightAttack;
         player.inputManager.HeavyAttackEvent -= OnHeavyAttack;
