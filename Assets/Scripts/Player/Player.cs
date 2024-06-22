@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
     public float dodgeLength;
     public float dodgeDuration;
     public float dodgeRollLength;
+    public float dodgeCooldown = 1.5f;
+    public float lastTimeDodged;
 
     public float jumpLength;
     public float jumpDuration;

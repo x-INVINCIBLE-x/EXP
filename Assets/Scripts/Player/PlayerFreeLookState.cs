@@ -9,6 +9,7 @@ public class PlayerFreeLookState : PlayerDynamicViewState
     private readonly int FreeLookHash = Animator.StringToHash("FreeLookSpeed");
 
     private float transitionDuration;
+
     public PlayerFreeLookState(PlayerStateMachine stateMachine, Player player, string animBoolName, float transitionDuration = 0.5f) : base(stateMachine, player, animBoolName)
     {
         this.transitionDuration = transitionDuration;
@@ -43,13 +44,16 @@ public class PlayerFreeLookState : PlayerDynamicViewState
     public override void Exit()
     {
         base.Exit();
-
         player.inputManager.DodgeEvent -= OnDodge;
         player.inputManager.TargetEvent -= OnTarget;
     }
 
     private void OnDodge()
     {
+        if (Time.time < player.lastTimeDodged + player.dodgeCooldown)
+            return;
+
+        player.lastTimeDodged = Time.time;
         Vector2 movement = player.inputManager.Movement;
 
         if (movement != Vector2.zero)

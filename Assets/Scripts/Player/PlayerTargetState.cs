@@ -73,6 +73,10 @@ public class PlayerTargetState : PlayerDynamicViewState
 
     private void OnDodge()
     {
+        if (Time.time < player.lastTimeDodged + player.dodgeCooldown)
+            return;
+
+        player.lastTimeDodged = Time.time;
         Vector2 movement = player.inputManager.Movement;
 
         if (movement != Vector2.zero)

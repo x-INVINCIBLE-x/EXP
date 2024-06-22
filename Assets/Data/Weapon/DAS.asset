@@ -24,40 +24,47 @@ MonoBehaviour:
     TransitionTime: 0.15
     movementSpeed: 2
     comboTime: 1
+    staminaConsumption: 10
   - clip: {fileID: -203655887218126122, guid: 764e4b36334b1344ebb5dd6cb66b9ade, type: 3}
     PhysicalATK: 0
     TransitionTime: 0.15
     movementSpeed: 2
     comboTime: 1
+    staminaConsumption: 20
   - clip: {fileID: -203655887218126122, guid: e81713359da10984585929c3087c4dcf, type: 3}
     PhysicalATK: 0
     TransitionTime: 0.15
     movementSpeed: 1
     comboTime: 1
+    staminaConsumption: 50
   heavyAttack:
   - clip: {fileID: -203655887218126122, guid: fd02281d8b0033041a31218e8fac635f, type: 3}
     PhysicalATK: 0
     TransitionTime: 0.3
     movementSpeed: 0
     comboTime: 0
+    staminaConsumption: 70
   chargeAttack:
     clip: {fileID: -203655887218126122, guid: de5150e3baeda7d41ba70de2f43c2ac4, type: 3}
     PhysicalATK: 0
     TransitionTime: 0.3
     movementSpeed: 0
     comboTime: 0
+    staminaConsumption: 90
   sprintLightAttack:
     clip: {fileID: -203655887218126122, guid: 1dd6e24c8b0ee854898fde960ff26938, type: 3}
     PhysicalATK: 0
     TransitionTime: 0.2
     movementSpeed: 4
     comboTime: 0
+    staminaConsumption: 0
   sprintHeavyAttack:
     clip: {fileID: -203655887218126122, guid: 1dd6e24c8b0ee854898fde960ff26938, type: 3}
     PhysicalATK: 0
     TransitionTime: 0.2
     movementSpeed: 4
     comboTime: 0
+    staminaConsumption: 0
   guardAmount: 0
   counterAttackAnim: {fileID: 0}
   fableBlade: {fileID: 11400000, guid: 9db4ece821875884d9564b96b3c352c4, type: 2}

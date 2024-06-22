@@ -18,7 +18,10 @@ public class PlayerDodgeState : PlayerState
     public override void Enter()
     {
         if (!player.stats.HasEnoughStamina(player.dodgeStamina))
+        {
             ChangeToLocomotion();
+            return;
+        }
 
         player.anim.CrossFadeInFixedTime(animName, 0, 0);
         player.anim.SetInteger("DodgeType", dodgeType);
