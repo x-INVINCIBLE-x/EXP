@@ -42,19 +42,26 @@ public class PlayerDynamicViewState : PlayerState
     protected void OnLightAttack()
     {
         Attack currentAttack = player.weaponController.SelectLightAttack();
-        stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, currentAttack));
+        InitiateAttack(currentAttack);
     }
+
 
     protected void OnHeavyAttack()
     {
         Attack currentAttack = player.weaponController.SelectHeavyAttack();
-        stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, currentAttack));
+        InitiateAttack(currentAttack);
     }
 
     protected void OnChargeAttack()
     {
         Attack currentAttack = player.weaponController.SelectChargeAttack();
-        stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, currentAttack));
+        InitiateAttack(currentAttack);
+    }
+
+    private void InitiateAttack(Attack currentAttack)
+    {
+        if (currentAttack != null)
+            stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, currentAttack));
     }
 
     protected void OnSprint()

@@ -299,7 +299,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 446778148}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.028382123, y: -0.0006420106, z: 0.00019003198, w: 0.9995969}
+  m_LocalRotation: {x: -0.028382123, y: -0.00064199406, z: 0.00019002709, w: 0.9995969}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -505,7 +505,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 634852214}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.010243326, y: -0.00063847256, z: 0.00020165245, w: 0.99994737}
+  m_LocalRotation: {x: -0.010243326, y: -0.0006384261, z: 0.00020163778, w: 0.99994737}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1321,8 +1321,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1406959693}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.69908035, y: 0.0007255847, z: 0.0007093871, w: 0.7150425}
-  m_LocalPosition: {x: -0.14210512, y: -9.67049, z: -22.501196}
+  m_LocalRotation: {x: -0.69907093, y: 0.00089071767, z: 0.0008708114, w: 0.7150513}
+  m_LocalPosition: {x: -0.14221002, y: -9.670485, z: -22.501453}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1661,6 +1661,8 @@ MonoBehaviour:
   jumpDuration: 1.5
   jumpForce: 3
   perfectBlockTimer: 1
+  sprintStaminaRate: 10
+  staminaThreshold: 5
   isBusy: 0
   canCounter: 0
 --- !u!114 &1611424501
@@ -1804,7 +1806,10 @@ MonoBehaviour:
     BaseValue: 100
     statModifiers: []
   stamina:
-    BaseValue: 0
+    BaseValue: 100
+    statModifiers: []
+  staminaRegain:
+    BaseValue: 10
     statModifiers: []
   legion:
     BaseValue: 0
@@ -1887,6 +1892,7 @@ MonoBehaviour:
   ailmentLimit: 100
   ailmentLimitOffset: 10
   currentHealth: 0
+  currentStamina: 0
 --- !u!1 &1735464526
 GameObject:
   m_ObjectHideFlags: 0
@@ -1913,7 +1919,7 @@ Transform:
   m_GameObject: {fileID: 1735464526}
   serializedVersion: 2
   m_LocalRotation: {x: 0.08516997, y: -0.8795553, z: 0.43533713, w: -0.17207631}
-  m_LocalPosition: {x: -0.0000000054424163, y: -0.0000038146973, z: 10.000003}
+  m_LocalPosition: {x: 0.00000000547152, y: -0.000002861023, z: 10.000003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5611,6 +5617,9 @@ MonoBehaviour:
   stamina:
     BaseValue: 0
     statModifiers: []
+  staminaRegain:
+    BaseValue: 0
+    statModifiers: []
   legion:
     BaseValue: 0
     statModifiers: []
@@ -5692,6 +5701,7 @@ MonoBehaviour:
   ailmentLimit: 100
   ailmentLimitOffset: 10
   currentHealth: 0
+  currentStamina: 0
 --- !u!114 &5866666020192248246
 MonoBehaviour:
   m_ObjectHideFlags: 0

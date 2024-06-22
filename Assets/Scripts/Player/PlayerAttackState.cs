@@ -24,6 +24,7 @@ public class PlayerAttackState : PlayerState
         movement = player.inputManager.Movement;
 
         StopMovement();
+        player.stats.SetConsumingStamina(true);
     }
 
     public override void Update()
@@ -47,15 +48,17 @@ public class PlayerAttackState : PlayerState
         player.inputManager.LightAttackEvent -= OnLIghtAttack;
         player.inputManager.HeavyAttackEvent -= OnHeavyAttack;
         player.inputManager.ChargeAttackEvent -= OnChargeAttack;
+        player.stats.SetConsumingStamina(false);
     }
 
     private void OnLIghtAttack()
     {
         if (!HasAnimationPassed(animName, 0.9f))
-            return; 
+            return;
 
         Attack nextAttack = player.weaponController.SelectLightAttack();
-        stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, nextAttack));
+
+        InitiateNextAttack(nextAttack);
     }
 
     private void OnHeavyAttack()
@@ -64,7 +67,7 @@ public class PlayerAttackState : PlayerState
             return;
 
         Attack nextAttack = player.weaponController.SelectHeavyAttack();
-        stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, nextAttack));
+        InitiateNextAttack(nextAttack);
     }
 
     private void OnChargeAttack()
@@ -73,6 +76,12 @@ public class PlayerAttackState : PlayerState
             return;
 
         Attack nextAttack = player.weaponController.SelectChargeAttack();
-        stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, nextAttack));
+        InitiateNextAttack(nextAttack);
+    }
+
+    private void InitiateNextAttack(Attack nextAttack)
+    {
+        if (nextAttack != null)
+            stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, nextAttack));
     }
 }

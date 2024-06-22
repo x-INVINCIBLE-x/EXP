@@ -34,7 +34,7 @@ public class PlayerWeaponController : MonoBehaviour
 
     public Attack SelectLightAttack()
     {
-        if (!CanCombo())
+        if (!CanCombo() && HasAttackStamina(currentWeapon.heavyAttack[0]))
             return currentWeapon.lightAttack[0];
 
         lightAttackIndex = lightAttackIndex + 1 >= currentWeapon.lightAttack.Length? 0 : lightAttackIndex + 1;
@@ -47,13 +47,22 @@ public class PlayerWeaponController : MonoBehaviour
 
         lastTimeAttacked = Time.time;
         Attack attack = currentWeapon.lightAttack[lightAttackIndex];
+
+        if (!HasAttackStamina(attack))
+        {
+            if (!HasAttackStamina(currentWeapon.lightAttack[0]))
+                return null;
+
+            attack = currentWeapon.lightAttack[0];
+        }
+
         lastAttack = attack;
         return attack;
     }
 
     public Attack SelectHeavyAttack()
     {
-        if(!CanCombo())
+        if(!CanCombo() && HasAttackStamina(currentWeapon.heavyAttack[0]))
             return currentWeapon.heavyAttack[0];
 
         heavyAttackindex = heavyAttackindex + 1 >= currentWeapon.heavyAttack.Length ? 0 : heavyAttackindex + 1; 
@@ -66,6 +75,15 @@ public class PlayerWeaponController : MonoBehaviour
         
         lastTimeAttacked = Time.time;
         Attack attack = currentWeapon.heavyAttack[heavyAttackindex];
+
+        if (!HasAttackStamina(attack))
+        {
+            if (!HasAttackStamina(currentWeapon.heavyAttack[0]))
+                return null;
+
+            attack = currentWeapon.heavyAttack[0];
+        }
+
         lastAttack = attack;
         return attack;
     }
@@ -74,6 +92,12 @@ public class PlayerWeaponController : MonoBehaviour
     {
         ResetIndexes();
         Attack attack = currentWeapon.chargeAttack;
+
+        if (!HasAttackStamina(attack))
+        {
+            return null;
+        }
+
         lastAttack = null;
         return attack;
     }
@@ -88,6 +112,16 @@ public class PlayerWeaponController : MonoBehaviour
 
         lastAttack = null;
         ResetIndexes();
+        return false;
+    }
+
+    public bool HasAttackStamina(Attack attack)
+    {
+        if (PlayerManager.instance.player.stats.HasEnoughStamina(attack.staminaConsumption))
+        {
+            return true;
+        }
+
         return false;
     }
 

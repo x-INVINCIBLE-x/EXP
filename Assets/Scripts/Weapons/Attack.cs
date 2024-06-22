@@ -12,4 +12,5 @@ public class Attack
     public float TransitionTime;
     public float movementSpeed;
     public float comboTime;
+    public float staminaConsumption;
 }
