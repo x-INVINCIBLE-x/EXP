@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerWeaponController : MonoBehaviour
 {
     [SerializeField] private Transform weaponHolder;
+    private PlayerStat stats;
 
     public WeaponData currentWeapon;
     public WeaponData backupWeapon;
@@ -30,6 +31,8 @@ public class PlayerWeaponController : MonoBehaviour
     private void Start()
     {
         currentWeaponModel = Instantiate(currentWeapon.weaponDetails.model, weaponHolder);
+        stats = PlayerManager.instance.player.stats;
+        AddModifiersOfCurrentWeapon();
     }
 
     public Attack SelectLightAttack()
@@ -134,7 +137,26 @@ public class PlayerWeaponController : MonoBehaviour
     public void SwitchWeapon()
     {
         Destroy(currentWeaponModel);
+
+        RemoveModifiersFromCurretWeapon();
+
         (currentWeapon, backupWeapon) = (backupWeapon, currentWeapon);
+
+        AddModifiersOfCurrentWeapon();
+    }
+
+    private void AddModifiersOfCurrentWeapon()
+    {
+        stats.fireAtk.AddModifier(new StatModifier(currentWeapon.fireAtk, StatModType.Flat, currentWeapon));
+        stats.electricAtk.AddModifier(new StatModifier(currentWeapon.electricAtk, StatModType.Flat, currentWeapon));
+        stats.acidAtk.AddModifier(new StatModifier(currentWeapon.acidAtk, StatModType.Flat, currentWeapon));
+    }
+
+    private void RemoveModifiersFromCurretWeapon()
+    {
+        stats.fireAtk.RemoveAllModifiersFromSource(currentWeapon);
+        stats.electricAtk.RemoveAllModifiersFromSource(currentWeapon);
+        stats.acidAtk.RemoveAllModifiersFromSource(currentWeapon);
     }
 
     public void ChangeWeaponModel()

@@ -16,6 +16,10 @@ public class WeaponData : ScriptableObject
     public int fableCharge;
     public float guardAmount;
 
+    public float fireAtk;
+    public float electricAtk;
+    public float acidAtk;
+
     public AnimationClip counterAttackAnim;
 
     public FableArt fableBlade;

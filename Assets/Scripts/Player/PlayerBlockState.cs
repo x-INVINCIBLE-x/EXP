@@ -27,6 +27,8 @@ public class PlayerBlockState : PlayerState
     {
         base.Enter();
 
+        player.stats.physicalDef.AddModifier(new StatModifier(player.weaponController.currentWeapon.guardAmount, StatModType.Flat, this));
+
         player.stats.Hit += OnHit;
 
         perfectblockTimer = player.perfectBlockTimer;
@@ -89,6 +91,8 @@ public class PlayerBlockState : PlayerState
     public override void Exit()
     {
         base.Exit();
+
+        player.stats.physicalDef.RemoveAllModifiersFromSource(this);
 
         player.stats.Hit -= OnHit;
 

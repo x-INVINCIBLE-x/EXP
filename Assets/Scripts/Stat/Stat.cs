@@ -42,6 +42,9 @@ public class Stat
 
     public virtual void AddModifier(StatModifier mod)
     {
+        if (mod.Value == 0)
+            return;
+
         isDirty = true;
         statModifiers.Add(mod);
     }

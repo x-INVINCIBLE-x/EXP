@@ -17,6 +17,8 @@ public class PlayerAttackState : PlayerState
     {
         FaceClosestTarget();
 
+        player.stats.physicalAtk.AddModifier(new StatModifier(attack.PhysicalATK,  StatModType.Flat, attack));
+
         player.anim.CrossFadeInFixedTime(animName, attack.TransitionTime, 0, 0f);
 
         player.inputManager.LightAttackEvent += OnLIghtAttack;
@@ -46,6 +48,8 @@ public class PlayerAttackState : PlayerState
     public override void Exit()
     {
         base.Exit();
+
+        player.stats.physicalAtk.RemoveAllModifiersFromSource(attack);
 
         player.inputManager.LightAttackEvent -= OnLIghtAttack;
         player.inputManager.HeavyAttackEvent -= OnHeavyAttack;
