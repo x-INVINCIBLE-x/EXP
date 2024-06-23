@@ -109,7 +109,26 @@ public class CharacterStats : MonoBehaviour
     public class AilmentStatus
     {
         public float Value = 0f;
+        public Stat resistance;
         public bool isMaxed = false;
+
+        public IEnumerator ReduceValueOverTime()
+        {
+            while (Value > 0)
+            {
+                if (Value > 0)
+                {
+                    Value -= resistance.Value * Time.deltaTime;
+
+                    if (Value <= 0)
+                    {
+                        Value = 0;
+                        isMaxed = false;
+                    }
+                }
+                yield return null;
+            }
+        }
     }
 
     private void Awake()
@@ -130,26 +149,8 @@ public class CharacterStats : MonoBehaviour
 
     private void Update()
     {
-        ReduceAilmentStatus();
-
         if (!isConsumingStamina && currentStamina < stamina.Value)
             currentStamina += staminaRegain.Value * Time.deltaTime;
-    }
-
-    private void ReduceAilmentStatus()
-    {
-        if (fireStatus.Value > 0f)
-            fireStatus.Value -= fireRes.Value * Time.deltaTime;
-        if (breakStatus.Value > 0f)
-            breakStatus.Value -= breakRes.Value * Time.deltaTime;
-        if (electricStatus.Value > 0f)
-            electricStatus.Value -= electricRes.Value * Time.deltaTime;
-        if (acidStatus.Value > 0f)
-            acidStatus.Value -= acidRes.Value * Time.deltaTime;
-        if (disruptionStatus.Value > 0f)
-            disruptionStatus.Value -= disruptionRes.Value * Time.deltaTime;
-        if (shockStatus.Value > 0f)
-            shockStatus.Value -= ShockRes.Value * Time.deltaTime;
     }
 
     public void DoDamage(CharacterStats targetStats)
@@ -203,11 +204,12 @@ public class CharacterStats : MonoBehaviour
         float effectAmount = ailmentAtk - ailmentDef;
         ReduceHealthBy(effectAmount);
         ailmentStatus.Value = Mathf.Min(ailmentLimit + ailmentLimitOffset, ailmentStatus.Value + effectAmount);
+        StartCoroutine(ailmentStatus.ReduceValueOverTime());
 
         if (ailmentStatus.Value >= ailmentLimit)
         {
             ApplyAilment(ailmentType);
-            SetMax(ailmentStatus, ailmentDef);
+            ailmentStatus.isMaxed = true;
         }
     }
 
@@ -250,22 +252,6 @@ public class CharacterStats : MonoBehaviour
     }
 
     #endregion
-
-    private void SetMax(AilmentStatus ailmentStatus, float def)
-    {
-        float time = ailmentLimit / def;
-        StartCoroutine(StartSetMax(ailmentStatus, time));
-    }
-
-    private IEnumerator StartSetMax(AilmentStatus ailmentStatus, float time)
-    {
-        ailmentStatus.isMaxed = true;
-
-        yield return new WaitForSeconds(time);
-
-        ailmentStatus.Value = 0f;
-        ailmentStatus.isMaxed = false;
-    }
 
     public void TakePhysicalDamage(float damage)
     {
