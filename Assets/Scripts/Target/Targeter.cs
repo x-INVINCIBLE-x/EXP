@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Targeter : MonoBehaviour
 {
-    public List<Target> targets;
+    private List<Target> targets = new List<Target>();
     public Target currentTarget {  get; private set; }
 
     [SerializeField]  private CinemachineTargetGroup targetGroup;
@@ -25,30 +25,38 @@ public class Targeter : MonoBehaviour
 
     public bool SelectTarget()
     {
-        if(targets.Count == 0) return false;
+        if (targets.Count == 0) return false;
 
-        Target closestTarget = null;
-        float closestDistance = float.PositiveInfinity;
+        Target closestTarget = GetClosestTarget();
 
-        foreach(Target target in targets)
-        {
-            Vector2 viewPos = Camera.main.WorldToViewportPoint(target.transform.position);
-            
-            if(!target.GetComponentInChildren<Renderer>().isVisible)
-                continue;
-
-            Vector2 toCentre = viewPos - new Vector2(0.5f, 0.5f);
-            if(toCentre.sqrMagnitude < closestDistance)
-            {
-                closestDistance = toCentre.sqrMagnitude;
-                closestTarget = target;
-            }
-        }
         if (closestTarget == null) return false;
 
         currentTarget = closestTarget;
         targetGroup.AddMember(currentTarget.transform, 1, 2);
         return true;
+    }
+
+    public Target GetClosestTarget()
+    {
+        Target closestTarget = null;
+        float closestDistance = float.PositiveInfinity;
+
+        foreach (Target target in targets)
+        {
+            Vector2 viewPos = Camera.main.WorldToViewportPoint(target.transform.position);
+
+            if (!target.GetComponentInChildren<Renderer>().isVisible)
+                continue;
+
+            Vector2 toCentre = viewPos - new Vector2(0.5f, 0.5f);
+            if (toCentre.sqrMagnitude < closestDistance)
+            {
+                closestDistance = toCentre.sqrMagnitude;
+                closestTarget = target;
+            }
+        }
+
+        return closestTarget;
     }
 
     public void RemoveTarget(Target target)
@@ -70,4 +78,6 @@ public class Targeter : MonoBehaviour
         targetGroup.RemoveMember(currentTarget.transform);
         currentTarget = null;
     }
+
+    public List<Target> GettargetList() => targets;
 }

@@ -15,6 +15,8 @@ public class PlayerAttackState : PlayerState
 
     public override void Enter()
     {
+        FaceClosestTarget();
+
         player.anim.CrossFadeInFixedTime(animName, attack.TransitionTime, 0, 0f);
 
         player.inputManager.LightAttackEvent += OnLIghtAttack;
@@ -49,6 +51,19 @@ public class PlayerAttackState : PlayerState
         player.inputManager.HeavyAttackEvent -= OnHeavyAttack;
         player.inputManager.ChargeAttackEvent -= OnChargeAttack;
         player.stats.SetConsumingStamina(false);
+    }
+
+    private void FaceClosestTarget()
+    {
+        if (player.targeter.currentTarget != null)
+            return;
+        
+        Target target = player.targeter.GetClosestTarget();
+
+        if (target == null)
+            return;
+
+        FaceTarget(target);
     }
 
     private void OnLIghtAttack()

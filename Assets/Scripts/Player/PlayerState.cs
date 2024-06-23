@@ -58,6 +58,13 @@ public class PlayerState
         Target target = player.targeter.currentTarget;
         if (target == null) return;
 
+        FaceTarget(target);
+    }
+
+    public void FaceTarget(Target target)
+    {
+        if (target == null) return;
+
         Vector3 dir = (player.transform.position - target.transform.position).normalized;
         dir.y = 0;
 

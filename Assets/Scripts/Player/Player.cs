@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -36,6 +37,8 @@ public class Player : MonoBehaviour
     public float jumpForce;
 
     public float perfectBlockTimer;
+
+    public float freeLookTargetRadius;
 
     public float sprintStaminaRate;
     public float sprintStaminaThreshold;
@@ -94,4 +97,10 @@ public class Player : MonoBehaviour
     public void ChangeWeaponModel() => weaponController.ChangeWeaponModel();
 
     public void SetBusy(bool busy) => isBusy = busy;
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, freeLookTargetRadius);
+    }
 }
