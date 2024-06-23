@@ -5,6 +5,7 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     public CharacterStats characterStats;
+    public WeaponData weaponData;
 
     private void Awake()
     {
@@ -18,5 +19,8 @@ public class Weapon : MonoBehaviour
 
 
         characterStats.DoDamage(enemyStats);
+
+        if(weaponData != null)
+            characterStats.ChargeFable(weaponData.fableCharge);
     }
 }

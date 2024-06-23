@@ -95,6 +95,7 @@ public class CharacterStats : MonoBehaviour
 
     public float currentHealth;
     public float currentStamina;
+    public float currentFableSlot;
 
     public bool isInvincible { get; private set; } = false;
     public bool isBlocking { get; private set; } = false;
@@ -134,8 +135,7 @@ public class CharacterStats : MonoBehaviour
 
     private void Awake()
     {
-        currentHealth = health.Value;
-        currentStamina = stamina.Value;
+        InitializeValues();
 
         ailmentActions = new Dictionary<AilmentType, Action>
         {
@@ -148,13 +148,20 @@ public class CharacterStats : MonoBehaviour
         };
     }
 
+    private void InitializeValues()
+    {
+        currentHealth = health.Value;
+        currentStamina = stamina.Value;
+        currentFableSlot = fableSlot.Value;
+    }
+
     private void Update()
     {
         if (!isConsumingStamina && currentStamina < stamina.Value)
             currentStamina += staminaRegain.Value * Time.deltaTime;
     }
 
-    public void DoDamage(CharacterStats targetStats)
+    public virtual void DoDamage(CharacterStats targetStats)
     {
         if (targetStats.isPerfectBlock)
         {
@@ -298,6 +305,21 @@ public class CharacterStats : MonoBehaviour
 
         return false;
     }
+    public bool HasEnoughFableSlot(int slots)
+    {
+        if(currentFableSlot > (slots * 100))
+        {
+            currentFableSlot -= (slots * 100);
+            return true;
+        }
+        return false;
+    }
+    public void ChargeFable(int amount)
+    {
+        if (currentFableSlot >= fableSlot.Value)
+            return;
 
+        currentFableSlot = Mathf.Min(currentFableSlot + amount,fableSlot.Value);
+    }
     public float GetCurrentStamina() => currentStamina;
 }

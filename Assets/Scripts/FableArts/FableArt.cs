@@ -15,6 +15,7 @@ public class FableArt : ScriptableObject
 {
     public Player player => PlayerManager.instance.player;
     public FableArtType type;
+    public int fableSlot;
 
     [System.Serializable]
     public class HoldAttack

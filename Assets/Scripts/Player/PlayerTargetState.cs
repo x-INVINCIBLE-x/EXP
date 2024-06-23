@@ -30,10 +30,10 @@ public class PlayerTargetState : PlayerDynamicViewState
 
         Vector3 movement = CalculateMovement();
         UpdateAnimation();
+        FaceTarget(); 
         if (movement != Vector3.zero)
         {
             Move(movement, player.walkSpeed);
-            FaceTarget(); 
         }
     }
 

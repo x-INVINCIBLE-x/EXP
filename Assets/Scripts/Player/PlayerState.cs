@@ -102,7 +102,8 @@ public class PlayerState
 
     protected void OnFableArt()
     {
-        player.weaponController.ExecuteFableArt();
+        if(player.stats.HasEnoughFableSlot(player.weaponController.currentWeapon.fableBlade.fableSlot))
+            player.weaponController.ExecuteFableArt();
     }
 
     public void ChangeToBlock()
