@@ -110,6 +110,7 @@ public class CharacterStats : MonoBehaviour
     {
         public float Value = 0f;
         public Stat resistance;
+        public Stat defence;
         public bool isMaxed = false;
 
         public IEnumerator ReduceValueOverTime()
@@ -182,26 +183,27 @@ public class CharacterStats : MonoBehaviour
             return;
 
         if (_fireAtk > 0)
-            targetStats.TryApplyAilmentEffect(_fireAtk, targetStats.fireRes.Value, ref targetStats.fireStatus, AilmentType.Fire);
+            targetStats.TryApplyAilmentEffect(_fireAtk, ref targetStats.fireStatus, AilmentType.Fire);
         else if (_electricAtk > 0)
-            targetStats.TryApplyAilmentEffect(_electricAtk, targetStats.electricRes.Value, ref targetStats.electricStatus, AilmentType.Electric);
+            targetStats.TryApplyAilmentEffect(_electricAtk, ref targetStats.electricStatus, AilmentType.Electric);
         else if (_acidAtk > 0)
-            targetStats.TryApplyAilmentEffect(_acidAtk, targetStats.acidRes.Value, ref targetStats.acidStatus, AilmentType.Acid);
+            targetStats.TryApplyAilmentEffect(_acidAtk, ref targetStats.acidStatus, AilmentType.Acid);
         else if (_disruptionAtk > 0)
-            targetStats.TryApplyAilmentEffect(_disruptionAtk, targetStats.disruptionRes.Value, ref targetStats.disruptionStatus, AilmentType.Disruption);
+            targetStats.TryApplyAilmentEffect(_disruptionAtk, ref targetStats.disruptionStatus, AilmentType.Disruption);
         else if(_shockAtk > 0)
-            targetStats.TryApplyAilmentEffect(_shockAtk, targetStats.ShockRes.Value, ref targetStats.shockStatus, AilmentType.Shock);
+            targetStats.TryApplyAilmentEffect(_shockAtk , ref targetStats.shockStatus, AilmentType.Shock);
         else if(_breakAtk > 0)
-            targetStats.TryApplyAilmentEffect(_breakAtk, targetStats.breakRes.Value, ref targetStats.breakStatus, AilmentType.Break);
-
+            targetStats.TryApplyAilmentEffect(_breakAtk, ref targetStats.breakStatus, AilmentType.Break);
     }
 
-    private void TryApplyAilmentEffect(float ailmentAtk, float ailmentDef, ref AilmentStatus ailmentStatus, AilmentType ailmentType)
+    private void TryApplyAilmentEffect(float ailmentAtk, ref AilmentStatus ailmentStatus, AilmentType ailmentType)
     {
         if (ailmentStatus.isMaxed)
             return;
 
-        float effectAmount = ailmentAtk - ailmentDef;
+        float ailmentDefence = ailmentStatus.defence.Value;
+
+        float effectAmount = ailmentAtk - ailmentDefence;
         ReduceHealthBy(effectAmount);
         ailmentStatus.Value = Mathf.Min(ailmentLimit + ailmentLimitOffset, ailmentStatus.Value + effectAmount);
         StartCoroutine(ailmentStatus.ReduceValueOverTime());
