@@ -9,6 +9,7 @@ public class FableArt_Slashes : FableArt
 
     public override void Execute(int index = 0)
     {
+        base.Execute(index);
         CoroutineManager.instance.StartRoutine(StartAttack());
     }
 
@@ -17,7 +18,7 @@ public class FableArt_Slashes : FableArt
         int i = 0;
         while (i < attacks.Length)
         {
-            player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, attacks[i]));
+            player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, attacks[i], animationSpeedMultiplier));
             yield return new WaitForSeconds(attacks[i].clip.length);
             i++;
         }

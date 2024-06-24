@@ -10,11 +10,12 @@ public class FableArt_MultiAttack : FableArt
 
     public override void Execute(int index = 0)
     {
+        base.Execute(index);
         StartAttack(index);
     }
 
     private void StartAttack(int index)
     {
-        player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, attacks[index]));
+        player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, attacks[index]), animationSpeedMultiplier);
     }
 }

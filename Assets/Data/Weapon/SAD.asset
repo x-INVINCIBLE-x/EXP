@@ -20,19 +20,19 @@ MonoBehaviour:
     equipType: 1
   lightAttack:
   - clip: {fileID: -203655887218126122, guid: 45b42f1a65c91bd4191afcf2ccccb019, type: 3}
-    PhysicalATK: 0
+    PhysicalATK: 1
     TransitionTime: 0.15
     movementSpeed: 0.5
     comboTime: 0.3
     staminaConsumption: 10
   - clip: {fileID: -203655887218126122, guid: be4de75a8195b2341b7c5a330d55d623, type: 3}
-    PhysicalATK: 0
+    PhysicalATK: 2
     TransitionTime: 0.15
     movementSpeed: 1.5
     comboTime: 0.6
     staminaConsumption: 20
   - clip: {fileID: -203655887218126122, guid: 3b7ff2bdd06d0bc4db4bd90d9f48aef1, type: 3}
-    PhysicalATK: 0
+    PhysicalATK: 3
     TransitionTime: 0.15
     movementSpeed: 1
     comboTime: 0.3
@@ -65,6 +65,10 @@ MonoBehaviour:
     movementSpeed: 2
     comboTime: 0
     staminaConsumption: 0
-  guardAmount: 0
+  fableCharge: 0
+  guardAmount: 3
+  fireAtk: 0
+  electricAtk: 6
+  acidAtk: 0
   counterAttackAnim: {fileID: 0}
   fableBlade: {fileID: 11400000, guid: bdd82b94d309a5644845da4ee5c46190, type: 2}

@@ -10,6 +10,7 @@ public class FableArt_CounterAttack : FableArt
 
     public override void Execute(int index = 0)
     {
+        base.Execute(index);
         CoroutineManager.instance.StartRoutine(StartCounterCooldown());
     }
 

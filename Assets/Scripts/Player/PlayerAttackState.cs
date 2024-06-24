@@ -8,9 +8,12 @@ public class PlayerAttackState : PlayerState
     private Attack attack;
     private Vector2 movement;
 
-    public PlayerAttackState(PlayerStateMachine stateMachine, Player player, Attack attack) : base(stateMachine, player, attack.AnimationName)
+    private float animationSpeedMultiplier;
+    private readonly int animationSpeedHash = Animator.StringToHash("AttackSpeedMultiplier");
+    public PlayerAttackState(PlayerStateMachine stateMachine, Player player, Attack attack, float animationMultiplier = 1f) : base(stateMachine, player, attack.AnimationName)
     {
         this.attack = attack;
+        animationSpeedMultiplier = animationMultiplier;
     }
 
     public override void Enter()
@@ -20,6 +23,7 @@ public class PlayerAttackState : PlayerState
         player.stats.physicalAtk.AddModifier(new StatModifier(attack.PhysicalATK,  StatModType.Flat, attack));
 
         player.anim.CrossFadeInFixedTime(animName, attack.TransitionTime, 0, 0f);
+        player.anim.SetFloat(animationSpeedHash, animationSpeedMultiplier);
 
         player.inputManager.LightAttackEvent += OnLIghtAttack;
         player.inputManager.HeavyAttackEvent += OnHeavyAttack;
@@ -50,6 +54,8 @@ public class PlayerAttackState : PlayerState
         base.Exit();
 
         player.stats.physicalAtk.RemoveAllModifiersFromSource(attack);
+
+        player.anim.SetFloat(animationSpeedHash, 1f);
 
         player.inputManager.LightAttackEvent -= OnLIghtAttack;
         player.inputManager.HeavyAttackEvent -= OnHeavyAttack;

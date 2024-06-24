@@ -9,6 +9,8 @@ public class FableArt_AbsoluteBlock : FableArt
     public float invincibleTime;
     public override void Execute(int index = 0)
     {
+        base.Execute(index);
+
         player.GetComponent<PlayerStat>().SetInvincibleFor(invincibleTime);
 
         string blockAnimName = "Standing Block Idle";

@@ -6,14 +6,17 @@ public class PlayerFableArtState : PlayerState
 {
     private Vector3 movement;
     private Attack attack;
+    private float animationSpeedMultiplier;
+    private readonly int animationSpeedHash = Animator.StringToHash("AttackSpeedMultiplier");
 
-    public PlayerFableArtState(PlayerStateMachine stateMachine, Player player, string animName, Attack attack = null) : base(stateMachine, player, animName)
+    public PlayerFableArtState(PlayerStateMachine stateMachine, Player player, string animName, Attack attack = null, float animationSpeedMultiplier = 1f) : base(stateMachine, player, animName)
     {
         this.attack = attack;
+        this.animationSpeedMultiplier = animationSpeedMultiplier;
     }
 
-    public PlayerFableArtState(PlayerStateMachine stateMachine, Player player, Attack attack) : this(stateMachine, player, null, attack) { }
-
+    public PlayerFableArtState(PlayerStateMachine stateMachine, Player player, Attack attack, float animationSpeedMultiplier = 1f) : this(stateMachine, player, null, attack, animationSpeedMultiplier) { }
+    public PlayerFableArtState(PlayerStateMachine stateMachine, Player player, string animName, float animationSpeedMultiplier): this(stateMachine, player, animName, null, animationSpeedMultiplier) { }
     public override void Enter()
     {
         base.Enter();
@@ -21,6 +24,8 @@ public class PlayerFableArtState : PlayerState
             player.anim.CrossFadeInFixedTime(attack.AnimationName, attack.TransitionTime, 0);
         else
             player.anim.CrossFadeInFixedTime(animName, 0.05f, 0);
+
+        player.anim.SetFloat(animationSpeedHash, animationSpeedMultiplier);
 
         movement = player.inputManager.Movement;
         StopMovement();
@@ -46,5 +51,7 @@ public class PlayerFableArtState : PlayerState
     public override void Exit()
     {
         base.Exit();
+
+        player.anim.SetFloat(animationSpeedHash, 1f);
     }
 }

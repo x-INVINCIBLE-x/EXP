@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   fableSlot: 2
+  animationSpeedMultiplier: 1.5
   attacks:
   - clip: {fileID: -203655887218126122, guid: 7e882e54851aa5445bb7c3bc772dd6bd, type: 3}
     PhysicalATK: 0

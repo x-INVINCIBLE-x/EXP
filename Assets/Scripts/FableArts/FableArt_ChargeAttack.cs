@@ -14,6 +14,8 @@ public class FableArt_ChargeAttack : FableArt
         if(player.isBusy)
             return;
 
+        base.Execute(index);
+
         CoroutineManager.instance.StartRoutine(StartAttack());
     }
 
@@ -46,6 +48,6 @@ public class FableArt_ChargeAttack : FableArt
         i = Mathf.Clamp(i, 0, chargeAttacks.Length - 1);
         
         player.SetBusy(false);
-        player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, chargeAttacks[i].attackData.AnimationName));
+        player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, chargeAttacks[i].attackData.AnimationName, animationSpeedMultiplier));
     }
 }
