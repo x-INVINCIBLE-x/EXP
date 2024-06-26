@@ -7,6 +7,7 @@ public class FableArt_AbsoluteBlock : FableArt
 {
     public AnimationClip absoluteBlockCLip;
     public float invincibleTime;
+
     public override void Execute(int index = 0)
     {
         base.Execute(index);

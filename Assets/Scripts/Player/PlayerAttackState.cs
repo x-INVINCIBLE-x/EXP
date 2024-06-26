@@ -5,11 +5,13 @@ using UnityEngine;
 
 public class PlayerAttackState : PlayerState
 {
+    private readonly int animationSpeedHash = Animator.StringToHash("AttackSpeedMultiplier");
+    private float animationSpeedMultiplier;
+
     private Attack attack;
     private Vector2 movement;
+    private float stateTimer;
 
-    private float animationSpeedMultiplier;
-    private readonly int animationSpeedHash = Animator.StringToHash("AttackSpeedMultiplier");
     public PlayerAttackState(PlayerStateMachine stateMachine, Player player, Attack attack, float animationMultiplier = 1f) : base(stateMachine, player, attack.AnimationName)
     {
         this.attack = attack;
@@ -18,6 +20,11 @@ public class PlayerAttackState : PlayerState
 
     public override void Enter()
     {
+        base.Enter();
+
+        stateTimer = 0.4f;
+
+        StopMovement();
         FaceClosestTarget();
 
         player.stats.physicalAtk.AddModifier(new StatModifier(attack.PhysicalATK,  StatModType.Flat, attack));
@@ -31,13 +38,13 @@ public class PlayerAttackState : PlayerState
 
         movement = player.inputManager.Movement;
 
-        StopMovement();
         player.stats.SetConsumingStamina(true);
     }
 
     public override void Update()
     {
         base.Update();
+        SetFacingDirectoion();
 
         if(!HasAnimationPassed(animName, 0.8f))
             Move(player.transform.forward, attack.movementSpeed);
@@ -63,12 +70,26 @@ public class PlayerAttackState : PlayerState
         player.stats.SetConsumingStamina(false);
     }
 
+    private void SetFacingDirectoion()
+    {
+        stateTimer -= Time.deltaTime;
+        if (stateTimer < 0)
+            return;
+
+        Vector3 movement = CalculateMovement();
+        if (movement != Vector3.zero)
+        {
+            FreeLookDirection(movement);
+        }
+    }
+
     private void FaceClosestTarget()
     {
         if (player.targeter.currentTarget != null)
             return;
-        
-        Target target = player.targeter.GetClosestTarget();
+
+        Target target = IsTargetInRange();
+        //Target target = player.targeter.GetClosestTarget();
 
         if (target == null)
             return;
@@ -108,5 +129,23 @@ public class PlayerAttackState : PlayerState
     {
         if (nextAttack != null)
             stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, nextAttack));
+    }
+
+    private Target IsTargetInRange()
+    {
+        Vector3 boxDimension = player.boxDimensions;
+        RaycastHit[] hits = Physics.BoxCastAll(player.transform.position + new Vector3(0,1 ,2), boxDimension, player.transform.forward, Quaternion.identity, player.maxDistance, player.enemyLayer);
+
+        if(hits.Length <= 0)
+            return null;
+
+        List<Target> targets = new List<Target>();
+        foreach(RaycastHit hit in hits)
+        {
+            if (hit.transform.TryGetComponent(out Target target))
+                targets.Add(target);
+        }
+
+        return player.targeter.GetClosestTarget(targets);
     }
 }

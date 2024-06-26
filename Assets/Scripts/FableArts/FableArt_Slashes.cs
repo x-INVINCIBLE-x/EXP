@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Fable Art/ Attack/ Slash", fileName = "Slash")]
-public class FableArt_Slashes : FableArt
+public class FableArt_Slashes : FableArt_Attack
 {
     public Attack[] attacks;
 
@@ -19,7 +19,7 @@ public class FableArt_Slashes : FableArt
         while (i < attacks.Length)
         {
             player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, attacks[i], animationSpeedMultiplier));
-            yield return new WaitForSeconds(attacks[i].clip.length);
+            yield return new WaitForSeconds(attacks[i].clip.length * 0.6f);
             i++;
         }
     }

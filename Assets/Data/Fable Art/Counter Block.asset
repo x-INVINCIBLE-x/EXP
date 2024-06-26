@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Counter Block
   m_EditorClassIdentifier: 
   type: 0
-  holdAttacks: []
-  canHold: 0
+  fableSlot: 0
+  animationSpeedMultiplier: 1
   counterTimer: 1
-  counterAttackClip: {fileID: 0}

@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Fable Art/ Attack/ Charge Attack", fileName = "Charge Attack")]
-public class FableArt_ChargeAttack : FableArt
+public class FableArt_ChargeAttack : FableArt_Attack
 {
     public HoldAttack[] chargeAttacks;
 

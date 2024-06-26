@@ -50,6 +50,11 @@ public class Player : MonoBehaviour
     public bool isBusy = false;
     public bool canCounter = false;
 
+    //TEMPORARY
+    public Vector3 boxDimensions;
+    public float maxDistance;
+    public LayerMask enemyLayer;
+
     private void Awake()
     {
         stateMachine  = new PlayerStateMachine();
@@ -102,5 +107,6 @@ public class Player : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, freeLookTargetRadius);
+        Gizmos.DrawWireCube((transform.position + new Vector3(0, 1 , 2)), boxDimensions* maxDistance);
     }
 }

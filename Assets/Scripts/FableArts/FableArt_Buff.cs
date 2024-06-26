@@ -18,7 +18,7 @@ public class FableArt_Buff : FableArt
         base.Execute(index);
 
         if (activateAnimation != null)
-            player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, activateAnimation.name, animationSpeedMultiplier));
+            player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, activateAnimation.name));
 
         CoroutineManager.instance.StartRoutine(StartBuffEffect(player.stats));
     }

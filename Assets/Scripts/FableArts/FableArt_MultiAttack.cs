@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Fable Art/ Attack/ Multi Attack", fileName = "Multi Attack")]
-public class FableArt_MultiAttack : FableArt
+public class FableArt_MultiAttack : FableArt_Attack
 {
     public Attack[] attacks;
 
@@ -16,6 +16,6 @@ public class FableArt_MultiAttack : FableArt
 
     private void StartAttack(int index)
     {
-        player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, attacks[index]), animationSpeedMultiplier);
+        player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, attacks[index], animationSpeedMultiplier));
     }
 }

@@ -59,6 +59,30 @@ public class Targeter : MonoBehaviour
         return closestTarget;
     }
 
+    public Target GetClosestTarget(List<Target> targets)
+    {
+        Target closestTarget = null;
+        float closestDistance = float.PositiveInfinity;
+
+        foreach (Target target in targets)
+        {
+            Vector2 viewPos = Camera.main.WorldToViewportPoint(target.transform.position);
+
+            if (!target.GetComponentInChildren<Renderer>().isVisible)
+                continue;
+
+            Vector2 toCentre = viewPos - new Vector2(0.5f, 0.5f);
+            if (toCentre.sqrMagnitude < closestDistance)
+            {
+                closestDistance = toCentre.sqrMagnitude;
+                closestTarget = target;
+            }
+        }
+
+        return closestTarget;
+    }
+
+
     public void RemoveTarget(Target target)
     {
         if (target == currentTarget)

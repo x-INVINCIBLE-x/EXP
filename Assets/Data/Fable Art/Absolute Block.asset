@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Absolute Block
   m_EditorClassIdentifier: 
   type: 0
-  holdAttacks: []
-  canHold: 0
+  fableSlot: 0
+  animationSpeedMultiplier: 1
+  absoluteBlockCLip: {fileID: 0}
   invincibleTime: 1

@@ -18,19 +18,19 @@ MonoBehaviour:
   attacks:
   - clip: {fileID: -203655887218126122, guid: 7e882e54851aa5445bb7c3bc772dd6bd, type: 3}
     PhysicalATK: 0
-    TransitionTime: 0
+    TransitionTime: 0.1
     movementSpeed: 0
     comboTime: 0
     staminaConsumption: 0
   - clip: {fileID: -203655887218126122, guid: 764e4b36334b1344ebb5dd6cb66b9ade, type: 3}
     PhysicalATK: 0
-    TransitionTime: 0
+    TransitionTime: 0.1
     movementSpeed: 0
     comboTime: 0
     staminaConsumption: 0
   - clip: {fileID: -203655887218126122, guid: e81713359da10984585929c3087c4dcf, type: 3}
     PhysicalATK: 0
-    TransitionTime: 0
+    TransitionTime: 0.1
     movementSpeed: 0
     comboTime: 0
     staminaConsumption: 0

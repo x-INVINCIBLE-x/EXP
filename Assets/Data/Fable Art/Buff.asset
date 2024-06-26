@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Buff
   m_EditorClassIdentifier: 
   type: 3
-  holdAttacks: []
-  canHold: 0
+  fableSlot: 0
+  animationSpeedMultiplier: 1
   activateAnimation: {fileID: 0}
   duration: 3
   physicalAtk: 5
