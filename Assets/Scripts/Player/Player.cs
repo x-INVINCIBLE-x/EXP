@@ -48,6 +48,7 @@ public class Player : MonoBehaviour
     private float lastTimeWeaponswitched = -10f;
 
     public bool isBusy = false;
+    public bool canMove = true;
     public bool canCounter = false;
 
     //TEMPORARY
@@ -102,6 +103,7 @@ public class Player : MonoBehaviour
     public void ChangeWeaponModel() => weaponController.ChangeWeaponModel();
 
     public void SetBusy(bool busy) => isBusy = busy;
+    public void SetCanMove(bool move) => canMove = move;
 
     private void OnDrawGizmos()
     {
