@@ -24,6 +24,7 @@ public class PlayerAttackState : PlayerState
 
         stateTimer = 0.4f;
 
+        player.SetCanMove(false);
         StopMovement();
         FaceClosestTarget();
 
@@ -46,7 +47,7 @@ public class PlayerAttackState : PlayerState
         base.Update();
         SetFacingDirectoion();
 
-        if(!HasAnimationPassed(animName, 0.8f))
+        //if(!HasAnimationPassed(animName, 0.8f))
             Move(player.transform.forward, attack.movementSpeed);
 
         if (HasAnimationCompleted(animName))
@@ -60,6 +61,7 @@ public class PlayerAttackState : PlayerState
     {
         base.Exit();
 
+        player.SetCanMove(true);
         player.stats.physicalAtk.RemoveAllModifiersFromSource(attack);
 
         player.anim.SetFloat(animationSpeedHash, 1f);
@@ -89,7 +91,6 @@ public class PlayerAttackState : PlayerState
             return;
 
         Target target = IsTargetInRange();
-        //Target target = player.targeter.GetClosestTarget();
 
         if (target == null)
             return;

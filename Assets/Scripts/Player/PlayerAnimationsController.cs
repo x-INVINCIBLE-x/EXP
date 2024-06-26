@@ -28,4 +28,14 @@ public class PlayerAnimationsController : MonoBehaviour
         weaponCollider.enabled = false;
         weaponCollider = null;
     }
+
+    public void EnableMovement()
+    {
+        player.SetCanMove(true);
+    }
+
+    public void DisableMovement()
+    {
+        player.SetCanMove(false);
+    }
 }

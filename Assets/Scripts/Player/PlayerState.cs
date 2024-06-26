@@ -31,7 +31,7 @@ public class PlayerState
 
     public void Move(Vector3 movement, float speed = 1)
     {
-        if (player.isBusy)
+        if (!player.canMove)
             return;
 
         player.characterController.Move(((speed * movement) + player.forceReciever.Movement) * Time.deltaTime);
