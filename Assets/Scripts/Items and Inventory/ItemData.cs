@@ -7,6 +7,7 @@ using UnityEditor;
 
 public enum ItemType
 {
+    UsableItem,
     Material,
     Equipment
 }

@@ -2,17 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemData_Equipment : MonoBehaviour
+public enum EquipmentType
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    Amulet,
+    Defence
+}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+[CreateAssetMenu(fileName = "New Equipment Data", menuName = "Data/Equipment")]
+public class ItemData_Equipment : ItemData
+{
+    public EquipmentType equipmentType;
 }
