@@ -71,6 +71,12 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    //public void EquipItem(ItemData item)
+    //{
+    //    ItemData_Equipment newEquipment = item as ItemData_Equipment;
+    //    InventoryItem newItem = new InventoryItem(newEquipment);
+    //}
+
     public void RemoveItem(ItemData item)
     {
         if (materialsDictionary.TryGetValue(item, out InventoryItem value))
