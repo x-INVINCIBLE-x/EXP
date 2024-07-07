@@ -7,7 +7,6 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] protected Image itemImage;
     [SerializeField] protected TextMeshProUGUI itemText;
-    [SerializeField] protected GameObject selectionUI;
 
     protected UI ui;
     public InventoryItem item;
@@ -49,7 +48,7 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
 
     public virtual void OnPointerDown(PointerEventData eventData)
     { 
-        selectionUI.SetActive(true);
+        
     }
 
 }

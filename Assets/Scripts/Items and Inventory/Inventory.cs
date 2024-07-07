@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    public static Inventory Instance {  get; private set; }
+
     public List<InventoryItem> usableItems = new();
     public Dictionary<ItemData, InventoryItem> usableItemsDictionary = new();
 
@@ -18,6 +20,32 @@ public class Inventory : MonoBehaviour
 
     public List<InventoryItem> amulets = new();
     public Dictionary<ItemData_Equipment, InventoryItem> amuletsDictionary = new();
+
+    //public List<ItemData> startingItems;
+
+    //public Transform usableItemsParent;
+    //public Transform materialsParent;
+    //public Transform defencePartsParent;
+    //public Transform amuletsParent;
+
+    //private UI_ItemSlot[] usableItemsSlots;
+    //private UI_ItemSlot[] materialSlots;
+    //private UI_EquipmentSlot[] defencePartsSlots;
+    //private UI_EquipmentSlot[] amuletSlots;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+    }
+
+    //private void Start()
+    //{
+    //    usableItemsSlots = usableItemsParent.GetComponentsInChildren<UI_ItemSlot>();
+    //    materialSlots = materialsParent.GetComponentsInChildren<UI_ItemSlot>();
+    //    defencePartsSlots = defencePartsParent.GetComponentsInChildren<UI_EquipmentSlot>();
+    //    amuletSlots = amuletsParent.GetComponentsInChildren<UI_EquipmentSlot>();
+    //}
 
     public void AddItem(ItemData item)
     {
@@ -71,11 +99,38 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    //public void EquipItem(ItemData item)
-    //{
-    //    ItemData_Equipment newEquipment = item as ItemData_Equipment;
-    //    InventoryItem newItem = new InventoryItem(newEquipment);
-    //}
+    public void EquipItem(ItemData item, UI_ItemSlot itemSlot)
+    {
+        ItemData_Equipment newEquipment = item as ItemData_Equipment;
+        InventoryItem newItem = new InventoryItem(newEquipment);
+
+        //if (newEquipment.subEquipmentType == EquipmentType.Defence)
+        //{
+        //    defenceParts.Add(newItem);
+        //    defncePartsDictionary[newEquipment] = newItem;
+        //}
+
+        if (itemSlot.item.data != null)
+        {
+            UnequipItem(itemSlot);
+        }
+
+        itemSlot.item = newItem;
+        itemSlot.UpdateSlot(newItem);
+    }
+
+    public void UnequipItem(UI_ItemSlot itemSlot)
+    {
+        ItemData_Equipment item = itemSlot.item.data as ItemData_Equipment;
+        if (item == null)
+        {
+            Debug.LogWarning("ItemData_Equipment not found!");
+            return;
+        }
+
+        item.RemoveModifiers();
+        itemSlot.CleanUpSlot();
+    }
 
     public void RemoveItem(ItemData item)
     {
@@ -95,4 +150,30 @@ public class Inventory : MonoBehaviour
         else
             item.RemoveStack();
     }
+
+    //public void UpdateSlotUI()
+    //{
+    //    CleanSlots();
+
+    //    for(int i = 0; i < materials.Count; i++)
+    //        materialSlots[i].UpdateSlot(materials[i]);
+
+    //    for(int i = 0; i < usableItems.Count; i++)
+    //        usableItemsSlots[i].UpdateSlot(usableItems[i]);
+    //}
+
+    //private void CleanSlots()
+    //{
+    //    for (int i = 0; i < usableItemsSlots.Length; i++)
+    //        usableItemsSlots[i].CleanUpSlot();
+
+    //    for (int i = 0; i < materialSlots.Length; i++)
+    //        materialSlots[i].CleanUpSlot();
+
+    //    for (int i = 0; i < defencePartsSlots.Length; i++)
+    //        defencePartsSlots[i].CleanUpSlot();
+
+    //    for (int i = 0; i < amuletSlots.Length; i++)
+    //        amuletSlots[i].CleanUpSlot();
+    //}
 }

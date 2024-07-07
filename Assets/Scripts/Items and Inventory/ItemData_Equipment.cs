@@ -17,4 +17,14 @@ public class ItemData_Equipment : ItemData
 {
     public EquipmentType equipmentType;
     public EquipmentType subEquipmentType;
+
+    public void AddModifiers()
+    {
+
+    }
+
+    public void RemoveModifiers()
+    {
+
+    }
 }
