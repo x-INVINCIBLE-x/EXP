@@ -15,4 +15,31 @@ MonoBehaviour:
   type: 0
   fableSlot: 0
   animationSpeedMultiplier: 1
-  chargeAttacks: []
+  chargeAttacks:
+  - holdAnim: {fileID: -203655887218126122, guid: b0b478d374d8f6244a5ac2e72fd1a310, type: 3}
+    attackData:
+      clip: {fileID: -203655887218126122, guid: 7e882e54851aa5445bb7c3bc772dd6bd, type: 3}
+      PhysicalATK: 0
+      TransitionTime: 0
+      movementSpeed: 0
+      comboTime: 0
+      staminaConsumption: 0
+    duration: 1
+  - holdAnim: {fileID: -203655887218126122, guid: 64518a886fcee0c4f9ba73265d3dc627, type: 3}
+    attackData:
+      clip: {fileID: -203655887218126122, guid: 764e4b36334b1344ebb5dd6cb66b9ade, type: 3}
+      PhysicalATK: 0
+      TransitionTime: 0
+      movementSpeed: 0
+      comboTime: 0
+      staminaConsumption: 0
+    duration: 1
+  - holdAnim: {fileID: -203655887218126122, guid: 0ea2655e71653f14fa5150284ef1d1e5, type: 3}
+    attackData:
+      clip: {fileID: -203655887218126122, guid: e81713359da10984585929c3087c4dcf, type: 3}
+      PhysicalATK: 0
+      TransitionTime: 0
+      movementSpeed: 0
+      comboTime: 0
+      staminaConsumption: 0
+    duration: 1

@@ -71,4 +71,4 @@ MonoBehaviour:
   electricAtk: 6
   acidAtk: 0
   counterAttackAnim: {fileID: 0}
-  fableBlade: {fileID: 11400000, guid: bdd82b94d309a5644845da4ee5c46190, type: 2}
+  fableBlade: {fileID: 11400000, guid: 2b7cd0a2b5853524089bdabbf035075d, type: 2}

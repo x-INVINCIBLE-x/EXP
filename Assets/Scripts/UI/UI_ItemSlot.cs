@@ -7,6 +7,7 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] protected Image itemImage;
     [SerializeField] protected TextMeshProUGUI itemText;
+    [SerializeField] protected Sprite defaultImage;
 
     protected UI ui;
     public InventoryItem item;
@@ -28,27 +29,27 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
 
             if (item.stackSize > 1)
             {
-                itemText.text = item.stackSize.ToString();
+                //itemText.text = item.stackSize.ToString();
             }
             else
             {
-                itemText.text = "";
+                //itemText.text = "";
             }
         }
     }
 
-    public void CleanUpSlot()
+    public virtual void CleanUpSlot()
     {
         item = null;
 
         itemImage.sprite = null;
         itemImage.color = Color.clear;
-        itemText.text = "";
+        //itemText.text = "";
     }
 
     public virtual void OnPointerDown(PointerEventData eventData)
-    { 
-        
+    {
+
     }
 
 }

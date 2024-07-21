@@ -16,22 +16,34 @@ public class Inventory : MonoBehaviour
     public List<InventoryItem> weapons = new();
 
     public List<InventoryItem> defenceParts = new();
-    public Dictionary<ItemData_Equipment, InventoryItem> defncePartsDictionary = new();
+    public Dictionary<ItemData_Equipment, InventoryItem> defencePartsDictionary = new();
 
     public List<InventoryItem> amulets = new();
     public Dictionary<ItemData_Equipment, InventoryItem> amuletsDictionary = new();
 
-    //public List<ItemData> startingItems;
+    public List<ItemData> startingItems;
 
     //public Transform usableItemsParent;
     //public Transform materialsParent;
-    //public Transform defencePartsParent;
-    //public Transform amuletsParent;
+    public Transform defencePartsParent;
+    public Transform amuletsParent;
+
+    public Transform frameSelectionParent;
+    public Transform convertorSelectionParent;
+    public Transform cartilidgeSelectionParent;
+    public Transform linearSelectionParent;
+    public Transform amuletSelectionParent;
 
     //private UI_ItemSlot[] usableItemsSlots;
     //private UI_ItemSlot[] materialSlots;
-    //private UI_EquipmentSlot[] defencePartsSlots;
-    //private UI_EquipmentSlot[] amuletSlots;
+    [SerializeField] private UI_EquipmentSlot[] defencePartsSlots;
+    [SerializeField] private UI_EquipmentSlot[] amuletSlots;
+
+    [SerializeField] private UI_SelectionSlot[] frameSelectionSlots;
+    [SerializeField] private UI_SelectionSlot[] convertorSelectionSlots;
+    [SerializeField] private UI_SelectionSlot[] cartidgeSelectionSlots;
+    [SerializeField] private UI_SelectionSlot[] linearSelectionSlots;
+    [SerializeField] private UI_SelectionSlot[] amuletSelectionSlots;
 
     private void Awake()
     {
@@ -39,13 +51,28 @@ public class Inventory : MonoBehaviour
             Instance = this;
     }
 
-    //private void Start()
-    //{
-    //    usableItemsSlots = usableItemsParent.GetComponentsInChildren<UI_ItemSlot>();
-    //    materialSlots = materialsParent.GetComponentsInChildren<UI_ItemSlot>();
-    //    defencePartsSlots = defencePartsParent.GetComponentsInChildren<UI_EquipmentSlot>();
-    //    amuletSlots = amuletsParent.GetComponentsInChildren<UI_EquipmentSlot>();
-    //}
+    private void Start()
+    {
+        //usableItemsSlots = usableItemsParent.GetComponentsInChildren<UI_ItemSlot>();
+        //materialSlots = materialsParent.GetComponentsInChildren<UI_ItemSlot>();
+        defencePartsSlots = defencePartsParent.GetComponentsInChildren<UI_EquipmentSlot>();
+        amuletSlots = amuletsParent.GetComponentsInChildren<UI_EquipmentSlot>();
+
+        frameSelectionSlots = frameSelectionParent.GetComponentsInChildren<UI_SelectionSlot>(true);
+        convertorSelectionSlots = convertorSelectionParent.GetComponentsInChildren<UI_SelectionSlot>(true);
+        cartidgeSelectionSlots = cartilidgeSelectionParent.GetComponentsInChildren<UI_SelectionSlot>(true);
+        linearSelectionSlots = linearSelectionParent.GetComponentsInChildren<UI_SelectionSlot>(true);
+        amuletSelectionSlots = amuletSelectionParent.GetComponentsInChildren<UI_SelectionSlot>(true);
+
+        AddStartingItems();
+        UpdateSlotUI();
+    }
+
+    public void AddStartingItems()
+    {
+        for (int i = 0; i < startingItems.Count; i++)
+            AddItem(startingItems[i]);
+    }
 
     public void AddItem(ItemData item)
     {
@@ -66,7 +93,7 @@ public class Inventory : MonoBehaviour
         if(equipment.equipmentType == EquipmentType.Amulet)
             AddItem(item, ref amulets, ref amuletsDictionary);
         if (equipment.equipmentType == EquipmentType.Defence)
-            AddItem(item, ref usableItems, ref defncePartsDictionary);
+            AddItem(item, ref usableItems, ref defencePartsDictionary);
     }
 
     public void AddItem(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<ItemData, InventoryItem> itemDictionary) 
@@ -104,13 +131,13 @@ public class Inventory : MonoBehaviour
         ItemData_Equipment newEquipment = item as ItemData_Equipment;
         InventoryItem newItem = new InventoryItem(newEquipment);
 
-        //if (newEquipment.subEquipmentType == EquipmentType.Defence)
-        //{
-        //    defenceParts.Add(newItem);
-        //    defncePartsDictionary[newEquipment] = newItem;
-        //}
+        if (newEquipment.subEquipmentType == EquipmentType.Defence)
+        {
+            defenceParts.Add(newItem);
+            defencePartsDictionary[newEquipment] = newItem;
+        }
 
-        if (itemSlot.item.data != null)
+        if (itemSlot.item != null)
         {
             UnequipItem(itemSlot);
         }
@@ -151,29 +178,65 @@ public class Inventory : MonoBehaviour
             item.RemoveStack();
     }
 
-    //public void UpdateSlotUI()
-    //{
-    //    CleanSlots();
+    public void UpdateSlotUI()
+    {
+        CleanSlots();
 
-    //    for(int i = 0; i < materials.Count; i++)
-    //        materialSlots[i].UpdateSlot(materials[i]);
+        //for (int i = 0; i < materials.Count; i++)
+        //    materialSlots[i].UpdateSlot(materials[i]); 
+        //for (int i = 0; i < usableItems.Count; i++)
+        //    usableItemsSlots[i].UpdateSlot(usableItems[i]);
 
-    //    for(int i = 0; i < usableItems.Count; i++)
-    //        usableItemsSlots[i].UpdateSlot(usableItems[i]);
-    //}
+        int i = 0, j = 0, k = 0, l = 0;
+        foreach (KeyValuePair<ItemData_Equipment, InventoryItem> defencePart in defencePartsDictionary)
+        {
+            ItemData_Equipment key = defencePart.Key;
+            InventoryItem item = defencePart.Value;
 
-    //private void CleanSlots()
-    //{
-    //    for (int i = 0; i < usableItemsSlots.Length; i++)
-    //        usableItemsSlots[i].CleanUpSlot();
+            if (key.subEquipmentType == EquipmentType.Frame)
+                frameSelectionSlots[i++].UpdateSlot(item);
 
-    //    for (int i = 0; i < materialSlots.Length; i++)
-    //        materialSlots[i].CleanUpSlot();
+            else if (key.subEquipmentType == EquipmentType.Converter)
+                convertorSelectionSlots[j++].UpdateSlot(item);
 
-    //    for (int i = 0; i < defencePartsSlots.Length; i++)
-    //        defencePartsSlots[i].CleanUpSlot();
+            else if (key.subEquipmentType == EquipmentType.Cartridge)
+                cartidgeSelectionSlots[k++].UpdateSlot(item);
 
-    //    for (int i = 0; i < amuletSlots.Length; i++)
-    //        amuletSlots[i].CleanUpSlot();
-    //}
+            else if (key.subEquipmentType == EquipmentType.Linear)
+                linearSelectionSlots[l++].UpdateSlot(item);
+        }
+
+        for (i = 0; i < amulets.Count; i++)
+            amuletSelectionSlots[i].UpdateSlot(amulets[i]);
+    }
+
+    private void CleanSlots()
+    {
+        //for (int i = 0; i < usableItemsSlots.Length; i++)
+        //    usableItemsSlots[i].CleanUpSlot();
+
+        //for (int i = 0; i < materialSlots.Length; i++)
+        //    materialSlots[i].CleanUpSlot();
+
+        for (int i = 0; i < defencePartsSlots.Length; i++)
+            defencePartsSlots[i].CleanUpSlot();
+
+        for (int i = 0; i < amuletSlots.Length; i++)
+            amuletSlots[i].CleanUpSlot();
+
+        for (int i = 0; i < frameSelectionSlots.Length; i++)
+            frameSelectionSlots[i].CleanUpSlot();
+
+        for (int i = 0; i < convertorSelectionSlots.Length; i++)
+            convertorSelectionSlots[i].CleanUpSlot();
+
+        for (int i = 0; i < cartidgeSelectionSlots.Length; i++)
+            cartidgeSelectionSlots[i].CleanUpSlot();
+
+        for (int i = 0; i < linearSelectionSlots.Length; i++)
+            linearSelectionSlots[i].CleanUpSlot();
+
+        for (int i = 0; i < amuletSelectionSlots.Length; i++)
+            amuletSelectionSlots[i].CleanUpSlot();
+    }
 }

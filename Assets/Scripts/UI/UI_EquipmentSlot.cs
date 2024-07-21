@@ -26,4 +26,15 @@ public class UI_EquipmentSlot : UI_ItemSlot
     {
          
     }
+
+    public override void CleanUpSlot()
+    {
+        base.CleanUpSlot();
+
+        if(!defaultImage)
+            return;
+
+        itemImage.sprite = defaultImage;
+        itemImage.color = Color.white;
+    }
 }
