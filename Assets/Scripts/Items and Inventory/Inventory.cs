@@ -131,6 +131,7 @@ public class Inventory : MonoBehaviour
         ItemData_Equipment newEquipment = item as ItemData_Equipment;
         InventoryItem newItem = new InventoryItem(newEquipment);
 
+        newEquipment.AddModifiers();
         if (newEquipment.subEquipmentType == EquipmentType.Defence)
         {
             defenceParts.Add(newItem);

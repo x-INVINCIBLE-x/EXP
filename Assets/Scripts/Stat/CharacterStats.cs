@@ -16,6 +16,7 @@ public enum Stats
     Advance,
     Health,
     Stamina,
+    StaminaRegain,
     Legion,
     FableSlot,
     GuardRegain,
@@ -27,6 +28,9 @@ public enum Stats
     FireDef,
     ElectricDef,
     AcidDef,
+    FireRes,
+    ElectricRes,
+    AcidRes,
     DisruptionRes,
     ShockRes,
     BreakRes

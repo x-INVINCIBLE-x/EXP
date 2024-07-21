@@ -111,7 +111,6 @@ public class Stat
             }
         }
 
-        // Workaround for float calculation errors, like displaying 12.00001 instead of 12
         return (float)Math.Round(finalValue, 4);
     }
 }
