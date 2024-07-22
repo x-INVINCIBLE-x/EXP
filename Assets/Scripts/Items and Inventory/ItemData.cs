@@ -23,6 +23,9 @@ public class ItemData : ScriptableObject
     public Sprite itemIcon;
     public string itemId;
 
+    [TextArea]
+    [SerializeField] private string description;
+
     [Range(0, 100)]
     public float dropChance;
 
@@ -38,6 +41,14 @@ public class ItemData : ScriptableObject
 
     public virtual string GetDescription()
     {
-        return "";
+        return description;
+    }
+
+    [System.Serializable]
+    public class Modifier
+    {
+        public Stats stat;
+        public StatModType modType;
+        public float value;
     }
 }

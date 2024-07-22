@@ -8,7 +8,7 @@ public class Inventory : MonoBehaviour
     public static Inventory Instance {  get; private set; }
 
     public List<InventoryItem> usableItems = new();
-    public Dictionary<ItemData, InventoryItem> usableItemsDictionary = new();
+    public Dictionary<ItemData_Usable, InventoryItem> usableItemsDictionary = new();
 
     public List<InventoryItem> materials = new();
     public Dictionary<ItemData, InventoryItem> materialsDictionary = new();
@@ -23,7 +23,7 @@ public class Inventory : MonoBehaviour
 
     public List<ItemData> startingItems;
 
-    //public Transform usableItemsParent;
+    public Transform usableItemsParent;
     //public Transform materialsParent;
     public Transform defencePartsParent;
     public Transform amuletsParent;
@@ -34,7 +34,7 @@ public class Inventory : MonoBehaviour
     public Transform linearSelectionParent;
     public Transform amuletSelectionParent;
 
-    //private UI_ItemSlot[] usableItemsSlots;
+    private UI_ItemSlot[] usableItemsSlots;
     //private UI_ItemSlot[] materialSlots;
     [SerializeField] private UI_EquipmentSlot[] defencePartsSlots;
     [SerializeField] private UI_EquipmentSlot[] amuletSlots;
@@ -53,7 +53,7 @@ public class Inventory : MonoBehaviour
 
     private void Start()
     {
-        //usableItemsSlots = usableItemsParent.GetComponentsInChildren<UI_ItemSlot>();
+        usableItemsSlots = usableItemsParent.GetComponentsInChildren<UI_ItemSlot>();
         //materialSlots = materialsParent.GetComponentsInChildren<UI_ItemSlot>();
         defencePartsSlots = defencePartsParent.GetComponentsInChildren<UI_EquipmentSlot>();
         amuletSlots = amuletsParent.GetComponentsInChildren<UI_EquipmentSlot>();
@@ -93,7 +93,7 @@ public class Inventory : MonoBehaviour
         if(equipment.equipmentType == EquipmentType.Amulet)
             AddItem(item, ref amulets, ref amuletsDictionary);
         if (equipment.equipmentType == EquipmentType.Defence)
-            AddItem(item, ref usableItems, ref defencePartsDictionary);
+            AddItem(item, ref defenceParts, ref defencePartsDictionary);
     }
 
     public void AddItem(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<ItemData, InventoryItem> itemDictionary) 
@@ -123,6 +123,22 @@ public class Inventory : MonoBehaviour
             InventoryItem newItem = new InventoryItem(equipmwnt);
             itemList.Add(newItem);
             itemDictionary[equipmwnt] = newItem;
+        }
+    }
+
+    public void AddItem(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<ItemData_Usable, InventoryItem> itemDictionary)
+    {
+        ItemData_Usable usableItem = item as ItemData_Usable;
+
+        if (itemDictionary.TryGetValue(usableItem, out InventoryItem value))
+        {
+            value.AddStack();
+        }
+        else
+        {
+            InventoryItem newItem = new InventoryItem(usableItem);
+            itemList.Add(newItem);
+            itemDictionary[usableItem] = newItem;
         }
     }
 
@@ -163,8 +179,19 @@ public class Inventory : MonoBehaviour
     public void RemoveItem(ItemData item)
     {
         if (materialsDictionary.TryGetValue(item, out InventoryItem value))
+        {
             RemoveItem(value, ref materials, ref materialsDictionary);
-        else if (usableItemsDictionary.TryGetValue(item, out value))
+            return;
+        }
+        
+        ItemData_Usable usableItem = item as ItemData_Usable;
+        if(usableItem == null)
+        {
+            Debug.LogWarning("Removing non removable item");
+            return;
+        }
+
+        if (usableItemsDictionary.TryGetValue(usableItem, out value))
             RemoveItem(value, ref usableItems, ref usableItemsDictionary);
     }
 
@@ -179,14 +206,23 @@ public class Inventory : MonoBehaviour
             item.RemoveStack();
     }
 
+    public void RemoveItem(InventoryItem item, ref List<InventoryItem> itemLIst, ref Dictionary<ItemData_Usable, InventoryItem> itemDictionary)
+    {
+        if (item.stackSize == 1)
+        {
+            itemLIst.Remove(item);
+            itemDictionary.Remove(item.data as ItemData_Usable);
+        }
+        else
+            item.RemoveStack();
+    }
+
     public void UpdateSlotUI()
     {
         CleanSlots();
 
         //for (int i = 0; i < materials.Count; i++)
         //    materialSlots[i].UpdateSlot(materials[i]); 
-        //for (int i = 0; i < usableItems.Count; i++)
-        //    usableItemsSlots[i].UpdateSlot(usableItems[i]);
 
         int i = 0, j = 0, k = 0, l = 0;
         foreach (KeyValuePair<ItemData_Equipment, InventoryItem> defencePart in defencePartsDictionary)
@@ -209,12 +245,17 @@ public class Inventory : MonoBehaviour
 
         for (i = 0; i < amulets.Count; i++)
             amuletSelectionSlots[i].UpdateSlot(amulets[i]);
+
+        for (i = 0; i < usableItems.Count; i++)
+        {
+            usableItemsSlots[i].UpdateSlot(usableItems[i]);
+        }
     }
 
     private void CleanSlots()
     {
-        //for (int i = 0; i < usableItemsSlots.Length; i++)
-        //    usableItemsSlots[i].CleanUpSlot();
+        for (int i = 0; i < usableItemsSlots.Length; i++)
+            usableItemsSlots[i].CleanUpSlot();
 
         //for (int i = 0; i < materialSlots.Length; i++)
         //    materialSlots[i].CleanUpSlot();

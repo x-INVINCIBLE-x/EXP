@@ -19,3 +19,7 @@ MonoBehaviour:
   dropChance: 0
   equipmentType: 1
   subEquipmentType: 3
+  modifiers:
+  - stat: 14
+    modType: 100
+    value: 101

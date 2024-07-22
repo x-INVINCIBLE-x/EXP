@@ -50,13 +50,4 @@ public class ItemData_Equipment : ItemData
             stat.RemoveAllModifiersFromSource(this);
         }
     }
-
-    [System.Serializable]
-    public class Modifier
-    {
-        public Stats stat;
-        public StatModType modType;
-        public float value;
-    }
-
 }
