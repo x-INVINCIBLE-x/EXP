@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class UI_InteractionPanel : MonoBehaviour
+public class UI_InteractionPanel : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandler, IPointerExitHandler
 {
     [SerializeField] private GameObject useButton;
     [SerializeField] private GameObject moveToEquipmentButton;
@@ -13,6 +14,9 @@ public class UI_InteractionPanel : MonoBehaviour
     private bool canMoveToEquipment = false;
     private bool canBeDestroyed = false;
 
+    private float closeCooldown = 1.5f;
+    private float lastTimeEnter = 0f;
+
     [SerializeField] private Vector3 offset = Vector3.zero;
     public void Setup(bool canUse, bool canMoveToEquipment, bool canBeDestroyed, ItemData_Usable usableItem = null)
     {
@@ -22,9 +26,15 @@ public class UI_InteractionPanel : MonoBehaviour
         this.usableItem = usableItem;
     }
 
+    private void Update()
+    {
+        if (Time.time > lastTimeEnter + closeCooldown)
+            Hide();
+    }
+
     public void Show(Transform itemSlotTransform)
     {
-
+        lastTimeEnter = Time.time;
         if ( !canUse && !canMoveToEquipment && !canBeDestroyed )
         {
             Hide();
@@ -64,5 +74,20 @@ public class UI_InteractionPanel : MonoBehaviour
             return;
 
         Inventory.Instance.RemoveItem(usableItem);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Hide();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        lastTimeEnter = Time.time;
+    }
+
+    public void OnPointerMove(PointerEventData eventData)
+    {
+        lastTimeEnter = Time.time;
     }
 }

@@ -9,6 +9,12 @@ public class UI_Tab : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (tabToOpen.TryGetComponent(out UI_BagInternalPanels internalPanel))
+        {
+            UI.instance.SwitchBagPanel(internalPanel);
+            return;
+        }
+
         tabToOpen.SetActive(true);
     }
 }

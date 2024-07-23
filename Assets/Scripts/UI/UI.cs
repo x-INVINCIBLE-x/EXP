@@ -22,6 +22,10 @@ public class UI : MonoBehaviour
     [Space]
     public UI_InteractionPanel interactionPanel;
 
+    [Space]
+    public Transform bagItemPanelsParent;
+    public UI_BagInternalPanels[] bagItemSlotsParent;
+
     public Dictionary<Panels, GameObject> panelsDictionary;
 
     private void Awake()
@@ -34,6 +38,8 @@ public class UI : MonoBehaviour
         panelsDictionary[Panels.inventoryPanel] = inventoryPanel;
         panelsDictionary[Panels.equipmentPanel] = equipmentPanel;
         panelsDictionary[Panels.bagPanel] = bagPanel;
+
+        bagItemSlotsParent = GetComponentsInChildren<UI_BagInternalPanels>(true);
     }
 
     public void SwitchTo(Panels panelToOPen)
@@ -51,5 +57,18 @@ public class UI : MonoBehaviour
     {
         interactionPanel.Setup(canUse, canMoveToEquipment, canBeDestroyed, usableItem);
         interactionPanel.Show(itemSlotTransform);
+    }
+
+    public void SwitchBagPanel(UI_BagInternalPanels panelToOpen)
+    {
+        foreach (UI_BagInternalPanels bagPanel in bagItemSlotsParent)
+        {
+            bagPanel.gameObject.SetActive(false);
+
+            if (bagPanel == panelToOpen)
+            {
+                bagPanel.gameObject.SetActive(true);
+            }
+        }
     }
 }
