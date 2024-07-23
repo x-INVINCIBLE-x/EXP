@@ -14,6 +14,7 @@ public class ItemData_Usable : ItemData
 
     public void UseItem(CharacterStats stats)
     {
+        Debug.Log("Item Used");
         AddModifiers(stats);
 
         ApplyEffects();

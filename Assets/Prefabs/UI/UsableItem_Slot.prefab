@@ -94,3 +94,6 @@ MonoBehaviour:
   item:
     data: {fileID: 0}
     stackSize: 0
+  canUse: 1
+  canMoveToEquipment: 1
+  caBeDestroyed: 0
