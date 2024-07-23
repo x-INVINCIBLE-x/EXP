@@ -13,7 +13,7 @@ public class UI_BagSlots : UI_ItemSlot
     {
         base.OnPointerDown(eventData);
 
-        if(item.data != null)
+        if(itemImage.sprite)
             UI.instance.EnableInteractionPanel(transform, canUse, canMoveToEquipment, caBeDestroyed, item.data as ItemData_Usable);
     }
 }

@@ -24,7 +24,7 @@ public class Inventory : MonoBehaviour
     public List<ItemData> startingItems;
 
     public Transform usableItemsParent;
-    //public Transform materialsParent;
+    public Transform materialsParent;
     public Transform defencePartsParent;
     public Transform amuletsParent;
 
@@ -35,7 +35,7 @@ public class Inventory : MonoBehaviour
     public Transform amuletSelectionParent;
 
     private UI_ItemSlot[] usableItemsSlots;
-    //private UI_ItemSlot[] materialSlots;
+    private UI_ItemSlot[] materialSlots;
     [SerializeField] private UI_EquipmentSlot[] defencePartsSlots;
     [SerializeField] private UI_EquipmentSlot[] amuletSlots;
 
@@ -54,7 +54,7 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         usableItemsSlots = usableItemsParent.GetComponentsInChildren<UI_ItemSlot>();
-        //materialSlots = materialsParent.GetComponentsInChildren<UI_ItemSlot>();
+        materialSlots = materialsParent.GetComponentsInChildren<UI_ItemSlot>();
         defencePartsSlots = defencePartsParent.GetComponentsInChildren<UI_EquipmentSlot>();
         amuletSlots = amuletsParent.GetComponentsInChildren<UI_EquipmentSlot>();
 
@@ -221,9 +221,6 @@ public class Inventory : MonoBehaviour
     {
         CleanSlots();
 
-        //for (int i = 0; i < materials.Count; i++)
-        //    materialSlots[i].UpdateSlot(materials[i]); 
-
         int i = 0, j = 0, k = 0, l = 0;
         foreach (KeyValuePair<ItemData_Equipment, InventoryItem> defencePart in defencePartsDictionary)
         {
@@ -247,9 +244,10 @@ public class Inventory : MonoBehaviour
             amuletSelectionSlots[i].UpdateSlot(amulets[i]);
 
         for (i = 0; i < usableItems.Count; i++)
-        {
             usableItemsSlots[i].UpdateSlot(usableItems[i]);
-        }
+
+        for (i = 0; i < materials.Count; i++)
+            materialSlots[i].UpdateSlot(materials[i]); 
     }
 
     private void CleanSlots()
@@ -257,8 +255,8 @@ public class Inventory : MonoBehaviour
         for (int i = 0; i < usableItemsSlots.Length; i++)
             usableItemsSlots[i].CleanUpSlot();
 
-        //for (int i = 0; i < materialSlots.Length; i++)
-        //    materialSlots[i].CleanUpSlot();
+        for (int i = 0; i < materialSlots.Length; i++)
+            materialSlots[i].CleanUpSlot();
 
         for (int i = 0; i < defencePartsSlots.Length; i++)
             defencePartsSlots[i].CleanUpSlot();

@@ -24,6 +24,13 @@ public class UI_InteractionPanel : MonoBehaviour
 
     public void Show(Transform itemSlotTransform)
     {
+
+        if ( !canUse && !canMoveToEquipment && !canBeDestroyed )
+        {
+            Hide();
+            return;
+        }
+
         transform.position = itemSlotTransform.position + offset;
 
         useButton.SetActive(canUse);
