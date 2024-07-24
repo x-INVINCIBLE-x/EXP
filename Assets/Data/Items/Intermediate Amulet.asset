@@ -16,6 +16,9 @@ MonoBehaviour:
   itemName: Intermediate Amulet
   itemIcon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
   itemId: 14cd0fdad6c4a0a459f3b37d83a33c6b
+  canBeDestroyed: 1
+  description: 
   dropChance: 0
   equipmentType: 0
   subEquipmentType: 0
+  modifiers: []

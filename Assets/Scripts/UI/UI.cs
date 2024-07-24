@@ -42,6 +42,11 @@ public class UI : MonoBehaviour
         bagItemSlotsParent = GetComponentsInChildren<UI_BagInternalPanels>(true);
     }
 
+    private void Start()
+    {
+        interactionPanel.Hide();
+    }
+
     public void SwitchTo(Panels panelToOPen)
     {
         foreach (var panel in panelsDictionary.Keys)

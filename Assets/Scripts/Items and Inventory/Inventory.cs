@@ -74,6 +74,7 @@ public class Inventory : MonoBehaviour
 
         AddStartingItems();
         UpdateSlotUI();
+        ShowBagItemSlots(ItemType.UsableItem);
     }
 
     public void AddStartingItems()

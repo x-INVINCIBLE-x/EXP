@@ -16,6 +16,9 @@ MonoBehaviour:
   itemName: Fire Frame
   itemIcon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
   itemId: 4b5505b06eeebfa4b991e2f70bd31305
+  canBeDestroyed: 1
+  description: 
   dropChance: 0
   equipmentType: 1
   subEquipmentType: 2
+  modifiers: []
