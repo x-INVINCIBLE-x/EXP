@@ -89,3 +89,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tabToOpen: {fileID: 0}
+  itemType: 0
+  equipmentType: 6

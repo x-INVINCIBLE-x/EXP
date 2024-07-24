@@ -22,6 +22,7 @@ public class ItemData : ScriptableObject
     public string itemName;
     public Sprite itemIcon;
     public string itemId;
+    public bool canBeDestroyed = false;
 
     [TextArea]
     [SerializeField] private string description;

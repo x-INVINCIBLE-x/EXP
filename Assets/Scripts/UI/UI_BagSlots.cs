@@ -5,15 +5,14 @@ using UnityEngine.EventSystems;
 
 public class UI_BagSlots : UI_ItemSlot
 {
-    [SerializeField] private bool canUse;
-    [SerializeField] private bool canMoveToEquipment;
-    [SerializeField] private bool caBeDestroyed;
-
     public override void OnPointerDown(PointerEventData eventData)
     {
         base.OnPointerDown(eventData);
 
-        if(itemImage.sprite)
-            UI.instance.EnableInteractionPanel(transform, canUse, canMoveToEquipment, caBeDestroyed, item.data as ItemData_Usable);
+        bool isEquipable = item.data.itemType == ItemType.Equipment || item.data.itemType == ItemType.UsableItem;
+
+
+        if (itemImage.sprite)
+            UI.instance.EnableInteractionPanel(transform, item.data.itemType == ItemType.UsableItem, isEquipable,item.data.canBeDestroyed, item.data as ItemData_Usable);
     }
 }

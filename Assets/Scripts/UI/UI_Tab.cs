@@ -7,11 +7,14 @@ public class UI_Tab : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] private GameObject tabToOpen;
 
+    [SerializeField] private ItemType itemType;
+    [SerializeField] private EquipmentType equipmentType;
     public void OnPointerDown(PointerEventData eventData)
     {
         if (tabToOpen.TryGetComponent(out UI_BagInternalPanels internalPanel))
         {
-            UI.instance.SwitchBagPanel(internalPanel);
+            //UI.instance.SwitchBagPanel(internalPanel);
+            Inventory.Instance.ShowBagItemSlots(itemType, equipmentType);
             return;
         }
 

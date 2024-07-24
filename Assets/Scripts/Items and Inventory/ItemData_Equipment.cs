@@ -10,7 +10,8 @@ public enum EquipmentType
     Frame,
     Converter,
     Cartridge,
-    Linear
+    Linear,
+    None
 }
 
 [CreateAssetMenu(fileName = "New Equipment Data", menuName = "Data/Equipment")]

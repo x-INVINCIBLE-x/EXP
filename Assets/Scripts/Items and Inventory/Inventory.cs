@@ -45,6 +45,12 @@ public class Inventory : MonoBehaviour
     [SerializeField] private UI_SelectionSlot[] linearSelectionSlots;
     [SerializeField] private UI_SelectionSlot[] amuletSelectionSlots;
 
+    [Header("Bag Panel Parents")]
+    public Transform bagSlotsParent;
+
+    [Header("Bag Panel Slots")]
+    private UI_BagSlots[] bagSlots;
+
     private void Awake()
     {
         if (Instance == null)
@@ -63,6 +69,8 @@ public class Inventory : MonoBehaviour
         cartidgeSelectionSlots = cartilidgeSelectionParent.GetComponentsInChildren<UI_SelectionSlot>(true);
         linearSelectionSlots = linearSelectionParent.GetComponentsInChildren<UI_SelectionSlot>(true);
         amuletSelectionSlots = amuletSelectionParent.GetComponentsInChildren<UI_SelectionSlot>(true);
+
+        bagSlots = bagSlotsParent.GetComponentsInChildren<UI_BagSlots>(true);
 
         AddStartingItems();
         UpdateSlotUI();
@@ -217,6 +225,48 @@ public class Inventory : MonoBehaviour
             item.RemoveStack();
     }
 
+#region Bag UI Update
+
+    public void ShowBagItemSlots(ItemType itemType, EquipmentType equipmentType = EquipmentType.None)
+    {
+
+        foreach (var slot in bagSlots)
+        {
+            slot.CleanUpSlot();
+        }
+
+        if (itemType == ItemType.Equipment)
+            ShowBagEquipmentSlots(itemType, equipmentType);
+
+        else if (itemType == ItemType.Material)
+            DisplayBagSlots(materials);
+
+        else if (itemType == ItemType.UsableItem)
+            DisplayBagSlots(usableItems);
+    }
+
+    private void ShowBagEquipmentSlots(ItemType itemType, EquipmentType equipmentType)
+    {
+        if (equipmentType == EquipmentType.Amulet)
+        {
+            DisplayBagSlots(amulets);
+        }
+        else if (equipmentType == EquipmentType.Defence)
+        {
+            DisplayBagSlots(defenceParts);
+        }
+    }
+
+#endregion
+
+    public void DisplayBagSlots(List<InventoryItem> items)
+    {
+        for (int i = 0; i < items.Count; i++)
+        {
+            bagSlots[i].UpdateSlot(items[i]);
+        }
+    }
+
     public void UpdateSlotUI()
     {
         CleanSlots();
@@ -243,23 +293,23 @@ public class Inventory : MonoBehaviour
         for (i = 0; i < amulets.Count; i++)
             amuletSelectionSlots[i].UpdateSlot(amulets[i]);
 
-        for (i = 0; i < usableItems.Count; i++)
-            usableItemsSlots[i].UpdateSlot(usableItems[i]);
+        //for (i = 0; i < usableItems.Count; i++)
+        //    usableItemsSlots[i].UpdateSlot(usableItems[i]);
 
-        for (i = 0; i < materials.Count; i++)
-            materialSlots[i].UpdateSlot(materials[i]); 
+        //for (i = 0; i < materials.Count; i++)
+        //    materialSlots[i].UpdateSlot(materials[i]); 
     }
 
     private void CleanSlots()
     {
-        for (int i = 0; i < usableItemsSlots.Length; i++)
-            usableItemsSlots[i].CleanUpSlot();
+        //for (int i = 0; i < usableItemsSlots.Length; i++)
+        //    usableItemsSlots[i].CleanUpSlot();
 
-        for (int i = 0; i < materialSlots.Length; i++)
-            materialSlots[i].CleanUpSlot();
+        //for (int i = 0; i < materialSlots.Length; i++)
+        //    materialSlots[i].CleanUpSlot();
 
-        for (int i = 0; i < defencePartsSlots.Length; i++)
-            defencePartsSlots[i].CleanUpSlot();
+        //for (int i = 0; i < defencePartsSlots.Length; i++)
+        //    defencePartsSlots[i].CleanUpSlot();
 
         for (int i = 0; i < amuletSlots.Length; i++)
             amuletSlots[i].CleanUpSlot();
