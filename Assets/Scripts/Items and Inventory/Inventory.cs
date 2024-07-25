@@ -49,16 +49,13 @@ public class Inventory : MonoBehaviour
     public Transform bagSlotsParent;
 
     [Header("Bag Panel Slots")]
-    private UI_BagSlots[] bagSlots;
+    [SerializeField] [HideInInspector] private UI_BagSlots[] bagSlots;
 
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
-    }
 
-    private void Start()
-    {
         usableItemsSlots = usableItemsParent.GetComponentsInChildren<UI_ItemSlot>();
         materialSlots = materialsParent.GetComponentsInChildren<UI_ItemSlot>();
         defencePartsSlots = defencePartsParent.GetComponentsInChildren<UI_EquipmentSlot>();
@@ -71,7 +68,10 @@ public class Inventory : MonoBehaviour
         amuletSelectionSlots = amuletSelectionParent.GetComponentsInChildren<UI_SelectionSlot>(true);
 
         bagSlots = bagSlotsParent.GetComponentsInChildren<UI_BagSlots>(true);
+    }
 
+    private void Start()
+    {
         AddStartingItems();
         UpdateSlotUI();
         ShowBagItemSlots(ItemType.UsableItem);
@@ -196,15 +196,23 @@ public class Inventory : MonoBehaviour
             return;
         }
         
-        ItemData_Usable usableItem = item as ItemData_Usable;
-        if(usableItem == null)
+        ItemData_Equipment equipment = item as ItemData_Equipment;
+        if (equipment != null)
         {
-            Debug.LogWarning("Removing non removable item");
-            return;
+            if (amuletsDictionary.TryGetValue(equipment, out value))
+                RemoveItem(value, ref amulets, ref amuletsDictionary);
+
+            if(defencePartsDictionary.TryGetValue(equipment, out value))
+                RemoveItem(value, ref defenceParts, ref defencePartsDictionary);
         }
 
-        if (usableItemsDictionary.TryGetValue(usableItem, out value))
-            RemoveItem(value, ref usableItems, ref usableItemsDictionary);
+        ItemData_Usable usableItem = item as ItemData_Usable;
+        if(usableItem != null)
+        {
+             if (usableItemsDictionary.TryGetValue(usableItem, out value))
+                RemoveItem(value, ref usableItems, ref usableItemsDictionary);
+        }
+
     }
 
     public void RemoveItem(InventoryItem item, ref List<InventoryItem> itemLIst, ref Dictionary<ItemData, InventoryItem> itemDictionary)
@@ -216,6 +224,24 @@ public class Inventory : MonoBehaviour
         }
         else
             item.RemoveStack();
+
+        UpdateSlotUI();
+        ShowBagItemSlots(item.data.itemType);
+    }
+
+    public void RemoveItem(InventoryItem item, ref List<InventoryItem> itemLIst, ref Dictionary<ItemData_Equipment, InventoryItem> itemDictionary)
+    {
+        ItemData_Equipment equipment = item.data as ItemData_Equipment;
+        if (item.stackSize == 1)
+        {
+            itemLIst.Remove(item);
+            itemDictionary.Remove(equipment);
+        }
+        else
+            item.RemoveStack();
+
+        UpdateSlotUI();
+        ShowBagItemSlots(equipment.itemType, equipment.equipmentType);
     }
 
     public void RemoveItem(InventoryItem item, ref List<InventoryItem> itemLIst, ref Dictionary<ItemData_Usable, InventoryItem> itemDictionary)
@@ -227,7 +253,11 @@ public class Inventory : MonoBehaviour
         }
         else
             item.RemoveStack();
+
+        UpdateSlotUI();
+        ShowBagItemSlots(item.data.itemType);
     }
+
 
     #endregion
 

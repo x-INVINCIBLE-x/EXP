@@ -8,7 +8,7 @@ public class UI_InteractionPanel : MonoBehaviour, IPointerEnterHandler, IPointer
     [SerializeField] private GameObject useButton;
     [SerializeField] private GameObject moveToEquipmentButton;
     [SerializeField] private GameObject destroyButton;
-    private ItemData_Usable usableItem;
+    private ItemData item;
 
     private bool canUse = false;
     private bool canMoveToEquipment = false;
@@ -18,12 +18,12 @@ public class UI_InteractionPanel : MonoBehaviour, IPointerEnterHandler, IPointer
     private float lastTimeEnter = 0f;
 
     [SerializeField] private Vector3 offset = Vector3.zero;
-    public void Setup(bool canUse, bool canMoveToEquipment, bool canBeDestroyed, ItemData_Usable usableItem = null)
+    public void Setup(bool canUse, bool canMoveToEquipment, bool canBeDestroyed, ItemData item = null)
     {
         this.canUse = canUse;
         this.canMoveToEquipment = canMoveToEquipment;
         this.canBeDestroyed = canBeDestroyed;
-        this.usableItem = usableItem;
+        this.item = item;
     }
 
     private void Update()
@@ -57,6 +57,7 @@ public class UI_InteractionPanel : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void Use()
     {
+        ItemData_Usable usableItem = item as ItemData_Usable;
         if (!usableItem)
             return;
 
@@ -70,10 +71,10 @@ public class UI_InteractionPanel : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void Destroy()
     {
-        if (!usableItem)
+        if (!item)
             return;
 
-        Inventory.Instance.RemoveItem(usableItem);
+        Inventory.Instance.RemoveItem(item);
     }
 
     public void OnPointerExit(PointerEventData eventData)

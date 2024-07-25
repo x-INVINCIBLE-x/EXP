@@ -14,7 +14,7 @@ public class UI_BagSlots : UI_ItemSlot
 
 
         if (itemImage.sprite)
-            UI.instance.EnableInteractionPanel(transform, data.itemType == ItemType.UsableItem, isEquipable,data.canBeDestroyed, data as ItemData_Usable);
+            UI.instance.EnableInteractionPanel(transform, data.itemType == ItemType.UsableItem, isEquipable,data.canBeDestroyed, data);
 
         UI.instance.ShowToolTip(item.data);
     }

@@ -65,9 +65,9 @@ public class UI : MonoBehaviour
         }
     }
 
-    public void EnableInteractionPanel(Transform itemSlotTransform, bool canUse, bool canMoveToEquipment, bool canBeDestroyed, ItemData_Usable usableItem = null)
+    public void EnableInteractionPanel(Transform itemSlotTransform, bool canUse, bool canMoveToEquipment, bool canBeDestroyed, ItemData item = null)
     {
-        interactionPanel.Setup(canUse, canMoveToEquipment, canBeDestroyed, usableItem);
+        interactionPanel.Setup(canUse, canMoveToEquipment, canBeDestroyed, item);
         interactionPanel.Show(itemSlotTransform);
     }
 
