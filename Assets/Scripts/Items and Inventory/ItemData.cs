@@ -24,8 +24,8 @@ public class ItemData : ScriptableObject
     public string itemId;
     public bool canBeDestroyed = false;
 
-    [TextArea]
-    [SerializeField] private string description;
+    [TextArea] public string shortDescription;
+    [TextArea] [SerializeField] private string description;
 
     [Range(0, 100)]
     public float dropChance;

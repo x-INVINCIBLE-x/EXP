@@ -15,18 +15,24 @@ public class UI : MonoBehaviour
 {
     public static UI instance;
 
+    [Header("Panels")]
     public GameObject inventoryPanel;
-    public GameObject bagPanel;
     public GameObject equipmentPanel;
+    public GameObject bagPanel;
 
     [Space]
     public UI_InteractionPanel interactionPanel;
+    public Dictionary<Panels, GameObject> panelsDictionary;
 
     [Space]
+    [Header("Bag Details")]
     public Transform bagItemPanelsParent;
     public UI_BagInternalPanels[] bagItemSlotsParent;
 
-    public Dictionary<Panels, GameObject> panelsDictionary;
+
+    [Header("ToolTip Details")]
+    public UI_ItemToolTip itemToolTip;
+    public UI_EquipmentToolTip equipmentToolTip;
 
     private void Awake()
     {
@@ -47,13 +53,14 @@ public class UI : MonoBehaviour
         interactionPanel.Hide();
     }
 
-    public void SwitchTo(Panels panelToOPen)
+    public void SwitchTo(Panels panelToOpen)
     {
         foreach (var panel in panelsDictionary.Keys)
         {
+            HideToolTips();
             panelsDictionary[panel].SetActive(false);
 
-            if(panel == panelToOPen)
+            if(panel == panelToOpen)
                 panelsDictionary[panel].SetActive(true);
         }
     }
@@ -73,7 +80,24 @@ public class UI : MonoBehaviour
             if (bagPanel == panelToOpen)
             {
                 bagPanel.gameObject.SetActive(true);
+
             }
         }
+    }
+
+    public void ShowToolTip(ItemData item)
+    {
+        HideToolTips();
+
+        if (item.itemType == ItemType.Equipment)
+            equipmentToolTip.ShowToolTip(item);
+        else
+            itemToolTip.ShowToolTip(item);
+    }
+
+    public void HideToolTips()
+    {
+        itemToolTip.HideToolTip();
+        equipmentToolTip.HideToolTip();
     }
 }

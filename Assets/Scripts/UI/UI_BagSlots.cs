@@ -8,11 +8,14 @@ public class UI_BagSlots : UI_ItemSlot
     public override void OnPointerDown(PointerEventData eventData)
     {
         base.OnPointerDown(eventData);
+        ItemData data = item.data;
 
-        bool isEquipable = item.data.itemType == ItemType.Equipment || item.data.itemType == ItemType.UsableItem;
+        bool isEquipable = data.itemType == ItemType.Equipment || data.itemType == ItemType.UsableItem;
 
 
         if (itemImage.sprite)
-            UI.instance.EnableInteractionPanel(transform, item.data.itemType == ItemType.UsableItem, isEquipable,item.data.canBeDestroyed, item.data as ItemData_Usable);
+            UI.instance.EnableInteractionPanel(transform, data.itemType == ItemType.UsableItem, isEquipable,data.canBeDestroyed, data as ItemData_Usable);
+
+        UI.instance.ShowToolTip(item.data);
     }
 }

@@ -14,6 +14,7 @@ public class UI_Tab : MonoBehaviour, IPointerDownHandler
         if (tabToOpen.TryGetComponent(out UI_BagInternalPanels internalPanel))
         {
             //UI.instance.SwitchBagPanel(internalPanel);
+            UI.instance.HideToolTips();
             Inventory.Instance.ShowBagItemSlots(itemType, equipmentType);
             return;
         }

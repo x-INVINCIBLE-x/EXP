@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UI_BagInternalPanels : MonoBehaviour
+public class UI_ItemToolTip : UI_ToolTip
 {
+
 }

@@ -17,11 +17,18 @@ MonoBehaviour:
   itemIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   itemId: 12ed06682b219bd47a7a8126eea2fd85
   canBeDestroyed: 1
-  description: 
+  shortDescription: GG
+  description: VGG
   dropChance: 0
   equipmentType: 0
   subEquipmentType: 0
   modifiers:
   - stat: 12
     modType: 100
-    value: 101
+    value: 432
+  - stat: 16
+    modType: 200
+    value: 658
+  - stat: 23
+    modType: 100
+    value: 566
