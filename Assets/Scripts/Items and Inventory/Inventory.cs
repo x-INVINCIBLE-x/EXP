@@ -83,6 +83,7 @@ public class Inventory : MonoBehaviour
             AddItem(startingItems[i]);
     }
 
+    #region Add Item to Inventory
     public void AddItem(ItemData item)
     {
         if(item.itemType == ItemType.UsableItem)
@@ -150,7 +151,8 @@ public class Inventory : MonoBehaviour
             itemDictionary[usableItem] = newItem;
         }
     }
-
+    #endregion
+    #region Equip/ Unequip
     public void EquipItem(ItemData item, UI_ItemSlot itemSlot)
     {
         ItemData_Equipment newEquipment = item as ItemData_Equipment;
@@ -184,7 +186,8 @@ public class Inventory : MonoBehaviour
         item.RemoveModifiers();
         itemSlot.CleanUpSlot();
     }
-
+    #endregion
+    #region Remove Item From Inventory
     public void RemoveItem(ItemData item)
     {
         if (materialsDictionary.TryGetValue(item, out InventoryItem value))
@@ -226,7 +229,9 @@ public class Inventory : MonoBehaviour
             item.RemoveStack();
     }
 
-#region Bag UI Update
+    #endregion
+
+    #region Bag UI Update
 
     public void ShowBagItemSlots(ItemType itemType, EquipmentType equipmentType = EquipmentType.None)
     {
@@ -258,8 +263,9 @@ public class Inventory : MonoBehaviour
         }
     }
 
-#endregion
+    #endregion
 
+    #region Update UI
     public void DisplayBagSlots(List<InventoryItem> items)
     {
         for (int i = 0; i < items.Count; i++)
@@ -293,25 +299,10 @@ public class Inventory : MonoBehaviour
 
         for (i = 0; i < amulets.Count; i++)
             amuletSelectionSlots[i].UpdateSlot(amulets[i]);
-
-        //for (i = 0; i < usableItems.Count; i++)
-        //    usableItemsSlots[i].UpdateSlot(usableItems[i]);
-
-        //for (i = 0; i < materials.Count; i++)
-        //    materialSlots[i].UpdateSlot(materials[i]); 
     }
 
     private void CleanSlots()
     {
-        //for (int i = 0; i < usableItemsSlots.Length; i++)
-        //    usableItemsSlots[i].CleanUpSlot();
-
-        //for (int i = 0; i < materialSlots.Length; i++)
-        //    materialSlots[i].CleanUpSlot();
-
-        //for (int i = 0; i < defencePartsSlots.Length; i++)
-        //    defencePartsSlots[i].CleanUpSlot();
-
         for (int i = 0; i < amuletSlots.Length; i++)
             amuletSlots[i].CleanUpSlot();
 
@@ -330,4 +321,6 @@ public class Inventory : MonoBehaviour
         for (int i = 0; i < amuletSelectionSlots.Length; i++)
             amuletSelectionSlots[i].CleanUpSlot();
     }
+
+    #endregion
 }
