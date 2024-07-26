@@ -73,8 +73,8 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         AddStartingItems();
-        UpdateSlotUI();
         ShowBagItemSlots(ItemType.UsableItem);
+        UpdateSlotUI();
     }
 
     public void AddStartingItems()
@@ -335,6 +335,9 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < amuletSlots.Length; i++)
             amuletSlots[i].CleanUpSlot();
+
+        for (int i = 0; i < defencePartsSlots.Length; i++)
+            defencePartsSlots[i].CleanUpSlot();
 
         for (int i = 0; i < frameSelectionSlots.Length; i++)
             frameSelectionSlots[i].CleanUpSlot();

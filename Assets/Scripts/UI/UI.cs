@@ -33,6 +33,7 @@ public class UI : MonoBehaviour
     [Header("ToolTip Details")]
     public UI_ItemToolTip itemToolTip;
     public UI_EquipmentToolTip equipmentToolTip;
+    public UI_EquipmentToolTip selectionToolTip;
 
     private void Awake()
     {
@@ -51,6 +52,7 @@ public class UI : MonoBehaviour
     private void Start()
     {
         interactionPanel.Hide();
+        HideToolTips();
     }
 
     public void SwitchTo(Panels panelToOpen)
@@ -85,8 +87,15 @@ public class UI : MonoBehaviour
         }
     }
 
-    public void ShowToolTip(ItemData item)
+    public void ShowToolTip(ItemData item, bool isSelecting = false)
     {
+        if (isSelecting)
+        {
+            selectionToolTip.HideToolTip();
+            selectionToolTip.ShowToolTip(item);
+            return;
+        }
+
         HideToolTips();
 
         if (item.itemType == ItemType.Equipment)
@@ -99,5 +108,6 @@ public class UI : MonoBehaviour
     {
         itemToolTip.HideToolTip();
         equipmentToolTip.HideToolTip();
+        selectionToolTip.HideToolTip();
     }
 }

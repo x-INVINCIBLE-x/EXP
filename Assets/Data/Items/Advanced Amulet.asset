@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 2
   itemName: Advanced Amulet
-  itemIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  itemIcon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   itemId: 12ed06682b219bd47a7a8126eea2fd85
   canBeDestroyed: 1
   shortDescription: GG

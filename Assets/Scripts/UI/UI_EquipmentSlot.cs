@@ -14,6 +14,14 @@ public class UI_EquipmentSlot : UI_ItemSlot
         UI_SelectionSlotHandler slotHandler = selectionUI.GetComponent<UI_SelectionSlotHandler>();
         slotHandler.parentSlot = this;
 
+        if(eventData.clickCount == 0)
+        {
+            if (itemImage.sprite != defaultImage)
+                UI.instance.ShowToolTip(item.data);
+            return;
+        }
+
+
         selectionUI.SetActive(true);
     }
 
