@@ -12,6 +12,11 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
     protected UI ui;
     public InventoryItem item;
 
+    private void Awake()
+    {
+        itemText = GetComponentInChildren<TextMeshProUGUI>(true);
+    }
+
     protected virtual void Start()
     {
         ui = GetComponentInParent<UI>();
@@ -29,11 +34,11 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
 
             if (item.stackSize > 1)
             {
-                //itemText.text = item.stackSize.ToString();
+                itemText.text = item.stackSize.ToString();
             }
             else
             {
-                //itemText.text = "";
+                itemText.text = "";
             }
         }
     }
@@ -44,7 +49,7 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
 
         itemImage.sprite = null;
         itemImage.color = Color.clear;
-        //itemText.text = "";
+        itemText.text = "";
     }
 
     public virtual void OnPointerDown(PointerEventData eventData)

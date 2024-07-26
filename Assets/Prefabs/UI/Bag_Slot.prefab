@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &895674934873219074
+--- !u!1 &64469811327955762
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,52 +8,52 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5523323995558570933}
-  - component: {fileID: 155036845956168582}
-  - component: {fileID: 6395973133136798275}
-  - component: {fileID: 6157735775054688620}
+  - component: {fileID: 8599646937866337433}
+  - component: {fileID: 1573527934241002298}
+  - component: {fileID: 852230873568093729}
+  - component: {fileID: 8218773585549582719}
   m_Layer: 5
-  m_Name: SelectionSlot
+  m_Name: Bag_Slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &5523323995558570933
+--- !u!224 &8599646937866337433
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 895674934873219074}
+  m_GameObject: {fileID: 64469811327955762}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1103213283857160115}
+  - {fileID: 4817226397503466822}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -50}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &155036845956168582
+--- !u!222 &1573527934241002298
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 895674934873219074}
+  m_GameObject: {fileID: 64469811327955762}
   m_CullTransparentMesh: 1
---- !u!114 &6395973133136798275
+--- !u!114 &852230873568093729
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 895674934873219074}
+  m_GameObject: {fileID: 64469811327955762}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -77,25 +77,25 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6157735775054688620
+--- !u!114 &8218773585549582719
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 895674934873219074}
+  m_GameObject: {fileID: 64469811327955762}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1dbcd01f74192a4298e3d2315b1efb2, type: 3}
+  m_Script: {fileID: 11500000, guid: a5eebeb07e30cfb478c149c68d98d1c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemImage: {fileID: 6395973133136798275}
-  itemText: {fileID: 7505861827575582441}
+  itemImage: {fileID: 852230873568093729}
+  itemText: {fileID: 5507525865370551118}
   defaultImage: {fileID: 0}
   item:
     data: {fileID: 0}
-    stackSize: 1
---- !u!1 &5167208117098356632
+    stackSize: 0
+--- !u!1 &6128492674838571153
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,9 +103,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1103213283857160115}
-  - component: {fileID: 2085654300014682832}
-  - component: {fileID: 7505861827575582441}
+  - component: {fileID: 4817226397503466822}
+  - component: {fileID: 8275138732326690494}
+  - component: {fileID: 5507525865370551118}
   m_Layer: 5
   m_Name: Quantity_Text
   m_TagString: Untagged
@@ -113,40 +113,40 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &1103213283857160115
+--- !u!224 &4817226397503466822
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5167208117098356632}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_GameObject: {fileID: 6128492674838571153}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5523323995558570933}
+  m_Father: {fileID: 8599646937866337433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0.0000076293945, y: 7.0999985}
-  m_SizeDelta: {x: -13.2639, y: 25.7465}
+  m_AnchoredPosition: {x: 13.002563, y: 0.000030517578}
+  m_SizeDelta: {x: -32.4052, y: 25.7465}
   m_Pivot: {x: 0.5, y: 0}
---- !u!222 &2085654300014682832
+--- !u!222 &8275138732326690494
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5167208117098356632}
+  m_GameObject: {fileID: 6128492674838571153}
   m_CullTransparentMesh: 1
---- !u!114 &7505861827575582441
+--- !u!114 &5507525865370551118
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5167208117098356632}
+  m_GameObject: {fileID: 6128492674838571153}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
@@ -160,7 +160,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 12
+  m_text: 999
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -187,8 +187,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28
-  m_fontSizeBase: 28
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
