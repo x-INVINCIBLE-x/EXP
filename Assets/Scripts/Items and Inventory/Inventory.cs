@@ -1,11 +1,9 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public static Inventory Instance {  get; private set; }
+    public static Inventory Instance { get; private set; }
 
     public List<InventoryItem> usableItems = new();
     public Dictionary<ItemData_Usable, InventoryItem> usableItemsDictionary = new();
@@ -28,44 +26,32 @@ public class Inventory : MonoBehaviour
     public Transform defencePartsParent;
     public Transform amuletsParent;
 
-    public Transform frameSelectionParent;
-    public Transform convertorSelectionParent;
-    public Transform cartilidgeSelectionParent;
-    public Transform linearSelectionParent;
-    public Transform amuletSelectionParent;
+    public Transform selectionSlotsParent;
 
     private UI_ItemSlot[] usableItemsSlots;
     private UI_ItemSlot[] materialSlots;
     [SerializeField] private UI_EquipmentSlot[] defencePartsSlots;
     [SerializeField] private UI_EquipmentSlot[] amuletSlots;
 
-    [SerializeField] private UI_SelectionSlot[] frameSelectionSlots;
-    [SerializeField] private UI_SelectionSlot[] convertorSelectionSlots;
-    [SerializeField] private UI_SelectionSlot[] cartidgeSelectionSlots;
-    [SerializeField] private UI_SelectionSlot[] linearSelectionSlots;
-    [SerializeField] private UI_SelectionSlot[] amuletSelectionSlots;
+    [SerializeField] private UI_SelectionSlot[] selectionSlots;
 
     [Header("Bag Panel Parents")]
     public Transform bagSlotsParent;
 
     [Header("Bag Panel Slots")]
-    [SerializeField] [HideInInspector] private UI_BagSlots[] bagSlots;
+    [SerializeField][HideInInspector] private UI_BagSlots[] bagSlots;
 
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
 
+        selectionSlots = selectionSlotsParent.GetComponentsInChildren<UI_SelectionSlot>(true);
+
         usableItemsSlots = usableItemsParent.GetComponentsInChildren<UI_ItemSlot>();
         materialSlots = materialsParent.GetComponentsInChildren<UI_ItemSlot>();
         defencePartsSlots = defencePartsParent.GetComponentsInChildren<UI_EquipmentSlot>();
         amuletSlots = amuletsParent.GetComponentsInChildren<UI_EquipmentSlot>();
-
-        frameSelectionSlots = frameSelectionParent.GetComponentsInChildren<UI_SelectionSlot>(true);
-        convertorSelectionSlots = convertorSelectionParent.GetComponentsInChildren<UI_SelectionSlot>(true);
-        cartidgeSelectionSlots = cartilidgeSelectionParent.GetComponentsInChildren<UI_SelectionSlot>(true);
-        linearSelectionSlots = linearSelectionParent.GetComponentsInChildren<UI_SelectionSlot>(true);
-        amuletSelectionSlots = amuletSelectionParent.GetComponentsInChildren<UI_SelectionSlot>(true);
 
         bagSlots = bagSlotsParent.GetComponentsInChildren<UI_BagSlots>(true);
     }
@@ -74,7 +60,8 @@ public class Inventory : MonoBehaviour
     {
         AddStartingItems();
         ShowBagItemSlots(ItemType.UsableItem);
-        UpdateSlotUI();
+        CleanSlots();
+        //UpdateSlotUI();
     }
 
     public void AddStartingItems()
@@ -86,7 +73,7 @@ public class Inventory : MonoBehaviour
     #region Add Item to Inventory
     public void AddItem(ItemData item)
     {
-        if(item.itemType == ItemType.UsableItem)
+        if (item.itemType == ItemType.UsableItem)
             AddItem(item, ref usableItems, ref usableItemsDictionary);
         if (item.itemType == ItemType.Material)
             AddItem(item, ref materials, ref materialsDictionary);
@@ -100,15 +87,15 @@ public class Inventory : MonoBehaviour
 
         if (equipment == null) return;
 
-        if(equipment.equipmentType == EquipmentType.Amulet)
+        if (equipment.equipmentType == EquipmentType.Amulet)
             AddItem(item, ref amulets, ref amuletsDictionary);
         if (equipment.equipmentType == EquipmentType.Defence)
             AddItem(item, ref defenceParts, ref defencePartsDictionary);
     }
 
-    public void AddItem(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<ItemData, InventoryItem> itemDictionary) 
+    public void AddItem(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<ItemData, InventoryItem> itemDictionary)
     {
-        if(itemDictionary.TryGetValue(item, out InventoryItem value))
+        if (itemDictionary.TryGetValue(item, out InventoryItem value))
         {
             value.AddStack();
         }
@@ -195,21 +182,21 @@ public class Inventory : MonoBehaviour
             RemoveItem(value, ref materials, ref materialsDictionary);
             return;
         }
-        
+
         ItemData_Equipment equipment = item as ItemData_Equipment;
         if (equipment != null)
         {
             if (amuletsDictionary.TryGetValue(equipment, out value))
                 RemoveItem(value, ref amulets, ref amuletsDictionary);
 
-            if(defencePartsDictionary.TryGetValue(equipment, out value))
+            if (defencePartsDictionary.TryGetValue(equipment, out value))
                 RemoveItem(value, ref defenceParts, ref defencePartsDictionary);
         }
 
         ItemData_Usable usableItem = item as ItemData_Usable;
-        if(usableItem != null)
+        if (usableItem != null)
         {
-             if (usableItemsDictionary.TryGetValue(usableItem, out value))
+            if (usableItemsDictionary.TryGetValue(usableItem, out value))
                 RemoveItem(value, ref usableItems, ref usableItemsDictionary);
         }
 
@@ -225,7 +212,6 @@ public class Inventory : MonoBehaviour
         else
             item.RemoveStack();
 
-        UpdateSlotUI();
         ShowBagItemSlots(item.data.itemType);
     }
 
@@ -240,7 +226,6 @@ public class Inventory : MonoBehaviour
         else
             item.RemoveStack();
 
-        UpdateSlotUI();
         ShowBagItemSlots(equipment.itemType, equipment.equipmentType);
     }
 
@@ -254,7 +239,6 @@ public class Inventory : MonoBehaviour
         else
             item.RemoveStack();
 
-        UpdateSlotUI();
         ShowBagItemSlots(item.data.itemType);
     }
 
@@ -304,31 +288,24 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void UpdateSlotUI()
+    public void UpdateSelectionSlotUI(EquipmentType equipmentType)
     {
-        CleanSlots();
+        for (int i = 0; i < selectionSlots.Length; i++)
+            selectionSlots[i].CleanUpSlot();
 
-        int i = 0, j = 0, k = 0, l = 0;
-        foreach (KeyValuePair<ItemData_Equipment, InventoryItem> defencePart in defencePartsDictionary)
+        if (equipmentType != EquipmentType.Amulet)
         {
-            ItemData_Equipment key = defencePart.Key;
-            InventoryItem item = defencePart.Value;
-
-            if (key.subEquipmentType == EquipmentType.Frame)
-                frameSelectionSlots[i++].UpdateSlot(item);
-
-            else if (key.subEquipmentType == EquipmentType.Converter)
-                convertorSelectionSlots[j++].UpdateSlot(item);
-
-            else if (key.subEquipmentType == EquipmentType.Cartridge)
-                cartidgeSelectionSlots[k++].UpdateSlot(item);
-
-            else if (key.subEquipmentType == EquipmentType.Linear)
-                linearSelectionSlots[l++].UpdateSlot(item);
+            int ctr = 0;
+            for (int i = 0; i < defenceParts.Count; i++)
+            {
+                ItemData_Equipment key = defenceParts[i].data as ItemData_Equipment;
+                if (key.subEquipmentType == equipmentType)
+                    selectionSlots[ctr++].UpdateSlot(defenceParts[i]);
+            }
         }
-
-        for (i = 0; i < amulets.Count; i++)
-            amuletSelectionSlots[i].UpdateSlot(amulets[i]);
+        else if (equipmentType == EquipmentType.Amulet)
+            for (int i = 0; i < amulets.Count; i++)
+                selectionSlots[i].UpdateSlot(amulets[i]);
     }
 
     private void CleanSlots()
@@ -338,21 +315,6 @@ public class Inventory : MonoBehaviour
 
         for (int i = 0; i < defencePartsSlots.Length; i++)
             defencePartsSlots[i].CleanUpSlot();
-
-        for (int i = 0; i < frameSelectionSlots.Length; i++)
-            frameSelectionSlots[i].CleanUpSlot();
-
-        for (int i = 0; i < convertorSelectionSlots.Length; i++)
-            convertorSelectionSlots[i].CleanUpSlot();
-
-        for (int i = 0; i < cartidgeSelectionSlots.Length; i++)
-            cartidgeSelectionSlots[i].CleanUpSlot();
-
-        for (int i = 0; i < linearSelectionSlots.Length; i++)
-            linearSelectionSlots[i].CleanUpSlot();
-
-        for (int i = 0; i < amuletSelectionSlots.Length; i++)
-            amuletSelectionSlots[i].CleanUpSlot();
     }
 
     #endregion

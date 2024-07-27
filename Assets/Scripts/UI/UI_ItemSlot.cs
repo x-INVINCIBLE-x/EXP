@@ -32,14 +32,20 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
         {
             itemImage.sprite = item.data.itemIcon;
 
-            if (item.stackSize > 1)
-            {
-                itemText.text = item.stackSize.ToString();
-            }
-            else
-            {
-                itemText.text = "";
-            }
+            if(itemText)
+                UpdateText();
+        }
+    }
+
+    private void UpdateText()
+    {
+        if (item.stackSize > 1)
+        {
+            itemText.text = item.stackSize.ToString();
+        }
+        else
+        {
+            itemText.text = "";
         }
     }
 
@@ -49,7 +55,9 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
 
         itemImage.sprite = null;
         itemImage.color = Color.clear;
-        itemText.text = "";
+
+        if (itemText)
+            itemText.text = "";
     }
 
     public virtual void OnPointerDown(PointerEventData eventData)

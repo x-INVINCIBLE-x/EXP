@@ -11,6 +11,7 @@ public enum EquipmentType
     Converter,
     Cartridge,
     Linear,
+    Weapon,
     None
 }
 

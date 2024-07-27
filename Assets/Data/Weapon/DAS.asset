@@ -12,7 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83844660c29b60a4ba50adc3acaa6c33, type: 3}
   m_Name: DAS
   m_EditorClassIdentifier: 
-  weaponName: DAS
+  itemType: 2
+  itemName: DAS
+  itemIcon: {fileID: 21300000, guid: c24126b3b871e0344add807710f653f7, type: 3}
+  itemId: 206d1656af236cf4cac0fed11f0165ee
+  canBeDestroyed: 0
+  shortDescription: 
+  description: 
+  dropChance: 0
+  equipmentType: 6
+  subEquipmentType: 6
+  modifiers: []
   weaponDetails:
     model: {fileID: 3593510174321219780, guid: 895abe2f103939a4786111d4fb53b013, type: 3}
     rangeType: 0
@@ -71,4 +81,4 @@ MonoBehaviour:
   electricAtk: 0
   acidAtk: 0
   counterAttackAnim: {fileID: 0}
-  fableBlade: {fileID: 11400000, guid: bdd82b94d309a5644845da4ee5c46190, type: 2}
+  fableBlade: {fileID: 11400000, guid: 9db4ece821875884d9564b96b3c352c4, type: 2}

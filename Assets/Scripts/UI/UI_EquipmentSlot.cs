@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 public class UI_EquipmentSlot : UI_ItemSlot
 {
     [SerializeField] protected GameObject selectionUI;
+    [SerializeField] private EquipmentType equipmentType;
 
     public override void OnPointerDown(PointerEventData eventData)
     {
@@ -21,7 +22,7 @@ public class UI_EquipmentSlot : UI_ItemSlot
             return;
         }
 
-
+        Inventory.Instance.UpdateSelectionSlotUI(equipmentType);
         selectionUI.SetActive(true);
     }
 

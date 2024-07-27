@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "WeaponData", menuName ="Item/Weapon")]
-public class WeaponData : ScriptableObject
+public class WeaponData : ItemData_Equipment
 {
-    public string weaponName;
     public WeaponModel weaponDetails;
     public Attack[] lightAttack;
     public Attack[] heavyAttack;
