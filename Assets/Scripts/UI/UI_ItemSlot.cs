@@ -22,7 +22,7 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
         ui = GetComponentInParent<UI>();
     }
 
-    public void UpdateSlot(InventoryItem _newItem)
+    public virtual void UpdateSlot(InventoryItem _newItem)
     {
         item = _newItem;
 

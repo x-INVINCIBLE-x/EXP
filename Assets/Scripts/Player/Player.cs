@@ -92,6 +92,9 @@ public class Player : MonoBehaviour
         if (isBusy)
             return;
 
+        if (weaponController.backupWeapon == null)
+            return;
+
         if (Time.time < weaponSwitchCooldown + lastTimeWeaponswitched)
             return;
 
@@ -100,7 +103,7 @@ public class Player : MonoBehaviour
         lastTimeWeaponswitched = Time.time;
     }
 
-    public void ChangeWeaponModel() => weaponController.ChangeWeaponModel();
+    public void ChangeWeaponModel() => weaponController.CreateWeaponModel();
 
     public void SetBusy(bool busy) => isBusy = busy;
     public void SetCanMove(bool move) => canMove = move;

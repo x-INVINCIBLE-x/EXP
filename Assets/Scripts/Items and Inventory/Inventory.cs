@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
@@ -12,6 +13,7 @@ public class Inventory : MonoBehaviour
     public Dictionary<ItemData, InventoryItem> materialsDictionary = new();
 
     public List<InventoryItem> weapons = new();
+    public Dictionary<ItemData_Equipment, InventoryItem> weaponsDictionary = new();
 
     public List<InventoryItem> defenceParts = new();
     public Dictionary<ItemData_Equipment, InventoryItem> defencePartsDictionary = new();
@@ -21,17 +23,15 @@ public class Inventory : MonoBehaviour
 
     public List<ItemData> startingItems;
 
-    public Transform usableItemsParent;
-    public Transform materialsParent;
     public Transform defencePartsParent;
     public Transform amuletsParent;
+    public Transform weaponsParent;
 
     public Transform selectionSlotsParent;
 
-    private UI_ItemSlot[] usableItemsSlots;
-    private UI_ItemSlot[] materialSlots;
     [SerializeField] private UI_EquipmentSlot[] defencePartsSlots;
     [SerializeField] private UI_EquipmentSlot[] amuletSlots;
+    [SerializeField] private UI_EquipmentSlot[] weaponsSlots;
 
     [SerializeField] private UI_SelectionSlot[] selectionSlots;
 
@@ -48,10 +48,9 @@ public class Inventory : MonoBehaviour
 
         selectionSlots = selectionSlotsParent.GetComponentsInChildren<UI_SelectionSlot>(true);
 
-        usableItemsSlots = usableItemsParent.GetComponentsInChildren<UI_ItemSlot>();
-        materialSlots = materialsParent.GetComponentsInChildren<UI_ItemSlot>();
         defencePartsSlots = defencePartsParent.GetComponentsInChildren<UI_EquipmentSlot>();
         amuletSlots = amuletsParent.GetComponentsInChildren<UI_EquipmentSlot>();
+        weaponsSlots = weaponsParent.GetComponentsInChildren<UI_EquipmentSlot>();
 
         bagSlots = bagSlotsParent.GetComponentsInChildren<UI_BagSlots>(true);
     }
@@ -91,6 +90,8 @@ public class Inventory : MonoBehaviour
             AddItem(item, ref amulets, ref amuletsDictionary);
         if (equipment.equipmentType == EquipmentType.Defence)
             AddItem(item, ref defenceParts, ref defencePartsDictionary);
+        if (equipment.equipmentType == EquipmentType.Weapon)
+            AddItem(item, ref weapons, ref weaponsDictionary);
     }
 
     public void AddItem(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<ItemData, InventoryItem> itemDictionary)
@@ -139,11 +140,18 @@ public class Inventory : MonoBehaviour
         }
     }
     #endregion
+
     #region Equip/ Unequip
     public void EquipItem(ItemData item, UI_ItemSlot itemSlot)
     {
         ItemData_Equipment newEquipment = item as ItemData_Equipment;
         InventoryItem newItem = new InventoryItem(newEquipment);
+
+        if (newEquipment.subEquipmentType == EquipmentType.Weapon)
+        {
+            EquipWeapon(item, itemSlot);
+            return;
+        }
 
         newEquipment.AddModifiers();
         if (newEquipment.subEquipmentType == EquipmentType.Defence)
@@ -152,9 +160,28 @@ public class Inventory : MonoBehaviour
             defencePartsDictionary[newEquipment] = newItem;
         }
 
-        if (itemSlot.item != null)
+        if (itemSlot.item != null && itemSlot.item.data != null)
         {
+            Debug.Log(itemSlot.item);
             UnequipItem(itemSlot);
+        }
+
+        itemSlot.item = newItem;
+        itemSlot.UpdateSlot(newItem);
+    }
+
+    public void EquipWeapon(ItemData item, UI_ItemSlot itemSlot)
+    {
+        PlayerWeaponController controller = PlayerManager.instance.player.weaponController;
+        InventoryItem newItem = new InventoryItem(item as ItemData_Equipment);
+        WeaponData weaponData = item as WeaponData;
+        if (itemSlot == weaponsSlots[0])
+        {
+            controller.EquipWeapon(weaponData, 0);
+        }
+        else
+        {
+            controller.EquipWeapon(weaponData, 1);
         }
 
         itemSlot.item = newItem;
@@ -174,6 +201,7 @@ public class Inventory : MonoBehaviour
         itemSlot.CleanUpSlot();
     }
     #endregion
+
     #region Remove Item From Inventory
     public void RemoveItem(ItemData item)
     {
@@ -292,6 +320,12 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < selectionSlots.Length; i++)
             selectionSlots[i].CleanUpSlot();
+
+        if (equipmentType == EquipmentType.Weapon)
+        {
+            for (int i = 0; i < weapons.Count; i++)
+                selectionSlots[i].UpdateSlot(weapons[i]);
+        }
 
         if (equipmentType != EquipmentType.Amulet)
         {

@@ -28,15 +28,52 @@ public class PlayerWeaponController : MonoBehaviour
     public float buffActivateCooldown;
     private float lastBuffCalled;
 
+    private int currentWeaponIndex = 0;
+
     private void Start()
     {
-        currentWeaponModel = Instantiate(currentWeapon.weaponDetails.model, weaponHolder);
         stats = PlayerManager.instance.player.stats;
+
+        InitializeWeapons();
         AddModifiersOfCurrentWeapon();
+    }
+
+    public void InitializeWeapons()
+    {
+        List<InventoryItem> weapons = Inventory.Instance.weapons;
+        currentWeapon = null;
+        backupWeapon = null;
+
+        if(currentWeapon)
+            currentWeaponModel = Instantiate(currentWeapon.weaponDetails.model, weaponHolder);
+    }
+
+    public void EquipWeapon(WeaponData weaponData, int index)
+    {
+        // 0 -> current Weapon
+        // 1 -> backup weapon
+
+        if (index == currentWeaponIndex)
+        {
+            if (currentWeapon)
+            {
+                Destroy(currentWeaponModel);
+                RemoveModifiersFromCurretWeapon();
+            }
+
+            currentWeapon = weaponData;
+            AddModifiersOfCurrentWeapon();
+            CreateWeaponModel();
+        }
+        else
+            backupWeapon = weaponData;
     }
 
     public Attack SelectLightAttack()
     {
+        if (currentWeapon == null)
+            return null;
+
         if (!CanCombo() && HasAttackStamina(currentWeapon.heavyAttack[0]))
             return currentWeapon.lightAttack[0];
 
@@ -65,7 +102,10 @@ public class PlayerWeaponController : MonoBehaviour
 
     public Attack SelectHeavyAttack()
     {
-        if(!CanCombo() && HasAttackStamina(currentWeapon.heavyAttack[0]))
+        if (currentWeapon == null)
+            return null;
+
+        if (!CanCombo() && HasAttackStamina(currentWeapon.heavyAttack[0]))
             return currentWeapon.heavyAttack[0];
 
         heavyAttackindex = heavyAttackindex + 1 >= currentWeapon.heavyAttack.Length ? 0 : heavyAttackindex + 1; 
@@ -93,6 +133,9 @@ public class PlayerWeaponController : MonoBehaviour
 
     public Attack SelectChargeAttack()
     {
+        if (currentWeapon == null)
+            return null;
+
         ResetIndexes();
         Attack attack = currentWeapon.chargeAttack;
 
@@ -107,7 +150,7 @@ public class PlayerWeaponController : MonoBehaviour
 
     public bool CanCombo()
     {
-        if(lastAttack == null)
+        if (lastAttack == null)
             return true;
 
         if(Time.time < lastTimeAttacked + lastAttack.clip.length + lastAttack.comboTime)
@@ -143,10 +186,15 @@ public class PlayerWeaponController : MonoBehaviour
         (currentWeapon, backupWeapon) = (backupWeapon, currentWeapon);
 
         AddModifiersOfCurrentWeapon();
+
+        currentWeaponIndex = currentWeaponIndex == 0 ? 1 : 0;
     }
 
     private void AddModifiersOfCurrentWeapon()
     {
+        if (currentWeapon == null)
+            return;
+
         stats.fireAtk.AddModifier(new StatModifier(currentWeapon.fireAtk, StatModType.Flat, currentWeapon));
         stats.electricAtk.AddModifier(new StatModifier(currentWeapon.electricAtk, StatModType.Flat, currentWeapon));
         stats.acidAtk.AddModifier(new StatModifier(currentWeapon.acidAtk, StatModType.Flat, currentWeapon));
@@ -154,18 +202,24 @@ public class PlayerWeaponController : MonoBehaviour
 
     private void RemoveModifiersFromCurretWeapon()
     {
+        if (currentWeapon == null)
+            return;
+
         stats.fireAtk.RemoveAllModifiersFromSource(currentWeapon);
         stats.electricAtk.RemoveAllModifiersFromSource(currentWeapon);
         stats.acidAtk.RemoveAllModifiersFromSource(currentWeapon);
     }
 
-    public void ChangeWeaponModel()
+    public void CreateWeaponModel()
     {
         currentWeaponModel = Instantiate(currentWeapon.weaponDetails.model, weaponHolder);
     }
 
     public void ExecuteFableArt()
     {
+        if (currentWeapon == null)
+            return;
+
         if (currentWeapon.fableBlade.type == FableArtType.Buff)
         {
             if (Time.time < lastBuffCalled + buffActivateCooldown)
@@ -190,6 +244,9 @@ public class PlayerWeaponController : MonoBehaviour
 
     public void MultiFableAttack()
     {
+        if (currentWeapon == null)
+            return;
+
         FableArt_MultiAttack fableAttack = currentWeapon.fableBlade as FableArt_MultiAttack;
         
         if (Time.time < lastMultiAttackCalled + animTime)

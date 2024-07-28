@@ -109,12 +109,19 @@ public class PlayerState
 
     protected void OnFableArt()
     {
+        if (!player.weaponController.currentWeapon)
+            return;
+
         if(player.stats.HasEnoughFableSlot(player.weaponController.currentWeapon.fableBlade.fableSlot))
             player.weaponController.ExecuteFableArt();
     }
 
     public void ChangeToBlock()
     {
+
+        if (player.weaponController.currentWeapon == null)
+            return;
+
         if (player.canCounter)
         {
             AnimationClip counterClip = player.weaponController.currentWeapon.counterAttackAnim;

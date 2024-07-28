@@ -95,6 +95,7 @@ MonoBehaviour:
   item:
     data: {fileID: 0}
     stackSize: 1
+  defaultCellSize: {x: 65, y: 65}
 --- !u!1 &5167208117098356632
 GameObject:
   m_ObjectHideFlags: 0

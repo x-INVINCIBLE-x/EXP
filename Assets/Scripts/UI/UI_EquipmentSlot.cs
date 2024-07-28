@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class UI_EquipmentSlot : UI_ItemSlot
 {
@@ -24,16 +25,6 @@ public class UI_EquipmentSlot : UI_ItemSlot
 
         Inventory.Instance.UpdateSelectionSlotUI(equipmentType);
         selectionUI.SetActive(true);
-    }
-
-    public void EquipItem(ItemData item)
-    {
-
-    }
-
-    public void UnequipItem()
-    {
-         
     }
 
     public override void CleanUpSlot()

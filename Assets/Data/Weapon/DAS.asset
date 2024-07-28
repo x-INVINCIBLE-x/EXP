@@ -77,7 +77,7 @@ MonoBehaviour:
     staminaConsumption: 0
   fableCharge: 25
   guardAmount: 2
-  fireAtk: 5
+  fireAtk: 2619
   electricAtk: 0
   acidAtk: 0
   counterAttackAnim: {fileID: 0}

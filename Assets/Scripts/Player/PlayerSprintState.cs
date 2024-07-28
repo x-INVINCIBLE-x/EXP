@@ -64,12 +64,20 @@ public class PlayerSprintState : PlayerState
 
     private void OnLightAttack()
     {
-        Attack currentAttack = player.weaponController.currentWeapon.sprintLightAttack;
+        WeaponData currWeapon = player.weaponController.currentWeapon;
+        if (currWeapon == null)
+            return;
+
+        Attack currentAttack = currWeapon.sprintLightAttack;
         stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, currentAttack));
     }
 
     private void OnHeavyAttack()
     {
+        WeaponData currWeapon = player.weaponController.currentWeapon;
+        if (currWeapon == null)
+            return;
+
         Attack currentAttack = player.weaponController.currentWeapon.sprintHeavyAttack;
         stateMachine.ChangeState(new PlayerAttackState(stateMachine, player, currentAttack));
     }
