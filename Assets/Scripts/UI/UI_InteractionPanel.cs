@@ -61,12 +61,15 @@ public class UI_InteractionPanel : MonoBehaviour, IPointerEnterHandler, IPointer
         if (!usableItem)
             return;
 
+        Inventory.Instance.RemoveItem(item);
         usableItem.UseItem(PlayerManager.instance.player.stats);
+        DeselectSlot();
     }
 
     public void MoveToEquipment()
     {
         UI.instance.SwitchTo(Panels.equipmentPanel);
+        DeselectSlot();
     }
 
     public void Destroy()
@@ -75,6 +78,13 @@ public class UI_InteractionPanel : MonoBehaviour, IPointerEnterHandler, IPointer
             return;
 
         Inventory.Instance.RemoveItem(item);
+        DeselectSlot();
+    }
+
+    private static void DeselectSlot()
+    {
+        UI.instance.DeselectSlot();
+        Inventory.Instance.UpdateSelectedSlot(null);
     }
 
     public void OnPointerExit(PointerEventData eventData)

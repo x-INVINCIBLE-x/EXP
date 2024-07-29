@@ -11,6 +11,7 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
 
     protected UI ui;
     public InventoryItem item;
+    [SerializeField] private bool isSelected;
 
     private void Awake()
     {
@@ -62,6 +63,16 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
 
     public virtual void OnPointerDown(PointerEventData eventData)
     {
+        if (eventData.clickCount == 0)
+        {
+            UI.instance.SelectSlot(this);
+            isSelected = true;
+        }
+    }
+
+    public void UnSelect()
+    {
+        isSelected = false;
     }
 
 }

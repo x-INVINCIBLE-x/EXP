@@ -9,7 +9,7 @@ public class UI_SelectionSlot : UI_ItemSlot
 {
     [SerializeField] private Vector2 defaultCellSize;
     [SerializeField] private TextMeshProUGUI itemTypeText;
-    GridLayoutGroup group;
+    private GridLayoutGroup group;
 
     private void Awake()
     {
@@ -34,6 +34,7 @@ public class UI_SelectionSlot : UI_ItemSlot
         defaultCellSize = defaultCellSize == Vector2.zero ? group.cellSize : defaultCellSize;
         group.cellSize = new Vector2(100, 180);        
     }
+
     public override void OnPointerDown(PointerEventData eventData)
     {
         base.OnPointerDown(eventData);
@@ -50,7 +51,6 @@ public class UI_SelectionSlot : UI_ItemSlot
         UI_SelectionSlotHandler currHandler = GetComponentInParent<UI_SelectionSlotHandler>();
         currHandler.gameObject.SetActive(false);
         Inventory.Instance.EquipItem(item.data, currHandler.parentSlot);
-
 
         UI.instance.HideToolTips();
     }

@@ -35,6 +35,8 @@ public class UI : MonoBehaviour
     public UI_EquipmentToolTip equipmentToolTip;
     public UI_EquipmentToolTip selectionToolTip;
 
+    private UI_ItemSlot lastSlotSelected;
+
     private void Awake()
     {
         if(instance == null)
@@ -109,5 +111,17 @@ public class UI : MonoBehaviour
         itemToolTip.HideToolTip();
         equipmentToolTip.HideToolTip();
         selectionToolTip.HideToolTip();
+    }
+
+    public void SelectSlot(UI_ItemSlot newSlot)
+    {
+        lastSlotSelected?.UnSelect();
+        lastSlotSelected = newSlot;
+        Inventory.Instance.UpdateSelectedSlot(newSlot);
+    }
+
+    public void DeselectSlot()
+    {
+        lastSlotSelected?.UnSelect();
     }
 }

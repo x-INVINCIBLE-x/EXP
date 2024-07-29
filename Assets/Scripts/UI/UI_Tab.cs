@@ -11,6 +11,8 @@ public class UI_Tab : MonoBehaviour, IPointerDownHandler
     [SerializeField] private EquipmentType equipmentType;
     public void OnPointerDown(PointerEventData eventData)
     {
+        UI.instance.DeselectSlot();
+
         if (tabToOpen.TryGetComponent(out UI_BagInternalPanels internalPanel))
         {
             //UI.instance.SwitchBagPanel(internalPanel);

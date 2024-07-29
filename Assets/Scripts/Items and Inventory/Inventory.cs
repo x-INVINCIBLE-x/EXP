@@ -41,6 +41,7 @@ public class Inventory : MonoBehaviour
     [Header("Bag Panel Slots")]
     [SerializeField][HideInInspector] private UI_BagSlots[] bagSlots;
 
+    private UI_ItemSlot selectedSlot;
     private void Awake()
     {
         if (Instance == null)
@@ -60,7 +61,30 @@ public class Inventory : MonoBehaviour
         AddStartingItems();
         ShowBagItemSlots(ItemType.UsableItem);
         CleanSlots();
-        //UpdateSlotUI();
+    }
+
+    //Temporary Input Check
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (selectedSlot == null)
+                return;
+
+            if (selectedSlot.TryGetComponent(out UI_SelectionSlot selectionSlot))
+            {
+                ItemData_Equipment equipment = selectedSlot.item.data as ItemData_Equipment;
+                if (equipment.isEquipped)
+                    UnequipItem(equipment);
+
+                UpdateSelectedSlot(null);
+                return;
+                
+            }
+
+            UnequipItem(selectedSlot);
+            UpdateSelectedSlot(null);
+        }
     }
 
     public void AddStartingItems()
@@ -147,6 +171,8 @@ public class Inventory : MonoBehaviour
         ItemData_Equipment newEquipment = item as ItemData_Equipment;
         InventoryItem newItem = new InventoryItem(newEquipment);
 
+        newEquipment.isEquipped = true;
+
         if (newEquipment.subEquipmentType == EquipmentType.Weapon)
         {
             EquipWeapon(item, itemSlot);
@@ -162,7 +188,6 @@ public class Inventory : MonoBehaviour
 
         if (itemSlot.item != null && itemSlot.item.data != null)
         {
-            Debug.Log(itemSlot.item);
             UnequipItem(itemSlot);
         }
 
@@ -190,15 +215,30 @@ public class Inventory : MonoBehaviour
 
     public void UnequipItem(UI_ItemSlot itemSlot)
     {
+        if (itemSlot == null)
+        {
+            Debug.LogWarning("Empty Slot");
+            return;
+        }
+
         ItemData_Equipment item = itemSlot.item.data as ItemData_Equipment;
+        UnequipItem(item);
+        itemSlot.CleanUpSlot();
+    }
+
+    private void UnequipItem(ItemData_Equipment item)
+    {
         if (item == null)
         {
             Debug.LogWarning("ItemData_Equipment not found!");
             return;
         }
 
+        item.isEquipped = false;
         item.RemoveModifiers();
-        itemSlot.CleanUpSlot();
+
+        UpdateEquipmentUI();
+        UpdateSelectionSlotUI(item.subEquipmentType);
     }
     #endregion
 
@@ -208,7 +248,7 @@ public class Inventory : MonoBehaviour
         if (materialsDictionary.TryGetValue(item, out InventoryItem value))
         {
             RemoveItem(value, ref materials, ref materialsDictionary);
-            return;
+            //return;
         }
 
         ItemData_Equipment equipment = item as ItemData_Equipment;
@@ -219,6 +259,9 @@ public class Inventory : MonoBehaviour
 
             if (defencePartsDictionary.TryGetValue(equipment, out value))
                 RemoveItem(value, ref defenceParts, ref defencePartsDictionary);
+
+            UpdateEquipmentUI();
+            UpdateSelectionSlotUI(equipment.subEquipmentType);
         }
 
         ItemData_Usable usableItem = item as ItemData_Usable;
@@ -227,7 +270,6 @@ public class Inventory : MonoBehaviour
             if (usableItemsDictionary.TryGetValue(usableItem, out value))
                 RemoveItem(value, ref usableItems, ref usableItemsDictionary);
         }
-
     }
 
     public void RemoveItem(InventoryItem item, ref List<InventoryItem> itemLIst, ref Dictionary<ItemData, InventoryItem> itemDictionary)
@@ -316,6 +358,39 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public void UpdateEquipmentUI()
+    {
+        for (int i = 0; i < amuletSlots.Length; i++)
+        {
+            if (amuletSlots[i].item == null || amuletSlots[i].item.data == null)
+                continue;
+
+            ItemData_Equipment equipment = amuletSlots[i].item.data as ItemData_Equipment;
+            if (amuletsDictionary.ContainsKey(equipment))
+            {
+                if (!equipment.isEquipped)
+                    amuletSlots[i].CleanUpSlot();
+            }
+            else
+                amuletSlots[i].CleanUpSlot();
+        }
+
+        for (int i = 0; i < defencePartsSlots.Length; i++)
+        {
+            if(defencePartsSlots[i].item == null || defencePartsSlots[i].item.data == null)
+                continue;
+
+            ItemData_Equipment equipment = defencePartsSlots[i].item.data as ItemData_Equipment;
+            if (defencePartsDictionary.ContainsKey(defencePartsSlots[i].item.data as ItemData_Equipment))
+            {
+                if (!equipment.isEquipped)
+                    defencePartsSlots[i].CleanUpSlot();
+            }
+            else
+                defencePartsSlots[i].CleanUpSlot();
+        }
+    }
+
     public void UpdateSelectionSlotUI(EquipmentType equipmentType)
     {
         for (int i = 0; i < selectionSlots.Length; i++)
@@ -338,8 +413,10 @@ public class Inventory : MonoBehaviour
             }
         }
         else if (equipmentType == EquipmentType.Amulet)
+        {
             for (int i = 0; i < amulets.Count; i++)
                 selectionSlots[i].UpdateSlot(amulets[i]);
+        }
     }
 
     private void CleanSlots()
@@ -352,4 +429,6 @@ public class Inventory : MonoBehaviour
     }
 
     #endregion
+
+    public void UpdateSelectedSlot(UI_ItemSlot selectedSlot) => this.selectedSlot = selectedSlot;
 }
