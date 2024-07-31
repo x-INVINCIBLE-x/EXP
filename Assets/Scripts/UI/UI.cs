@@ -36,6 +36,8 @@ public class UI : MonoBehaviour
     public UI_EquipmentToolTip selectionToolTip;
 
     private UI_ItemSlot lastSlotSelected;
+    private List<UI_Panel> activePanels = new();
+    [SerializeField] private InputManager inputManager;
 
     private void Awake()
     {
@@ -55,6 +57,16 @@ public class UI : MonoBehaviour
     {
         interactionPanel.Hide();
         HideToolTips();
+    }
+
+    private void OnEnable()
+    {
+        inputManager.BackEvent += ClosePanel;
+    }
+
+    private void OnDisable()
+    {
+        inputManager.BackEvent -= ClosePanel;
     }
 
     public void SwitchTo(Panels panelToOpen)
@@ -123,5 +135,24 @@ public class UI : MonoBehaviour
     public void DeselectSlot()
     {
         lastSlotSelected?.UnSelect();
+    }
+
+    public void AddToActivePanels(UI_Panel panel) => activePanels.Add(panel);
+    public void RemoveFromActivePanel(UI_Panel panel) => activePanels.Remove(panel);
+
+    public void ClosePanel()
+    {
+        if (activePanels.Count == 0)
+        {
+            OpenInventory();
+            return;
+        }
+
+        activePanels[activePanels.Count - 1].gameObject.SetActive(false);
+    }
+
+    public void OpenInventory()
+    {
+        inventoryPanel.SetActive(true);
     }
 }

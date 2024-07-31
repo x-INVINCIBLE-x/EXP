@@ -18,6 +18,7 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
     public event Action BlockEvent;
     public event Action WeaponSwitchEvent;
     public event Action FableArtsEvent;
+    public event Action BackEvent;
 
     public bool isSprinting = false;
     public bool isHolding = false;
@@ -108,5 +109,11 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
         
         isBlocking = true;
         BlockEvent?.Invoke();
+    }
+
+    public void OnBack(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            BackEvent?.Invoke();
     }
 }
