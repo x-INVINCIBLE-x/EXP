@@ -21,7 +21,7 @@ public class UI_SelectionSlot : UI_ItemSlot
         base.UpdateSlot(_newItem);
 
         ItemData_Equipment equipment = item.data as ItemData_Equipment;
-        UpdateText(equipment);
+        UpdateText(_newItem.data);
 
         if (group == null) return;
 
@@ -48,16 +48,40 @@ public class UI_SelectionSlot : UI_ItemSlot
             return;
         }
 
+        Debug.Log(ItemInUse());
+        if (ItemInUse())
+            return;
+
         UI_SelectionSlotHandler currHandler = GetComponentInParent<UI_SelectionSlotHandler>();
         currHandler.gameObject.SetActive(false);
+
         Inventory.Instance.EquipItem(item.data, currHandler.parentSlot);
 
         UI.instance.HideToolTips();
     }
 
-    private void UpdateText(ItemData_Equipment equipment)
+    private void UpdateText(ItemData item)
     {
         if (itemTypeText == null) return;
-        itemTypeText.text = equipment.subEquipmentType.ToString();
+        ItemData_Equipment equipment = item as ItemData_Equipment;
+
+        if(equipment)
+            itemTypeText.text = equipment.subEquipmentType.ToString();
+
+        if(item.itemType == ItemType.UsableItem)
+            itemTypeText.text = "Usable Item";
+    }
+
+    private bool ItemInUse()
+    {
+        ItemData_Usable usableItem = item.data as ItemData_Usable;
+        if (usableItem && usableItem.isEquipped)
+            return true;
+
+        ItemData_Equipment equipment = item.data as ItemData_Equipment;
+        if(equipment && equipment.isEquipped)
+            return true;
+
+        return false;
     }
 }

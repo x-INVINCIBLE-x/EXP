@@ -1,7 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static ItemData_Equipment;
 
 public enum EquipmentType
 {
@@ -25,7 +25,7 @@ public class ItemData_Equipment : ItemData
 
     private PlayerStat playerStats;
 
-    public bool isEquipped = false;
+    [NonSerialized] public bool isEquipped = false;
 
     public void AddModifiers()
     {

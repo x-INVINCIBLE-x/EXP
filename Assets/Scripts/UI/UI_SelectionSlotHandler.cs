@@ -6,5 +6,5 @@ using UnityEngine.EventSystems;
 
 public class UI_SelectionSlotHandler : MonoBehaviour
 {
-    public UI_EquipmentSlot parentSlot;
+    public UI_ItemSlot parentSlot;
 }

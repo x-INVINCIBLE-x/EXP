@@ -103,6 +103,12 @@ public class UI : MonoBehaviour
 
     public void ShowToolTip(ItemData item, bool isSelecting = false)
     {
+        if (item.itemType == ItemType.UsableItem)
+        {
+            itemToolTip.ShowToolTip(item);
+            return;
+        }
+
         if (isSelecting)
         {
             selectionToolTip.HideToolTip();

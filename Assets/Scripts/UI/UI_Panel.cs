@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class UI_Panel : MonoBehaviour
 {
-    private UI ui => UI.instance;
+    [SerializeField] private UI ui;
+
+    private void Awake()
+    {
+        ui = GetComponentInParent<UI>();
+    }
 
     private void OnEnable()
     {

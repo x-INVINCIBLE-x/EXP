@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
@@ -21,17 +20,27 @@ public class Inventory : MonoBehaviour
     public List<InventoryItem> amulets = new();
     public Dictionary<ItemData_Equipment, InventoryItem> amuletsDictionary = new();
 
+    public List<InventoryItem> upperBelt = new();
+    public List<InventoryItem> lowerBelt = new();
+    public List<InventoryItem> extraBag = new();
+
     public List<ItemData> startingItems;
 
     public Transform defencePartsParent;
     public Transform amuletsParent;
     public Transform weaponsParent;
+    public Transform upperBeltParent;
+    public Transform lowerBeltParent;
+    public Transform extraBagParent;
 
     public Transform selectionSlotsParent;
 
     [SerializeField] private UI_EquipmentSlot[] defencePartsSlots;
     [SerializeField] private UI_EquipmentSlot[] amuletSlots;
     [SerializeField] private UI_EquipmentSlot[] weaponsSlots;
+    [SerializeField] private UI_BeltSlot[] upperBeltSlots;
+    [SerializeField] private UI_BeltSlot[] lowerBeltSlots;
+    [SerializeField] private UI_BeltSlot[] extraBeltSlots;
 
     [SerializeField] private UI_SelectionSlot[] selectionSlots;
 
@@ -52,6 +61,9 @@ public class Inventory : MonoBehaviour
         defencePartsSlots = defencePartsParent.GetComponentsInChildren<UI_EquipmentSlot>();
         amuletSlots = amuletsParent.GetComponentsInChildren<UI_EquipmentSlot>();
         weaponsSlots = weaponsParent.GetComponentsInChildren<UI_EquipmentSlot>();
+        lowerBeltSlots = lowerBeltParent.GetComponentsInChildren<UI_BeltSlot>();
+        upperBeltSlots = upperBeltParent.GetComponentsInChildren<UI_BeltSlot>();
+        extraBeltSlots = extraBagParent.GetComponentsInChildren<UI_BeltSlot>();
 
         bagSlots = bagSlotsParent.GetComponentsInChildren<UI_BagSlots>(true);
     }
@@ -71,18 +83,20 @@ public class Inventory : MonoBehaviour
             if (selectedSlot == null)
                 return;
 
-            if (selectedSlot.TryGetComponent(out UI_SelectionSlot selectionSlot))
+            ItemData_Equipment equipment = selectedSlot.item.data as ItemData_Equipment;
+            if (equipment && equipment.isEquipped)
             {
-                ItemData_Equipment equipment = selectedSlot.item.data as ItemData_Equipment;
-                if (equipment.isEquipped)
-                    UnequipItem(equipment);
-
-                UpdateSelectedSlot(null);
+                UnequipItem(equipment);
                 return;
-                
             }
 
-            UnequipItem(selectedSlot);
+            ItemData_Usable usableItem = selectedSlot.item.data as ItemData_Usable;
+            if (usableItem && usableItem.isEquipped)
+            {
+                UnequipItem(usableItem);
+                return;
+            }
+
             UpdateSelectedSlot(null);
         }
     }
@@ -169,17 +183,31 @@ public class Inventory : MonoBehaviour
     public void EquipItem(ItemData item, UI_ItemSlot itemSlot)
     {
         ItemData_Equipment newEquipment = item as ItemData_Equipment;
-        InventoryItem newItem = new InventoryItem(newEquipment);
+        InventoryItem newItem = new InventoryItem(newEquipment); ;
 
-        newEquipment.isEquipped = true;
 
-        if (newEquipment.subEquipmentType == EquipmentType.Weapon)
+        if (newEquipment && newEquipment.subEquipmentType == EquipmentType.Weapon)
         {
-            EquipWeapon(item, itemSlot);
+            EquipWeapon(itemSlot, item, newItem);
             return;
         }
 
+        ItemData_Usable usableItem = item as ItemData_Usable;
+        if (usableItem)
+        {
+            newItem = new InventoryItem(usableItem);
+            EquipUsableItem(itemSlot, item, newItem);
+            return;
+        }
+
+        EquipEquipment(itemSlot, newEquipment, newItem);
+    }
+
+    private void EquipEquipment(UI_ItemSlot itemSlot, ItemData_Equipment newEquipment, InventoryItem newItem)
+    {
         newEquipment.AddModifiers();
+        newEquipment.isEquipped = true;
+
         if (newEquipment.subEquipmentType == EquipmentType.Defence)
         {
             defenceParts.Add(newItem);
@@ -195,10 +223,9 @@ public class Inventory : MonoBehaviour
         itemSlot.UpdateSlot(newItem);
     }
 
-    public void EquipWeapon(ItemData item, UI_ItemSlot itemSlot)
+    private void EquipWeapon(UI_ItemSlot itemSlot, ItemData item, InventoryItem newItem)
     {
         PlayerWeaponController controller = PlayerManager.instance.player.weaponController;
-        InventoryItem newItem = new InventoryItem(item as ItemData_Equipment);
         WeaponData weaponData = item as WeaponData;
         if (itemSlot == weaponsSlots[0])
         {
@@ -213,6 +240,30 @@ public class Inventory : MonoBehaviour
         itemSlot.UpdateSlot(newItem);
     }
 
+    public void EquipUsableItem(UI_ItemSlot itemSlot, ItemData item, InventoryItem newItem)
+    {
+        UI_BeltSlot beltSlot = itemSlot as UI_BeltSlot;
+        ItemData_Usable usableItem = item as ItemData_Usable;
+
+        if (!beltSlot || !usableItem)
+        {
+            Debug.LogWarning("Usable Belt or Item NUll");
+            return;
+        }
+
+        usableItem.isEquipped = true;
+
+        if (beltSlot.type == BeltType.LowerBelt)
+            lowerBelt.Add(newItem);
+        else if (beltSlot.type == BeltType.UpperBelt)
+            upperBelt.Add(newItem);
+        else if (beltSlot.type == BeltType.Extra)
+            extraBag.Add(newItem);
+
+        itemSlot.item = newItem;
+        itemSlot.UpdateSlot(newItem);
+    }
+
     public void UnequipItem(UI_ItemSlot itemSlot)
     {
         if (itemSlot == null)
@@ -221,8 +272,6 @@ public class Inventory : MonoBehaviour
             return;
         }
 
-        ItemData_Equipment item = itemSlot.item.data as ItemData_Equipment;
-        UnequipItem(item);
         itemSlot.CleanUpSlot();
     }
 
@@ -239,6 +288,14 @@ public class Inventory : MonoBehaviour
 
         UpdateEquipmentUI();
         UpdateSelectionSlotUI(item.subEquipmentType);
+    }
+
+    private void UnequipItem(ItemData_Usable usableItem)
+    {
+        usableItem.isEquipped = false;
+
+        UpdateBeltUI();
+        UpdateSelectionSlotUI(usableItem.itemType);
     }
     #endregion
 
@@ -377,7 +434,7 @@ public class Inventory : MonoBehaviour
 
         for (int i = 0; i < defencePartsSlots.Length; i++)
         {
-            if(defencePartsSlots[i].item == null || defencePartsSlots[i].item.data == null)
+            if (defencePartsSlots[i].item == null || defencePartsSlots[i].item.data == null)
                 continue;
 
             ItemData_Equipment equipment = defencePartsSlots[i].item.data as ItemData_Equipment;
@@ -388,6 +445,18 @@ public class Inventory : MonoBehaviour
             }
             else
                 defencePartsSlots[i].CleanUpSlot();
+        }
+    }
+
+    public void UpdateBeltUI()
+    {
+        for (int i = 0; i < upperBeltSlots.Length; i++)
+        {
+            if (upperBeltSlots[i].item == null || upperBeltSlots[i].item.data == null)
+                continue;
+
+            if (usableItemsDictionary.ContainsKey(upperBeltSlots[i].item.data as ItemData_Usable))
+                upperBeltSlots[i].CleanUpSlot();
         }
     }
 
@@ -417,6 +486,19 @@ public class Inventory : MonoBehaviour
             for (int i = 0; i < amulets.Count; i++)
                 selectionSlots[i].UpdateSlot(amulets[i]);
         }
+
+    }
+
+    public void UpdateSelectionSlotUI(ItemType itemType)
+    {
+        for (int i = 0; i < selectionSlots.Length; i++)
+            selectionSlots[i].CleanUpSlot();
+
+        if (itemType == ItemType.UsableItem)
+        {
+            for (int i = 0; i < usableItems.Count; i++)
+                selectionSlots[i].UpdateSlot(usableItems[i]);
+        }
     }
 
     private void CleanSlots()
@@ -426,6 +508,9 @@ public class Inventory : MonoBehaviour
 
         for (int i = 0; i < defencePartsSlots.Length; i++)
             defencePartsSlots[i].CleanUpSlot();
+
+        for (int i = 0; i < upperBeltSlots.Length; i++)
+            upperBeltSlots[i].CleanUpSlot();
     }
 
     #endregion
