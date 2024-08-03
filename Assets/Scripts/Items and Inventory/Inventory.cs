@@ -56,7 +56,7 @@ public class Inventory : MonoBehaviour
     [Header("Bag Panel Slots")]
     [SerializeField][HideInInspector] private UI_BagSlots[] bagSlots;
 
-    private UI_ItemSlot selectedSlot;
+    [SerializeField] private UI_ItemSlot selectedSlot;
     private BeltType activeBeltSelected = BeltType.UpperBelt;
 
     private InputManager inputManager;
@@ -107,6 +107,7 @@ public class Inventory : MonoBehaviour
     {
         if (UI.instance.activePanels.Count == 0)
             return;
+
         if (Input.GetKeyDown(KeyCode.R))
         {
             if (selectedSlot == null || selectedSlot.item == null || selectedSlot.item.data == null)
@@ -256,6 +257,10 @@ public class Inventory : MonoBehaviour
     {
         PlayerWeaponController controller = PlayerManager.instance.player.weaponController;
         WeaponData weaponData = item as WeaponData;
+
+        if (weaponData.isEquipped)
+            return;
+
         if (itemSlot == weaponsSlots[0])
         {
             controller.EquipWeapon(weaponData, 0);
@@ -265,6 +270,7 @@ public class Inventory : MonoBehaviour
             controller.EquipWeapon(weaponData, 1);
         }
 
+        weaponData.isEquipped = true;
         itemSlot.item = newItem;
         itemSlot.UpdateSlot(newItem);
     }
@@ -449,34 +455,26 @@ public class Inventory : MonoBehaviour
 
     public void UpdateEquipmentUI()
     {
-        for (int i = 0; i < amuletSlots.Length; i++)
+        UpdateEquipmentSlots(amuletSlots, amuletsDictionary);
+        UpdateEquipmentSlots(defencePartsSlots, defencePartsDictionary);
+        UpdateEquipmentSlots(weaponsSlots, weaponsDictionary);
+    }
+
+    private void UpdateEquipmentSlots(UI_EquipmentSlot[] equipmentSlots, Dictionary<ItemData_Equipment, InventoryItem> equipmentDictionary)
+    {
+        for (int i = 0; i < equipmentSlots.Length; i++)
         {
-            if (amuletSlots[i].item == null || amuletSlots[i].item.data == null)
+            if (equipmentSlots[i].item == null || equipmentSlots[i].item.data == null)
                 continue;
 
-            ItemData_Equipment equipment = amuletSlots[i].item.data as ItemData_Equipment;
-            if (amuletsDictionary.ContainsKey(equipment))
+            ItemData_Equipment equipment = equipmentSlots[i].item.data as ItemData_Equipment;
+            if (equipmentDictionary.ContainsKey(equipment))
             {
                 if (!equipment.isEquipped)
-                    amuletSlots[i].CleanUpSlot();
+                    equipmentSlots[i].CleanUpSlot();
             }
             else
-                amuletSlots[i].CleanUpSlot();
-        }
-
-        for (int i = 0; i < defencePartsSlots.Length; i++)
-        {
-            if (defencePartsSlots[i].item == null || defencePartsSlots[i].item.data == null)
-                continue;
-
-            ItemData_Equipment equipment = defencePartsSlots[i].item.data as ItemData_Equipment;
-            if (defencePartsDictionary.ContainsKey(defencePartsSlots[i].item.data as ItemData_Equipment))
-            {
-                if (!equipment.isEquipped)
-                    defencePartsSlots[i].CleanUpSlot();
-            }
-            else
-                defencePartsSlots[i].CleanUpSlot();
+                equipmentSlots[i].CleanUpSlot();
         }
     }
 
@@ -544,14 +542,19 @@ public class Inventory : MonoBehaviour
         if (itemType == ItemType.UsableItem)
         {
             for (int i = 0; i < usableItems.Count; i++)
+            {
                 selectionSlots[i].UpdateSlot(usableItems[i]);
+            }
         }
     }
 
     public void UpdateActiveBeltUI()
     {
         for (int i = 0; i < activeUpperBeltSlots.Length; i++)
+        {
+            //Debug.Log(upperBeltSlots[i].item.stackSize);
             activeUpperBeltSlots[i].UpdateSlot(upperBeltSlots[i].item);
+        }
 
         for (int i = 0; i < activeLowerBeltSlots.Length; i++)
             activeLowerBeltSlots[i].UpdateSlot(lowerBeltSlots[i].item);
@@ -602,6 +605,7 @@ public class Inventory : MonoBehaviour
         if (activeBeltSelected == BeltType.LowerBelt)
         {
             activeBeltSelected = BeltType.UpperBelt;
+            UI.instance.ActivateSlotVisualizer(BeltType.UpperBelt);
             return;
         }
 
@@ -613,6 +617,7 @@ public class Inventory : MonoBehaviour
         if (activeBeltSelected == BeltType.UpperBelt)
         {
             activeBeltSelected = BeltType.LowerBelt;
+            UI.instance.ActivateSlotVisualizer(BeltType.LowerBelt);
             return;
         }
 

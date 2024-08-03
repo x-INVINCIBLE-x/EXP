@@ -56,7 +56,7 @@ public class UI_SelectionSlot : UI_ItemSlot
         currHandler.gameObject.SetActive(false);
 
         Inventory.Instance.EquipItem(item.data, currHandler.parentSlot);
-
+        Inventory.Instance.UpdateSelectedSlot(null);
         UI.instance.HideToolTips();
     }
 

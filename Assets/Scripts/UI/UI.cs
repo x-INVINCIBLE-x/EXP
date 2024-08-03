@@ -39,6 +39,7 @@ public class UI : MonoBehaviour
     public List<UI_Panel> activePanels = new();
     [SerializeField] private InputManager inputManager;
 
+    [SerializeField] private GameObject[] selectedSlotVisualizer;
     private void Awake()
     {
         if(instance == null)
@@ -146,6 +147,19 @@ public class UI : MonoBehaviour
     public void AddToActivePanels(UI_Panel panel) => activePanels.Add(panel);
     public void RemoveFromActivePanel(UI_Panel panel) => activePanels.Remove(panel);
 
+    public void ActivateSlotVisualizer(BeltType type)
+    {
+        if (type == BeltType.UpperBelt)
+        {
+            selectedSlotVisualizer[1].SetActive(false);
+            selectedSlotVisualizer[0].SetActive(true);
+        }
+        else
+        {
+            selectedSlotVisualizer[0].SetActive(false);
+            selectedSlotVisualizer[1].SetActive(true);
+        }
+    }
     public void ClosePanel()
     {
         if (activePanels.Count == 0)

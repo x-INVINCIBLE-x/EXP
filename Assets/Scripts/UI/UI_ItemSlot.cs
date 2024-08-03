@@ -12,6 +12,7 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
     protected UI ui;
     public InventoryItem item;
     [SerializeField] private bool isSelected;
+    [SerializeField] private GameObject selectionVisualizer;
 
     private void Awake()
     {
@@ -70,12 +71,17 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
         {
             UI.instance.SelectSlot(this);
             isSelected = true;
+
+            if (selectionVisualizer)
+                selectionVisualizer.SetActive(isSelected);
         }
     }
 
     public void UnSelect()
     {
         isSelected = false;
+        if (selectionVisualizer)
+            selectionVisualizer.SetActive(isSelected);
     }
 
 }
