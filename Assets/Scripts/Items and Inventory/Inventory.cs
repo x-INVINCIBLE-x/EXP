@@ -489,7 +489,10 @@ public class Inventory : MonoBehaviour
         for (int i = 0; i < beltSlots.Length; i++)
         {
             if (beltSlots[i].item == null || beltSlots[i].item.data == null)
+            {
+                beltSlots[i].CleanUpSlot(); 
                 continue;
+            }
 
             ItemData_Usable usableItem = beltSlots[i].item.data as ItemData_Usable;
 
