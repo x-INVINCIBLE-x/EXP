@@ -85,6 +85,8 @@ public class Inventory : MonoBehaviour
         AddStartingItems();
         ShowBagItemSlots(ItemType.UsableItem);
         CleanSlots();
+        UpdateActiveBeltUI();
+        UpdateBeltUI();
     }
 
     private void OnEnable()
@@ -210,27 +212,24 @@ public class Inventory : MonoBehaviour
     #endregion
 
     #region Equip/ Unequip
-    public void EquipItem(ItemData item, UI_ItemSlot itemSlot)
+    public void EquipItem(InventoryItem item, UI_ItemSlot itemSlot)
     {
-        ItemData_Equipment newEquipment = item as ItemData_Equipment;
-        InventoryItem newItem = new InventoryItem(newEquipment); ;
-
+        ItemData_Equipment newEquipment = item.data as ItemData_Equipment;
 
         if (newEquipment && newEquipment.subEquipmentType == EquipmentType.Weapon)
         {
-            EquipWeapon(itemSlot, item, newItem);
+            EquipWeapon(itemSlot, item.data, item);
             return;
         }
 
-        ItemData_Usable usableItem = item as ItemData_Usable;
+        ItemData_Usable usableItem = item.data as ItemData_Usable;
         if (usableItem)
         {
-            newItem = new InventoryItem(usableItem);
-            EquipUsableItem(itemSlot, item, newItem);
+            EquipUsableItem(itemSlot, item.data, item);
             return;
         }
 
-        EquipEquipment(itemSlot, newEquipment, newItem);
+        EquipEquipment(itemSlot, newEquipment, item);
     }
 
     private void EquipEquipment(UI_ItemSlot itemSlot, ItemData_Equipment newEquipment, InventoryItem newItem)
