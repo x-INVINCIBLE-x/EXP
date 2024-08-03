@@ -183,6 +183,7 @@ public class UI : MonoBehaviour
         }
 
         activePanels[activePanels.Count - 1].gameObject.SetActive(false);
+        Inventory.Instance.UpdateSelectedSlot(null);
     }
 
     public void OpenInventory()

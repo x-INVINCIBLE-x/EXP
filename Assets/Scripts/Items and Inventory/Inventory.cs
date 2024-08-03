@@ -56,7 +56,7 @@ public class Inventory : MonoBehaviour
     [Header("Bag Panel Slots")]
     [SerializeField][HideInInspector] private UI_BagSlots[] bagSlots;
 
-    private UI_ItemSlot selectedSlot;
+    [SerializeField] private UI_ItemSlot selectedSlot;
     private void Awake()
     {
         if (Instance == null)
@@ -556,23 +556,9 @@ public class Inventory : MonoBehaviour
     public void ShiftBeltSlots(BeltType beltType)
     {
         if (beltType == BeltType.UpperBelt)
-        {
-            //InventoryItem startItem = activeUpperBeltSlots[0].item;
-            //int upperBeltSlotsLength = activeUpperBeltSlots.Length;
-
-            //for (int i = 1; i < upperBeltSlotsLength; i++)
-            //{
-            //    InventoryItem nextItem = activeUpperBeltSlots[i].item;
-            //    activeUpperBeltSlots[i - 1].UpdateSlot(activeUpperBeltSlots[i].item);
-            //}
-
-            //activeUpperBeltSlots[upperBeltSlotsLength - 1].UpdateSlot(startItem);
             ShiftSlots(activeUpperBeltSlots);
-        }
         else if (beltType == BeltType.LowerBelt)
-        {
             ShiftSlots(activeLowerBeltSlots);
-        }
     }
 
     private void ShiftSlots(UI_ActiveBeltSlot[] activeBeltSlots)
