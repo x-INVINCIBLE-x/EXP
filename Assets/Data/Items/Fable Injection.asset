@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Fable Injection
   m_EditorClassIdentifier: 
   itemType: 0
-  itemName: 
-  itemIcon: {fileID: 0}
-  itemId: 
+  itemName: Fable Injection
+  itemIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  itemId: dff935ff0b3bcb24d840826e4733703e
   canBeDestroyed: 0
-  shortDescription: 
-  description: 
+  shortDescription: Get High above the Sky
+  description: Too high
   dropChance: 0
   itemEffectDescription: 
   modifiers: []

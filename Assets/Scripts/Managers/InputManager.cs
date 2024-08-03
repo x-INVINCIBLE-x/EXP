@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
 {
+    public static InputManager Instance;
     private PlayerControls controls;
     public Vector2 Movement { get; private set; }
 
@@ -21,11 +22,19 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
     public event Action BackEvent;
     public event Action UpdateUpperBeltEvent;
     public event Action UpdateLowerBeltEvent;
+    public event Action UseEvent;
 
     public bool isSprinting = false;
     public bool isHolding = false;
     public bool isBlocking = false;
-    
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else Destroy(gameObject);
+    }
+
     private void Start()
     {
         controls = new PlayerControls();
@@ -129,5 +138,11 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
     {
         if (context.performed)
             UpdateLowerBeltEvent?.Invoke();
+    }
+
+    public void OnUseItem(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+           UseEvent?.Invoke();
     }
 }

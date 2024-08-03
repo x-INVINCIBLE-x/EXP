@@ -36,10 +36,8 @@ public class UI : MonoBehaviour
     public UI_EquipmentToolTip selectionToolTip;
 
     private UI_ItemSlot lastSlotSelected;
-    private List<UI_Panel> activePanels = new();
+    public List<UI_Panel> activePanels = new();
     [SerializeField] private InputManager inputManager;
-
-    private BeltType activeBeltSelected;
 
     private void Awake()
     {
@@ -64,37 +62,11 @@ public class UI : MonoBehaviour
     private void OnEnable()
     {
         inputManager.BackEvent += ClosePanel;
-        inputManager.UpdateUpperBeltEvent += ShiftUpperBelt;
-        inputManager.UpdateLowerBeltEvent += ShiftLowerBelt;
-    }
-
-    public void ShiftUpperBelt()
-    {
-        if (activeBeltSelected == BeltType.LowerBelt)
-        {
-            activeBeltSelected = BeltType.UpperBelt;
-            return;
-        }
-
-        Inventory.Instance.ShiftBeltSlots(BeltType.UpperBelt);
-    }
-
-    public void ShiftLowerBelt()
-    {
-        if (activeBeltSelected == BeltType.UpperBelt)
-        {
-            activeBeltSelected = BeltType.LowerBelt;
-            return;
-        }
-
-        Inventory.Instance.ShiftBeltSlots(BeltType.LowerBelt);
     }
 
     private void OnDisable()
     {
         inputManager.BackEvent -= ClosePanel;
-        inputManager.UpdateUpperBeltEvent -= ShiftUpperBelt;
-        inputManager.UpdateLowerBeltEvent -= ShiftLowerBelt;
     }
 
     public void SwitchTo(Panels panelToOpen)

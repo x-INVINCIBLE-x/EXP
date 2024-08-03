@@ -56,7 +56,10 @@ public class Inventory : MonoBehaviour
     [Header("Bag Panel Slots")]
     [SerializeField][HideInInspector] private UI_BagSlots[] bagSlots;
 
-    [SerializeField] private UI_ItemSlot selectedSlot;
+    private UI_ItemSlot selectedSlot;
+    private BeltType activeBeltSelected = BeltType.UpperBelt;
+
+    private InputManager inputManager;
     private void Awake()
     {
         if (Instance == null)
@@ -84,12 +87,29 @@ public class Inventory : MonoBehaviour
         CleanSlots();
     }
 
+    private void OnEnable()
+    {
+        inputManager = InputManager.Instance;
+        inputManager.UpdateUpperBeltEvent += ShiftUpperBelt;
+        inputManager.UpdateLowerBeltEvent += ShiftLowerBelt;
+        inputManager.UseEvent += UseBeltItem;
+    }
+
+    private void OnDisable()
+    {
+        inputManager.UpdateUpperBeltEvent -= ShiftUpperBelt;
+        inputManager.UpdateLowerBeltEvent -= ShiftLowerBelt;
+        inputManager.UseEvent -= UseBeltItem;
+    }
+
     //Temporary Input Check
     private void Update()
     {
+        if (UI.instance.activePanels.Count == 0)
+            return;
         if (Input.GetKeyDown(KeyCode.R))
         {
-            if (selectedSlot == null)
+            if (selectedSlot == null || selectedSlot.item == null || selectedSlot.item.data == null)
                 return;
 
             ItemData_Equipment equipment = selectedSlot.item.data as ItemData_Equipment;
@@ -474,8 +494,10 @@ public class Inventory : MonoBehaviour
             if (beltSlots[i].item == null || beltSlots[i].item.data == null)
                 continue;
 
+            ItemData_Usable usableItem = beltSlots[i].item.data as ItemData_Usable;
+
             // If unequipped item is in use
-            if (usableItemsDictionary.ContainsKey(beltSlots[i].item.data as ItemData_Usable))
+            if (!usableItemsDictionary.ContainsKey(usableItem) || !usableItem.isEquipped)
             {
                 beltSlots[i].CleanUpSlot();
                 UpdateActiveBeltUI();
@@ -573,6 +595,57 @@ public class Inventory : MonoBehaviour
         }
 
         activeBeltSlots[activeBeltSlotsLength - 1].UpdateSlot(startItem);
+    }
+
+    public void ShiftUpperBelt()
+    {
+        if (activeBeltSelected == BeltType.LowerBelt)
+        {
+            activeBeltSelected = BeltType.UpperBelt;
+            return;
+        }
+
+        ShiftBeltSlots(BeltType.UpperBelt);
+    }
+
+    public void ShiftLowerBelt()
+    {
+        if (activeBeltSelected == BeltType.UpperBelt)
+        {
+            activeBeltSelected = BeltType.LowerBelt;
+            return;
+        }
+
+        ShiftBeltSlots(BeltType.LowerBelt);
+    }
+
+    public void UseBeltItem()
+    {
+        UI_ActiveBeltSlot activeSlot;
+        if (activeBeltSelected == BeltType.UpperBelt)
+            activeSlot = activeUpperBeltSlots[0];
+        else
+            activeSlot = activeLowerBeltSlots[0];
+
+        if (activeSlot.item == null || activeSlot.item.data == null)
+            return;
+
+        UseItem(activeSlot.item.data);
+    }
+
+    public void UseItem(ItemData item)
+    {
+        ItemData_Usable usableItem = item as ItemData_Usable;
+
+        if(usableItem == null)
+        {
+            Debug.LogWarning("Trying to use non usable item");
+            return;
+        }
+
+        RemoveItem(item);
+        UpdateBeltUI();
+        usableItem.UseItem(PlayerManager.instance.player.stats);
     }
 
     public void UpdateSelectedSlot(UI_ItemSlot selectedSlot) => this.selectedSlot = selectedSlot;

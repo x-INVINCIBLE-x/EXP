@@ -57,12 +57,7 @@ public class UI_InteractionPanel : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void Use()
     {
-        ItemData_Usable usableItem = item as ItemData_Usable;
-        if (!usableItem)
-            return;
-
-        Inventory.Instance.RemoveItem(item);
-        usableItem.UseItem(PlayerManager.instance.player.stats);
+        Inventory.Instance.UseItem(item);
         DeselectSlot();
     }
 

@@ -143,6 +143,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""043ffd92-60f0-474d-981e-98fc8ebd2c21"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -387,6 +396,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""UpdateLowerBelt"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3478d178-8250-451c-b168-6f155455c036"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -408,6 +428,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Back = m_Player.FindAction("Back", throwIfNotFound: true);
         m_Player_UpdateUpperBelt = m_Player.FindAction("UpdateUpperBelt", throwIfNotFound: true);
         m_Player_UpdateLowerBelt = m_Player.FindAction("UpdateLowerBelt", throwIfNotFound: true);
+        m_Player_UseItem = m_Player.FindAction("UseItem", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -482,6 +503,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Back;
     private readonly InputAction m_Player_UpdateUpperBelt;
     private readonly InputAction m_Player_UpdateLowerBelt;
+    private readonly InputAction m_Player_UseItem;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -499,6 +521,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Back => m_Wrapper.m_Player_Back;
         public InputAction @UpdateUpperBelt => m_Wrapper.m_Player_UpdateUpperBelt;
         public InputAction @UpdateLowerBelt => m_Wrapper.m_Player_UpdateLowerBelt;
+        public InputAction @UseItem => m_Wrapper.m_Player_UseItem;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -547,6 +570,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @UpdateLowerBelt.started += instance.OnUpdateLowerBelt;
             @UpdateLowerBelt.performed += instance.OnUpdateLowerBelt;
             @UpdateLowerBelt.canceled += instance.OnUpdateLowerBelt;
+            @UseItem.started += instance.OnUseItem;
+            @UseItem.performed += instance.OnUseItem;
+            @UseItem.canceled += instance.OnUseItem;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -590,6 +616,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @UpdateLowerBelt.started -= instance.OnUpdateLowerBelt;
             @UpdateLowerBelt.performed -= instance.OnUpdateLowerBelt;
             @UpdateLowerBelt.canceled -= instance.OnUpdateLowerBelt;
+            @UseItem.started -= instance.OnUseItem;
+            @UseItem.performed -= instance.OnUseItem;
+            @UseItem.canceled -= instance.OnUseItem;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -622,5 +651,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnBack(InputAction.CallbackContext context);
         void OnUpdateUpperBelt(InputAction.CallbackContext context);
         void OnUpdateLowerBelt(InputAction.CallbackContext context);
+        void OnUseItem(InputAction.CallbackContext context);
     }
 }
