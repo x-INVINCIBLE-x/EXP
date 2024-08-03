@@ -1,7 +1,7 @@
 using TMPro;
-using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
 {
@@ -25,17 +25,20 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
 
     public virtual void UpdateSlot(InventoryItem _newItem)
     {
+        if (_newItem == null || _newItem.data == null)
+        {
+            CleanUpSlot();
+            return;
+        }
+
         item = _newItem;
 
         itemImage.color = Color.white;
 
-        if (item != null)
-        {
-            itemImage.sprite = item.data.itemIcon;
+        itemImage.sprite = item.data.itemIcon;
 
-            if(itemText)
-                UpdateText();
-        }
+        if (itemText)
+            UpdateText();
     }
 
     private void UpdateText()

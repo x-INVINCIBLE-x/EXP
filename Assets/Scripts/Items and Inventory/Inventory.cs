@@ -32,7 +32,9 @@ public class Inventory : MonoBehaviour
     public Transform upperBeltParent;
     public Transform lowerBeltParent;
     public Transform extraBagParent;
+
     public Transform activeUpperBeltParent;
+    public Transform activeLowerBeltParent;
 
     public Transform selectionSlotsParent;
 
@@ -42,7 +44,9 @@ public class Inventory : MonoBehaviour
     [SerializeField] private UI_BeltSlot[] upperBeltSlots;
     [SerializeField] private UI_BeltSlot[] lowerBeltSlots;
     [SerializeField] private UI_BeltSlot[] extraBeltSlots;
+
     [SerializeField] private UI_ActiveBeltSlot[] activeUpperBeltSlots;
+    [SerializeField] private UI_ActiveBeltSlot[] activeLowerBeltSlots;
 
     [SerializeField] private UI_SelectionSlot[] selectionSlots;
 
@@ -68,6 +72,7 @@ public class Inventory : MonoBehaviour
         extraBeltSlots = extraBagParent.GetComponentsInChildren<UI_BeltSlot>();
 
         activeUpperBeltSlots = activeUpperBeltParent.GetComponentsInChildren<UI_ActiveBeltSlot>();
+        activeLowerBeltSlots = activeLowerBeltParent.GetComponentsInChildren<UI_ActiveBeltSlot>();
 
         bagSlots = bagSlotsParent.GetComponentsInChildren<UI_BagSlots>(true);
     }
@@ -457,17 +462,28 @@ public class Inventory : MonoBehaviour
 
     public void UpdateBeltUI()
     {
-        for (int i = 0; i < upperBeltSlots.Length; i++)
-        {
-            if (upperBeltSlots[i].item == null || upperBeltSlots[i].item.data == null)
-                continue;
-
-            if (usableItemsDictionary.ContainsKey(upperBeltSlots[i].item.data as ItemData_Usable))
-                upperBeltSlots[i].CleanUpSlot();
-        }
-        
+        UpdateBeltSlots(upperBeltSlots);
+        UpdateBeltSlots(lowerBeltSlots);
+        UpdateBeltSlots(extraBeltSlots);        
     }
 
+    private void UpdateBeltSlots(UI_BeltSlot[] beltSlots)
+    {
+        for (int i = 0; i < beltSlots.Length; i++)
+        {
+            if (beltSlots[i].item == null || beltSlots[i].item.data == null)
+                continue;
+
+            // If unequipped item is in use
+            if (usableItemsDictionary.ContainsKey(beltSlots[i].item.data as ItemData_Usable))
+            {
+                beltSlots[i].CleanUpSlot();
+                UpdateActiveBeltUI();
+            }
+        }
+    }
+
+    // For Equipment
     public void UpdateSelectionSlotUI(EquipmentType equipmentType)
     {
         for (int i = 0; i < selectionSlots.Length; i++)
@@ -497,12 +513,7 @@ public class Inventory : MonoBehaviour
 
     }
 
-    public void UpdateActiveBeltUI()
-    {
-        for (int i = 0; i < activeUpperBeltSlots.Length; i++)
-            activeUpperBeltSlots[i].UpdateSlot(upperBeltSlots[i].item);
-    }
-
+    // For Usable Item
     public void UpdateSelectionSlotUI(ItemType itemType)
     {
         for (int i = 0; i < selectionSlots.Length; i++)
@@ -514,6 +525,16 @@ public class Inventory : MonoBehaviour
                 selectionSlots[i].UpdateSlot(usableItems[i]);
         }
     }
+
+    public void UpdateActiveBeltUI()
+    {
+        for (int i = 0; i < activeUpperBeltSlots.Length; i++)
+            activeUpperBeltSlots[i].UpdateSlot(upperBeltSlots[i].item);
+
+        for (int i = 0; i < activeLowerBeltSlots.Length; i++)
+            activeLowerBeltSlots[i].UpdateSlot(lowerBeltSlots[i].item);
+    }
+
 
     private void CleanSlots()
     {
@@ -542,18 +563,10 @@ public class Inventory : MonoBehaviour
             for (int i = 1; i < upperBeltSlotsLength; i++)
             {
                 InventoryItem nextItem = activeUpperBeltSlots[i].item;
-                if (nextItem == null || nextItem.data == null)
-                {
-                    activeUpperBeltSlots[i - 1].CleanUpSlot();
-                    continue;
-                }
                 activeUpperBeltSlots[i - 1].UpdateSlot(activeUpperBeltSlots[i].item);
             }
 
-            if(startItem ==  null || startItem.data == null)
-                activeUpperBeltSlots[upperBeltSlotsLength - 1].CleanUpSlot();
-            else
-                activeUpperBeltSlots[upperBeltSlotsLength - 1].UpdateSlot(startItem);
+            activeUpperBeltSlots[upperBeltSlotsLength - 1].UpdateSlot(startItem);
         }
     }
 
