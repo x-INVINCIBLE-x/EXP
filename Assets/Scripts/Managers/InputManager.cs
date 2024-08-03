@@ -20,6 +20,7 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
     public event Action FableArtsEvent;
     public event Action BackEvent;
     public event Action UpdateUpperBeltEvent;
+    public event Action UpdateLowerBeltEvent;
 
     public bool isSprinting = false;
     public bool isHolding = false;
@@ -122,5 +123,11 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
     {
         if (context.performed)
             UpdateUpperBeltEvent?.Invoke();
+    }
+
+    public void OnUpdateLowerBelt(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            UpdateLowerBeltEvent?.Invoke();
     }
 }

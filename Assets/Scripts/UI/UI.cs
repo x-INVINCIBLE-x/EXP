@@ -64,10 +64,11 @@ public class UI : MonoBehaviour
     private void OnEnable()
     {
         inputManager.BackEvent += ClosePanel;
-        inputManager.UpdateUpperBeltEvent += SwitchUpperBelt;
+        inputManager.UpdateUpperBeltEvent += ShiftUpperBelt;
+        inputManager.UpdateLowerBeltEvent += ShiftLowerBelt;
     }
 
-    public void SwitchUpperBelt()
+    public void ShiftUpperBelt()
     {
         if (activeBeltSelected == BeltType.LowerBelt)
         {
@@ -78,9 +79,22 @@ public class UI : MonoBehaviour
         Inventory.Instance.ShiftBeltSlots(BeltType.UpperBelt);
     }
 
+    public void ShiftLowerBelt()
+    {
+        if (activeBeltSelected == BeltType.UpperBelt)
+        {
+            activeBeltSelected = BeltType.LowerBelt;
+            return;
+        }
+
+        Inventory.Instance.ShiftBeltSlots(BeltType.LowerBelt);
+    }
+
     private void OnDisable()
     {
         inputManager.BackEvent -= ClosePanel;
+        inputManager.UpdateUpperBeltEvent -= ShiftUpperBelt;
+        inputManager.UpdateLowerBeltEvent -= ShiftLowerBelt;
     }
 
     public void SwitchTo(Panels panelToOpen)

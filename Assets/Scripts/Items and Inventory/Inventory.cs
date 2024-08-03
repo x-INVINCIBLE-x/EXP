@@ -555,19 +555,38 @@ public class Inventory : MonoBehaviour
 
     public void ShiftBeltSlots(BeltType beltType)
     {
-        if(beltType == BeltType.UpperBelt)
+        if (beltType == BeltType.UpperBelt)
         {
-            InventoryItem startItem = activeUpperBeltSlots[0].item;
-            int upperBeltSlotsLength = activeUpperBeltSlots.Length;
+            //InventoryItem startItem = activeUpperBeltSlots[0].item;
+            //int upperBeltSlotsLength = activeUpperBeltSlots.Length;
 
-            for (int i = 1; i < upperBeltSlotsLength; i++)
-            {
-                InventoryItem nextItem = activeUpperBeltSlots[i].item;
-                activeUpperBeltSlots[i - 1].UpdateSlot(activeUpperBeltSlots[i].item);
-            }
+            //for (int i = 1; i < upperBeltSlotsLength; i++)
+            //{
+            //    InventoryItem nextItem = activeUpperBeltSlots[i].item;
+            //    activeUpperBeltSlots[i - 1].UpdateSlot(activeUpperBeltSlots[i].item);
+            //}
 
-            activeUpperBeltSlots[upperBeltSlotsLength - 1].UpdateSlot(startItem);
+            //activeUpperBeltSlots[upperBeltSlotsLength - 1].UpdateSlot(startItem);
+            ShiftSlots(activeUpperBeltSlots);
         }
+        else if (beltType == BeltType.LowerBelt)
+        {
+            ShiftSlots(activeLowerBeltSlots);
+        }
+    }
+
+    private void ShiftSlots(UI_ActiveBeltSlot[] activeBeltSlots)
+    {
+        InventoryItem startItem = activeBeltSlots[0].item;
+        int activeBeltSlotsLength = activeBeltSlots.Length;
+
+        for (int i = 1; i < activeBeltSlotsLength; i++)
+        {
+            InventoryItem nextItem = activeBeltSlots[i].item;
+            activeBeltSlots[i - 1].UpdateSlot(activeBeltSlots[i].item);
+        }
+
+        activeBeltSlots[activeBeltSlotsLength - 1].UpdateSlot(startItem);
     }
 
     public void UpdateSelectedSlot(UI_ItemSlot selectedSlot) => this.selectedSlot = selectedSlot;
