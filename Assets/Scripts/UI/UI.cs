@@ -162,6 +162,7 @@ public class UI : MonoBehaviour
     }
     public void ClosePanel()
     {
+        HideToolTips();
         if (activePanels.Count == 0)
         {
             OpenInventory();
