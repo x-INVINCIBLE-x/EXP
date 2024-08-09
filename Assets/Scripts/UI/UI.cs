@@ -36,6 +36,7 @@ public class UI : MonoBehaviour
     public UI_ItemToolTip itemToolTip;
     public UI_EquipmentToolTip equipmentToolTip;
     public UI_EquipmentToolTip selectionToolTip;
+    public UI_PanelToolTip panelToolTip;
 
     private UI_ItemSlot lastSlotSelected;
     private List<UI_Panel> activePanels = new();
@@ -132,6 +133,7 @@ public class UI : MonoBehaviour
         itemToolTip.HideToolTip();
         equipmentToolTip.HideToolTip();
         selectionToolTip.HideToolTip();
+        panelToolTip.HideToolTip();
     }
 
     public void SelectSlot(UI_ItemSlot newSlot)

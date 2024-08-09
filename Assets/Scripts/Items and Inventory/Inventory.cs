@@ -216,6 +216,9 @@ public class Inventory : MonoBehaviour
     {
         ItemData_Equipment newEquipment = item.data as ItemData_Equipment;
 
+        if (itemSlot.item != null && itemSlot.item.data != null)
+            UnequipItem(itemSlot);
+
         if (newEquipment && newEquipment.subEquipmentType == EquipmentType.Weapon)
         {
             EquipWeapon(itemSlot, item.data, item);
@@ -241,11 +244,6 @@ public class Inventory : MonoBehaviour
         {
             defenceParts.Add(newItem);
             defencePartsDictionary[newEquipment] = newItem;
-        }
-
-        if (itemSlot.item != null && itemSlot.item.data != null)
-        {
-            UnequipItem(itemSlot);
         }
 
         itemSlot.item = newItem;
@@ -653,6 +651,12 @@ public class Inventory : MonoBehaviour
 
         RemoveItem(item);
         UpdateBeltUI();
+
+        if (activeBeltSelected == BeltType.LowerBelt)
+            activeLowerBeltSlots[0].UpdateSlot(activeLowerBeltSlots[0].item);
+        else
+            activeUpperBeltSlots[0].UpdateSlot(activeUpperBeltSlots[0].item);
+
         usableItem.UseItem(PlayerManager.instance.player.stats);
     }
 

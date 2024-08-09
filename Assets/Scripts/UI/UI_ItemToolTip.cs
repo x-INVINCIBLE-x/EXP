@@ -6,14 +6,12 @@ using UnityEngine.UI;
 
 public class UI_ItemToolTip : UI_ToolTip
 {
-    public TextMeshProUGUI itemName;
     public Image itemImage;
 
     public TextMeshProUGUI descriptionHeadingText;
     public TextMeshProUGUI itemEffectText;
-    public TextMeshProUGUI itemDescription;
 
-    public virtual void ShowToolTip(ItemData item)
+    public override void ShowToolTip(ItemData item)
     {
         itemName.text = item.name;
         itemImage.sprite = item.itemIcon;
@@ -25,7 +23,7 @@ public class UI_ItemToolTip : UI_ToolTip
         gameObject.SetActive(true);
     }
 
-    public virtual void HideToolTip()
+    public override void HideToolTip()
     {
         gameObject.SetActive(false);
     }

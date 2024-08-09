@@ -34,7 +34,6 @@ public class UI_EquipmentToolTip : UI_ItemToolTip
     public override void HideToolTip()
     {
         base.HideToolTip();
-        Debug.Log("Caklled");
         if (modifierPanel.TryGetComponent(out Transform _))
         {
             foreach (var child in modifierPanel.GetComponentsInChildren<Transform>())
