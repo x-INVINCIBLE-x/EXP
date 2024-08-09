@@ -9,6 +9,7 @@ public class UI_SelectionSlot : UI_ItemSlot
 {
     [SerializeField] private Vector2 defaultCellSize;
     [SerializeField] private TextMeshProUGUI itemTypeText;
+    [SerializeField] private GameObject removeItemImg;
     private GridLayoutGroup group;
 
     private void Awake()
@@ -48,7 +49,6 @@ public class UI_SelectionSlot : UI_ItemSlot
             return;
         }
 
-        Debug.Log(ItemInUse());
         if (ItemInUse())
             return;
 
@@ -70,6 +70,8 @@ public class UI_SelectionSlot : UI_ItemSlot
 
         if(item.itemType == ItemType.UsableItem)
             itemTypeText.text = "Usable Item";
+
+        removeItemImg.SetActive(item.isEquipped);
     }
 
     private bool ItemInUse()

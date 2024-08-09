@@ -25,8 +25,6 @@ public class ItemData_Equipment : ItemData
 
     private PlayerStat playerStats;
 
-    [NonSerialized] public bool isEquipped = false;
-
     public void AddModifiers()
     {
         playerStats = PlayerManager.instance.player.stats;

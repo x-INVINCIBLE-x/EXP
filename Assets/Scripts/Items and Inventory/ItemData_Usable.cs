@@ -12,7 +12,6 @@ public class ItemData_Usable : ItemData
     [SerializeField] private List<ItemEffect> effects;
 
     [SerializeField] private float timer = -1f;
-    [NonSerialized] public bool isEquipped = false;
 
     public void UseItem(CharacterStats stats)
     {

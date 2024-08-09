@@ -1,5 +1,7 @@
 using System.Text;
 using UnityEngine;
+using System;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -29,6 +31,8 @@ public class ItemData : ScriptableObject
 
     [Range(0, 100)]
     public float dropChance;
+
+    [NonSerialized] public bool isEquipped = false;
 
     protected StringBuilder sb = new StringBuilder();
 

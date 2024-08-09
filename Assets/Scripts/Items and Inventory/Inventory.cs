@@ -309,6 +309,7 @@ public class Inventory : MonoBehaviour
             return;
         }
 
+        itemSlot.item.data.isEquipped = false;
         itemSlot.CleanUpSlot();
     }
 
