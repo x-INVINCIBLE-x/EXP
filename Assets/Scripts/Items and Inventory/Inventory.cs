@@ -107,7 +107,7 @@ public class Inventory : MonoBehaviour
     //Temporary Input Check
     private void Update()
     {
-        if (UI.instance.activePanels.Count == 0)
+        if (!UI.instance.hasActivePanels())
             return;
 
         if (Input.GetKeyDown(KeyCode.R))

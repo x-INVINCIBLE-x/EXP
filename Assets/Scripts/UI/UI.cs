@@ -15,6 +15,8 @@ public class UI : MonoBehaviour
 {
     public static UI instance;
 
+    [SerializeField] private GameObject HUD;
+
     [Header("Panels")]
     public GameObject inventoryPanel;
     public GameObject equipmentPanel;
@@ -36,7 +38,7 @@ public class UI : MonoBehaviour
     public UI_EquipmentToolTip selectionToolTip;
 
     private UI_ItemSlot lastSlotSelected;
-    public List<UI_Panel> activePanels = new();
+    private List<UI_Panel> activePanels = new();
     [SerializeField] private InputManager inputManager;
 
     [SerializeField] private GameObject[] selectedSlotVisualizer;
@@ -171,10 +173,16 @@ public class UI : MonoBehaviour
 
         activePanels[activePanels.Count - 1].gameObject.SetActive(false);
         Inventory.Instance.UpdateSelectedSlot(null);
+
+        if(activePanels.Count == 0)
+            HUD.SetActive(true);
     }
 
     public void OpenInventory()
     {
+        HUD.SetActive(false);
         inventoryPanel.SetActive(true);
     }
+
+    public bool hasActivePanels() => activePanels.Count > 0;
 }

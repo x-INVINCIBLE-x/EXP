@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class UI_ToolTip : MonoBehaviour
+public class UI_PanelToolTip : UI_ToolTip
 {
 
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class UI_EquipmentToolTip : UI_ToolTip
+public class UI_EquipmentToolTip : UI_ItemToolTip
 {
     [SerializeField] private GameObject modifierPanel;
     [SerializeField] private GameObject statNamePrefab;
@@ -34,7 +34,7 @@ public class UI_EquipmentToolTip : UI_ToolTip
     public override void HideToolTip()
     {
         base.HideToolTip();
-
+        Debug.Log("Caklled");
         if (modifierPanel.TryGetComponent(out Transform _))
         {
             foreach (var child in modifierPanel.GetComponentsInChildren<Transform>())
