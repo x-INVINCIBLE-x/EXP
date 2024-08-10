@@ -12,14 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfe8e6e9cfd86e14cb934cee80327f3e, type: 3}
   m_Name: Cartiridge
   m_EditorClassIdentifier: 
-  itemType: 0
-  itemName: 
-  itemIcon: {fileID: 0}
-  itemId: 
+  itemType: 2
+  itemName: Cartiridge
+  itemIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  itemId: 823f4b93d3693af49acb9b9de2f96067
   canBeDestroyed: 0
   shortDescription: 
   description: 
   dropChance: 0
-  equipmentType: 0
-  subEquipmentType: 0
-  modifiers: []
+  equipmentType: 1
+  subEquipmentType: 4
+  modifiers:
+  - stat: 7
+    modType: 100
+    value: 50
