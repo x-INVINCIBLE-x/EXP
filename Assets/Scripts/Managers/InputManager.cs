@@ -23,6 +23,10 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
     public event Action UpdateUpperBeltEvent;
     public event Action UpdateLowerBeltEvent;
     public event Action UseEvent;
+    public event Action<int> On1Event;
+    public event Action<int> On2Event;
+    public event Action<int> On3Event;
+    public event Action<int> On4Event;
 
     public bool isSprinting = false;
     public bool isHolding = false;
@@ -144,5 +148,29 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
     {
         if (context.performed)
            UseEvent?.Invoke();
+    }
+
+    public void On_1(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            On1Event?.Invoke(0);
+    }
+
+    public void On_2(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            On2Event?.Invoke(1);
+    }
+
+    public void On_3(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            On3Event?.Invoke(2);
+    }
+
+    public void On_4(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            On4Event?.Invoke(3);
     }
 }

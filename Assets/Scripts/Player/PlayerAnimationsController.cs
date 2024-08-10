@@ -25,6 +25,9 @@ public class PlayerAnimationsController : MonoBehaviour
 
     public void DeactivateWeaponCollission()
     {
+        if (weaponCollider == null)
+            return;
+
         weaponCollider.enabled = false;
         weaponCollider = null;
     }

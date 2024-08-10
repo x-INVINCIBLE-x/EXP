@@ -20,12 +20,13 @@ public class Inventory : MonoBehaviour
     public List<InventoryItem> amulets = new();
     public Dictionary<ItemData_Equipment, InventoryItem> amuletsDictionary = new();
 
-    public List<InventoryItem> upperBelt = new();
-    public List<InventoryItem> lowerBelt = new();
-    public List<InventoryItem> extraBag = new();
+    //public List<InventoryItem> upperBelt = new();
+    //public List<InventoryItem> lowerBelt = new();
+    //public List<InventoryItem> extraBag = new();
 
     public List<ItemData> startingItems;
 
+    [Header("Parent Slots")]
     public Transform defencePartsParent;
     public Transform amuletsParent;
     public Transform weaponsParent;
@@ -38,6 +39,7 @@ public class Inventory : MonoBehaviour
 
     public Transform selectionSlotsParent;
 
+    [Header("Slots Info")]
     [SerializeField] private UI_EquipmentSlot[] defencePartsSlots;
     [SerializeField] private UI_EquipmentSlot[] amuletSlots;
     [SerializeField] private UI_EquipmentSlot[] weaponsSlots;
@@ -95,6 +97,10 @@ public class Inventory : MonoBehaviour
         inputManager.UpdateUpperBeltEvent += ShiftUpperBelt;
         inputManager.UpdateLowerBeltEvent += ShiftLowerBelt;
         inputManager.UseEvent += UseBeltItem;
+        inputManager.On1Event += UseExtraBagItem;
+        inputManager.On2Event += UseExtraBagItem;
+        inputManager.On3Event += UseExtraBagItem;
+        inputManager.On4Event += UseExtraBagItem;
     }
 
     private void OnDisable()
@@ -102,6 +108,10 @@ public class Inventory : MonoBehaviour
         inputManager.UpdateUpperBeltEvent -= ShiftUpperBelt;
         inputManager.UpdateLowerBeltEvent -= ShiftLowerBelt;
         inputManager.UseEvent -= UseBeltItem;
+        inputManager.On1Event -= UseExtraBagItem;
+        inputManager.On2Event -= UseExtraBagItem;
+        inputManager.On3Event -= UseExtraBagItem;
+        inputManager.On4Event -= UseExtraBagItem;
     }
 
     //Temporary Input Check
@@ -285,17 +295,16 @@ public class Inventory : MonoBehaviour
 
         usableItem.isEquipped = true;
 
-        if (beltSlot.type == BeltType.LowerBelt)
-            lowerBelt.Add(newItem);
-        else if (beltSlot.type == BeltType.UpperBelt)
-            upperBelt.Add(newItem);
-        else if (beltSlot.type == BeltType.Extra)
-            extraBag.Add(newItem);
+        //if (beltSlot.type == BeltType.LowerBelt)
+        //    lowerBelt.Add(newItem);
+        //else if (beltSlot.type == BeltType.UpperBelt)
+        //    upperBelt.Add(newItem);
+        //else if (beltSlot.type == BeltType.Extra)
+        //    extraBag.Add(newItem);
 
         itemSlot.item = newItem;
         itemSlot.UpdateSlot(newItem);
 
-        // TODO: Update active belt slot
         UpdateActiveBeltUI();
     }
 
@@ -308,6 +317,11 @@ public class Inventory : MonoBehaviour
         }
 
         itemSlot.item.data.isEquipped = false;
+        
+        ItemData_Equipment equipment = itemSlot.item.data as ItemData_Equipment;
+        if (equipment)
+            UnequipItem(equipment);
+
         itemSlot.CleanUpSlot();
     }
 
@@ -318,6 +332,10 @@ public class Inventory : MonoBehaviour
             Debug.LogWarning("ItemData_Equipment not found!");
             return;
         }
+
+        WeaponData weapondata = item as WeaponData;
+        if (weapondata)
+            PlayerManager.instance.player.weaponController.UnequipWeapon(weapondata);
 
         item.isEquipped = false;
         item.RemoveModifiers();
@@ -495,12 +513,14 @@ public class Inventory : MonoBehaviour
 
             ItemData_Usable usableItem = beltSlots[i].item.data as ItemData_Usable;
 
-            // If unequipped item is in use
+             //If unequipped item is in use
             if (!usableItemsDictionary.ContainsKey(usableItem) || !usableItem.isEquipped)
             {
                 beltSlots[i].CleanUpSlot();
                 UpdateActiveBeltUI();
             }
+            else
+                beltSlots[i].UpdateSlot(beltSlots[i].item);
         }
     }
 
@@ -552,10 +572,7 @@ public class Inventory : MonoBehaviour
     public void UpdateActiveBeltUI()
     {
         for (int i = 0; i < activeUpperBeltSlots.Length; i++)
-        {
-            //Debug.Log(upperBeltSlots[i].item.stackSize);
             activeUpperBeltSlots[i].UpdateSlot(upperBeltSlots[i].item);
-        }
 
         for (int i = 0; i < activeLowerBeltSlots.Length; i++)
             activeLowerBeltSlots[i].UpdateSlot(lowerBeltSlots[i].item);
@@ -637,6 +654,15 @@ public class Inventory : MonoBehaviour
             return;
 
         UseItem(activeSlot.item.data);
+    }
+
+    public void UseExtraBagItem(int index)
+    {
+        if (extraBeltSlots[index].item == null || extraBeltSlots[index].item.data == null)
+            return;
+
+        UseItem(extraBeltSlots[index].item.data);
+
     }
 
     public void UseItem(ItemData item)

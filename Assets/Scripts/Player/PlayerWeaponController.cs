@@ -69,6 +69,17 @@ public class PlayerWeaponController : MonoBehaviour
             backupWeapon = weaponData;
     }
 
+    public void UnequipWeapon(WeaponData weaponData)
+    {
+        if (currentWeapon == weaponData)
+        {
+            currentWeapon = null;
+            Destroy(currentWeaponModel);
+        }
+        else if (weaponData == backupWeapon)
+            backupWeapon = null;
+    }
+
     public Attack SelectLightAttack()
     {
         if (currentWeapon == null)
