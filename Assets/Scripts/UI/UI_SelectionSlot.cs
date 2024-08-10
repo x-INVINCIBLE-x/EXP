@@ -38,10 +38,10 @@ public class UI_SelectionSlot : UI_ItemSlot
 
     public override void OnPointerDown(PointerEventData eventData)
     {
-        base.OnPointerDown(eventData);
-
-        if (!itemImage.sprite)
+        if (item == null || item.data == null)
             return;
+
+        base.OnPointerDown(eventData);
 
         if(eventData.clickCount == 0)
         {
