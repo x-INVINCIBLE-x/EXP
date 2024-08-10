@@ -456,6 +456,10 @@ public class Inventory : MonoBehaviour
         {
             DisplayBagSlots(defenceParts);
         }
+        else if (equipmentType == EquipmentType.Weapon)
+        {
+            DisplayBagSlots(weapons);
+        }
     }
 
     #endregion
