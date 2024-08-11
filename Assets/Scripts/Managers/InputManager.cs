@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
 {
+    public static InputManager Instance;
     private PlayerControls controls;
     public Vector2 Movement { get; private set; }
 
@@ -18,11 +19,26 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
     public event Action BlockEvent;
     public event Action WeaponSwitchEvent;
     public event Action FableArtsEvent;
+    public event Action BackEvent;
+    public event Action UpdateUpperBeltEvent;
+    public event Action UpdateLowerBeltEvent;
+    public event Action UseEvent;
+    public event Action<int> On1Event;
+    public event Action<int> On2Event;
+    public event Action<int> On3Event;
+    public event Action<int> On4Event;
 
     public bool isSprinting = false;
     public bool isHolding = false;
     public bool isBlocking = false;
-    
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else Destroy(gameObject);
+    }
+
     private void Start()
     {
         controls = new PlayerControls();
@@ -108,5 +124,53 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
         
         isBlocking = true;
         BlockEvent?.Invoke();
+    }
+
+    public void OnBack(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            BackEvent?.Invoke();
+    }
+
+    public void OnUpdateUpperBelt(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            UpdateUpperBeltEvent?.Invoke();
+    }
+
+    public void OnUpdateLowerBelt(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            UpdateLowerBeltEvent?.Invoke();
+    }
+
+    public void OnUseItem(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+           UseEvent?.Invoke();
+    }
+
+    public void On_1(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            On1Event?.Invoke(0);
+    }
+
+    public void On_2(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            On2Event?.Invoke(1);
+    }
+
+    public void On_3(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            On3Event?.Invoke(2);
+    }
+
+    public void On_4(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            On4Event?.Invoke(3);
     }
 }

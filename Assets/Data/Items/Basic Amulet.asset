@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfe8e6e9cfd86e14cb934cee80327f3e, type: 3}
+  m_Name: Basic Amulet
+  m_EditorClassIdentifier: 
+  itemType: 2
+  itemName: Basic Amulet
+  itemIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  itemId: 0200272d6814ce2479b62005d98e4989
+  canBeDestroyed: 1
+  shortDescription: 
+  description: 
+  dropChance: 0
+  equipmentType: 0
+  subEquipmentType: 0
+  modifiers: []

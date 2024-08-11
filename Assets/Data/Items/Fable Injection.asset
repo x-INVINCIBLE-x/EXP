@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dccbea80803a3b49a610651be5231c3, type: 3}
+  m_Name: Fable Injection
+  m_EditorClassIdentifier: 
+  itemType: 0
+  itemName: Fable Injection
+  itemIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  itemId: dff935ff0b3bcb24d840826e4733703e
+  canBeDestroyed: 0
+  shortDescription: Get High above the Sky
+  description: Too high
+  dropChance: 0
+  itemEffectDescription: 
+  modifiers: []
+  effects: []
+  timer: -1

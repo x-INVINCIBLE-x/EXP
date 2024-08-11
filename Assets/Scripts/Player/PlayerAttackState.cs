@@ -22,6 +22,12 @@ public class PlayerAttackState : PlayerState
     {
         base.Enter();
 
+        if (player.weaponController.currentWeapon == null)
+        {
+            ChangeToLocomotion();
+            return;
+        }
+
         stateTimer = 0.4f;
 
         player.SetCanMove(false);

@@ -12,7 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83844660c29b60a4ba50adc3acaa6c33, type: 3}
   m_Name: SAD
   m_EditorClassIdentifier: 
-  weaponName: SAD
+  itemType: 2
+  itemName: SAD
+  itemIcon: {fileID: 21300000, guid: 998bc6080fde0404a88a92ec971d418c, type: 3}
+  itemId: fe981c30017027e49ad855f052e7ca7c
+  canBeDestroyed: 0
+  shortDescription: 
+  description: 
+  dropChance: 0
+  equipmentType: 6
+  subEquipmentType: 6
+  modifiers: []
   weaponDetails:
     model: {fileID: 407118192572563512, guid: dc5dda22158a8f042979d71969bff4a7, type: 3}
     rangeType: 0
@@ -68,7 +78,7 @@ MonoBehaviour:
   fableCharge: 0
   guardAmount: 3
   fireAtk: 0
-  electricAtk: 6
+  electricAtk: 2619
   acidAtk: 0
   counterAttackAnim: {fileID: 0}
-  fableBlade: {fileID: 11400000, guid: bdd82b94d309a5644845da4ee5c46190, type: 2}
+  fableBlade: {fileID: 11400000, guid: 2b7cd0a2b5853524089bdabbf035075d, type: 2}

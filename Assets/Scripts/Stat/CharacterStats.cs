@@ -16,6 +16,7 @@ public enum Stats
     Advance,
     Health,
     Stamina,
+    StaminaRegain,
     Legion,
     FableSlot,
     GuardRegain,
@@ -27,6 +28,9 @@ public enum Stats
     FireDef,
     ElectricDef,
     AcidDef,
+    FireRes,
+    ElectricRes,
+    AcidRes,
     DisruptionRes,
     ShockRes,
     BreakRes
@@ -103,6 +107,7 @@ public class CharacterStats : MonoBehaviour
     public bool isConsumingStamina { get; private set; } = false;
 
     private Dictionary<AilmentType, Action> ailmentActions;
+    public Dictionary<Stats, Stat> statDictionary;
 
     public event Action Hit;
 
@@ -148,11 +153,49 @@ public class CharacterStats : MonoBehaviour
         };
     }
 
+    private void Start()
+    {
+        InitializeStatDictionary();
+    }
+
     private void InitializeValues()
     {
         currentHealth = health.Value;
         currentStamina = stamina.Value;
         currentFableSlot = fableSlot.Value;
+    }
+
+    private void InitializeStatDictionary()
+    {
+        statDictionary = new Dictionary<Stats, Stat>
+        {
+            { Stats.Vitality, vitality },
+            { Stats.Vigor, vigor },
+            { Stats.Capacity, capacity },
+            { Stats.Motivity, motivity },
+            { Stats.Technique, technique },
+            { Stats.Advance,  advance },
+            { Stats.Health,  health },
+            { Stats.Stamina,  stamina },
+            { Stats.StaminaRegain, staminaRegain },
+            { Stats.Legion, legion },
+            { Stats.FableSlot, fableSlot },
+            { Stats.GuardRegain, guardRegain },
+            { Stats.PhysicalAtk, physicalAtk },
+            { Stats.FireAtk, fireAtk },
+            { Stats.ElectricAtk, electricAtk },
+            { Stats.AcidAtk, acidAtk },
+            { Stats.PhysicalDef, physicalDef },
+            { Stats.FireDef, fireDef },
+            { Stats.ElectricDef, electricDef },
+            { Stats.AcidDef, acidDef },
+            { Stats.FireRes, fireRes },
+            { Stats.ElectricRes, electricRes },
+            { Stats.AcidRes, acidRes },
+            { Stats.DisruptionRes, disruptionRes },
+            { Stats.ShockRes, ShockRes },
+            { Stats.BreakRes, breakRes }
+        };
     }
 
     private void Update()
@@ -293,6 +336,7 @@ public class CharacterStats : MonoBehaviour
     public void SetBlocking(bool blocking) => isBlocking = blocking;
     
     public void SetPerfectBlock(bool perfectBlock) => isPerfectBlock = perfectBlock;
+    
     public void SetConsumingStamina(bool status) => isConsumingStamina = status;
 
     public bool HasEnoughStamina(float staminaAmount)
@@ -305,6 +349,7 @@ public class CharacterStats : MonoBehaviour
 
         return false;
     }
+    
     public bool HasEnoughFableSlot(int slots)
     {
         if(currentFableSlot > (slots * 100))
@@ -314,6 +359,7 @@ public class CharacterStats : MonoBehaviour
         }
         return false;
     }
+    
     public void ChargeFable(int amount)
     {
         if (currentFableSlot >= fableSlot.Value)
@@ -321,5 +367,6 @@ public class CharacterStats : MonoBehaviour
 
         currentFableSlot = Mathf.Min(currentFableSlot + amount,fableSlot.Value);
     }
+   
     public float GetCurrentStamina() => currentStamina;
 }
