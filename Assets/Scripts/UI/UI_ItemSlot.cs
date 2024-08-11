@@ -62,6 +62,9 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
         itemImage.sprite = null;
         itemImage.color = Color.clear;
 
+        if(selectionVisualizer != null)
+            selectionVisualizer.SetActive(false);
+
         if (itemText)
             itemText.text = "";
     }

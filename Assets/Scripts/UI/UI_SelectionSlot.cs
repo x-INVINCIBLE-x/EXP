@@ -36,6 +36,13 @@ public class UI_SelectionSlot : UI_ItemSlot
         group.cellSize = new Vector2(100, 180);        
     }
 
+    public override void CleanUpSlot()
+    {
+        base.CleanUpSlot();
+
+        removeItemImg.SetActive(false);
+    }
+
     public override void OnPointerDown(PointerEventData eventData)
     {
         if (item == null || item.data == null)
