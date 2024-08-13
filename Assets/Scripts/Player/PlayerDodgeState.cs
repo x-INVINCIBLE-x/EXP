@@ -50,7 +50,7 @@ public class PlayerDodgeState : PlayerState
     {
         if (dodgeType == 1)
         {
-            movement += dodgeDir.x * player.dodgeLength * 0.075f * player.transform.right / player.dodgeDuration;
+            movement += dodgeDir.x * player.dodgeLength * player.transform.right / player.dodgeDuration;
             movement += dodgeDir.y * player.dodgeLength * player.transform.forward / player.dodgeDuration;
         }
         else
