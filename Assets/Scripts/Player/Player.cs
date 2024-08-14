@@ -1,4 +1,3 @@
-using GameDevTV.Saving;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
@@ -119,15 +118,25 @@ public class Player : MonoBehaviour, ISaveable
 
     public object CaptureState()
     {
-        SerializableVector3 pos = new SerializableVector3(transform.position);
-        return pos;
+        MoveData data = new MoveData();
+        data.pos = new SerializableVector3(transform.position);
+        data.rotation = new SerializableVector3(transform.eulerAngles);
+        return data;
     }
 
     public void RestoreState(object state)
     {
-        SerializableVector3 sPos = (SerializableVector3)state;
-        Vector3 pos = sPos.ToVector();
-        Debug.Log("pos");
+        MoveData data = (MoveData)state;
+        Vector3 pos = data.pos.ToVector();
+        Vector3 rotation = data.rotation.ToVector();
         transform.position = pos;
+        transform.eulerAngles = rotation;
+    }
+
+    [System.Serializable]
+    struct MoveData
+    {
+       public SerializableVector3 pos;
+       public SerializableVector3 rotation;
     }
 }
