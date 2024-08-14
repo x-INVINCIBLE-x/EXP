@@ -16,6 +16,7 @@ public enum ItemType
 
 
 [CreateAssetMenu(fileName = "New Item Data", menuName = "Data/Item")]
+[System.Serializable]
 public class ItemData : ScriptableObject
 {
     public ItemType itemType;

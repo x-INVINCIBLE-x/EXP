@@ -33,9 +33,12 @@ public class PlayerWeaponController : MonoBehaviour
     private void Start()
     {
         stats = PlayerManager.instance.player.stats;
-
         InitializeWeapons();
         AddModifiersOfCurrentWeapon();
+    }
+
+    private void OnEnable()
+    {
     }
 
     public void InitializeWeapons()

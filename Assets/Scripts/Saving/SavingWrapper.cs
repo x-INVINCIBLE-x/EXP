@@ -10,7 +10,7 @@ public class SavingWrapper : MonoBehaviour
 
     private void Awake()
     {
-       StartCoroutine(StartScene());   
+        //StartCoroutine(StartScene());   
     }
 
     private IEnumerator StartScene()
@@ -41,6 +41,6 @@ public class SavingWrapper : MonoBehaviour
 
     public void Load()
     {
-        GetComponent<SavingSystem>().LoadLastScene(defaultSaveFile);
+        StartCoroutine(GetComponent<SavingSystem>().LoadLastScene(defaultSaveFile));
     }
 }

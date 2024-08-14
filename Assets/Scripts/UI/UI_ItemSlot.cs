@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
+    //, ISaveable
 {
     [SerializeField] protected Image itemImage;
     [SerializeField] protected TextMeshProUGUI itemText;
@@ -88,4 +89,14 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
             selectionVisualizer.SetActive(isSelected);
     }
 
+    public object CaptureState()
+    {
+        return item;
+    }
+
+    public void RestoreState(object state)
+    {
+        InventoryItem savedItem = (InventoryItem)state;
+        item = savedItem;
+    }
 }

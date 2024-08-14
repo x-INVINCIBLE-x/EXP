@@ -1,9 +1,11 @@
+using GameDevTV.Saving;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, ISaveable
 {
     public PlayerStateMachine stateMachine { get; private set; }
     public InputManager inputManager { get; private set; }
@@ -61,7 +63,6 @@ public class Player : MonoBehaviour
         stateMachine  = new PlayerStateMachine();
 
         weaponController = GetComponent<PlayerWeaponController>();
-        inputManager = GetComponent<InputManager>();
         anim = GetComponentInChildren<Animator>();
         characterController = GetComponent<CharacterController>();
         targeter = GetComponentInChildren<Targeter>();
@@ -74,6 +75,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        inputManager = InputManager.Instance;
         FreeLookState = new PlayerFreeLookState(stateMachine, this, "FreeLook");
         TargetState = new PlayerTargetState(stateMachine, this, "TargetLook");
         SprintState = new PlayerSprintState(stateMachine, this, "Sprint");
@@ -113,5 +115,19 @@ public class Player : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, freeLookTargetRadius);
         Gizmos.DrawWireCube((transform.position + new Vector3(0, 1 , 2)), boxDimensions* maxDistance);
+    }
+
+    public object CaptureState()
+    {
+        SerializableVector3 pos = new SerializableVector3(transform.position);
+        return pos;
+    }
+
+    public void RestoreState(object state)
+    {
+        SerializableVector3 sPos = (SerializableVector3)state;
+        Vector3 pos = sPos.ToVector();
+        Debug.Log("pos");
+        transform.position = pos;
     }
 }

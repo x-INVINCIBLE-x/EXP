@@ -1,5 +1,3 @@
-namespace GameDevTV.Saving
-{
     /// <summary>
     /// Implement in any component that has state to save/restore.
     /// </summary>
@@ -23,4 +21,3 @@ namespace GameDevTV.Saving
         /// </param>
         void RestoreState(object state);
     }
-}

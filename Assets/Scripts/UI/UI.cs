@@ -65,6 +65,7 @@ public class UI : MonoBehaviour
 
     private void OnEnable()
     {
+        inputManager = InputManager.Instance;
         inputManager.BackEvent += ClosePanel;
     }
 
