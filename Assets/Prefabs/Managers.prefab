@@ -56,6 +56,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3569506989667447126}
+  - component: {fileID: 2898728524214457977}
   - component: {fileID: 1877359008284756311}
   m_Layer: 0
   m_Name: InventoryManager
@@ -79,6 +80,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4974050485996242201}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2898728524214457977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5620067111891508756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ea9374b509b70f4bba37e4a2ca8cf00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueIdentifier: 344b3c59-b2b1-4154-bfa2-d8c1815a0a03
 --- !u!114 &1877359008284756311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,6 +150,22 @@ MonoBehaviour:
   bagSlotsParent: {fileID: 0}
   bagSlots: []
   selectedSlot: {fileID: 0}
+  itemDataBase:
+  - {fileID: 11400000, guid: 12ed06682b219bd47a7a8126eea2fd85, type: 2}
+  - {fileID: 11400000, guid: 0200272d6814ce2479b62005d98e4989, type: 2}
+  - {fileID: 11400000, guid: 823f4b93d3693af49acb9b9de2f96067, type: 2}
+  - {fileID: 11400000, guid: e9b4836cdbea82d45b47706c8cac1c99, type: 2}
+  - {fileID: 11400000, guid: dff935ff0b3bcb24d840826e4733703e, type: 2}
+  - {fileID: 11400000, guid: 4b5505b06eeebfa4b991e2f70bd31305, type: 2}
+  - {fileID: 11400000, guid: 5504c98377f0c0041b69fd4a1c141f1a, type: 2}
+  - {fileID: 11400000, guid: 14cd0fdad6c4a0a459f3b37d83a33c6b, type: 2}
+  - {fileID: 11400000, guid: 4c72fac7ab6a06d4db3bce3e963d3cc3, type: 2}
+  - {fileID: 11400000, guid: 6f0160cc395ee7c4fbafdc88c2a1554c, type: 2}
+  - {fileID: 11400000, guid: 386aaf4ab1c36de409b08a73d7e95f05, type: 2}
+  - {fileID: 11400000, guid: 206d1656af236cf4cac0fed11f0165ee, type: 2}
+  - {fileID: 11400000, guid: fe981c30017027e49ad855f052e7ca7c, type: 2}
+  loadedItems: []
+  loadedEquipment: []
 --- !u!1 &5826271907691759267
 GameObject:
   m_ObjectHideFlags: 0

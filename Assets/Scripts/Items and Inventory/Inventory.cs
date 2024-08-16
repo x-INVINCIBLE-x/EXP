@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviour, ISaveable
 {
     public static Inventory Instance { get; private set; }
 
@@ -62,6 +62,13 @@ public class Inventory : MonoBehaviour
     private BeltType activeBeltSelected = BeltType.UpperBelt;
 
     private InputManager inputManager;
+
+    [Header("Data base")]
+    public List<ItemData> itemDataBase;
+    private static Dictionary<string, ItemData> itemDataDictionary;
+    public List<ItemData> loadedItems;
+    public List<ItemData_Equipment> loadedEquipment;
+
     private void Awake()
     {
         if (Instance == null)
@@ -84,11 +91,20 @@ public class Inventory : MonoBehaviour
 
     private void Start()
     {
-        AddStartingItems();
+        //AddStartingItems();
         ShowBagItemSlots(ItemType.UsableItem);
         CleanSlots();
         UpdateActiveBeltUI();
         UpdateBeltUI();
+
+        if(itemDataDictionary == null)
+        {
+            itemDataDictionary = new();
+            foreach (ItemData item in itemDataBase)
+            {
+                itemDataDictionary.Add(item.itemId, item);
+            }
+        }
     }
 
     private void OnEnable()
@@ -150,31 +166,31 @@ public class Inventory : MonoBehaviour
     }
 
     #region Add Item to Inventory
-    public void AddItem(ItemData item)
+    public void AddItem(ItemData item, int size = 1)
     {
         if (item.itemType == ItemType.UsableItem)
-            AddItem(item, ref usableItems, ref usableItemsDictionary);
+            AddItem(item, ref usableItems, ref usableItemsDictionary, size);
         if (item.itemType == ItemType.Material)
-            AddItem(item, ref materials, ref materialsDictionary);
+            AddItem(item, ref materials, ref materialsDictionary, size);
         if (item.itemType == ItemType.Equipment)
             AddToEquipments(item);
     }
 
-    private void AddToEquipments(ItemData item)
+    private void AddToEquipments(ItemData item, int size = 1)
     {
         ItemData_Equipment equipment = item as ItemData_Equipment;
 
         if (equipment == null) return;
 
         if (equipment.equipmentType == EquipmentType.Amulet)
-            AddItem(item, ref amulets, ref amuletsDictionary);
+            AddItem(item, ref amulets, ref amuletsDictionary, size);
         if (equipment.equipmentType == EquipmentType.Defence)
-            AddItem(item, ref defenceParts, ref defencePartsDictionary);
+            AddItem(item, ref defenceParts, ref defencePartsDictionary, size);
         if (equipment.equipmentType == EquipmentType.Weapon)
-            AddItem(item, ref weapons, ref weaponsDictionary);
+            AddItem(item, ref weapons, ref weaponsDictionary, size);
     }
 
-    public void AddItem(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<ItemData, InventoryItem> itemDictionary)
+    public void AddItem(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<ItemData, InventoryItem> itemDictionary, int size = 1)
     {
         if (itemDictionary.TryGetValue(item, out InventoryItem value))
         {
@@ -183,12 +199,13 @@ public class Inventory : MonoBehaviour
         else
         {
             InventoryItem newItem = new InventoryItem(item);
+            newItem.stackSize = size;
             itemList.Add(newItem);
             itemDictionary[item] = newItem;
         }
     }
 
-    public void AddItem(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<ItemData_Equipment, InventoryItem> itemDictionary)
+    public void AddItem(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<ItemData_Equipment, InventoryItem> itemDictionary, int size = 1)
     {
         ItemData_Equipment equipmwnt = item as ItemData_Equipment;
 
@@ -199,12 +216,13 @@ public class Inventory : MonoBehaviour
         else
         {
             InventoryItem newItem = new InventoryItem(equipmwnt);
+            newItem.stackSize = size;
             itemList.Add(newItem);
             itemDictionary[equipmwnt] = newItem;
         }
     }
 
-    public void AddItem(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<ItemData_Usable, InventoryItem> itemDictionary)
+    public void AddItem(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<ItemData_Usable, InventoryItem> itemDictionary, int size = 1)
     {
         ItemData_Usable usableItem = item as ItemData_Usable;
 
@@ -215,6 +233,7 @@ public class Inventory : MonoBehaviour
         else
         {
             InventoryItem newItem = new InventoryItem(usableItem);
+            newItem.stackSize = size;
             itemList.Add(newItem);
             itemDictionary[usableItem] = newItem;
         }
@@ -600,6 +619,7 @@ public class Inventory : MonoBehaviour
 
     #endregion
 
+    #region Shift Belt Slots
     public void ShiftBeltSlots(BeltType beltType)
     {
         if (beltType == BeltType.UpperBelt)
@@ -646,6 +666,9 @@ public class Inventory : MonoBehaviour
         ShiftBeltSlots(BeltType.LowerBelt);
     }
 
+    #endregion
+
+    #region Use Items
     public void UseBeltItem()
     {
         UI_ActiveBeltSlot activeSlot;
@@ -690,5 +713,109 @@ public class Inventory : MonoBehaviour
         usableItem.UseItem(PlayerManager.instance.player.stats);
     }
 
+    #endregion
+
     public void UpdateSelectedSlot(UI_ItemSlot selectedSlot) => this.selectedSlot = selectedSlot;
+
+    public object CaptureState()
+    {
+        List<InventorySlotRecord> records = new();
+        //for (int i = 0; i < usableItems.Count; i++)
+        //{
+        //    usableItems.Clear();
+        //    InventorySlotRecord newRecord = new InventorySlotRecord
+        //    {
+        //        itemID = usableItems[i].data.itemId,
+        //        amount = usableItems[i].stackSize,
+        //    };
+        //    records.Add(newRecord);
+        //}
+
+        //for (int i = 0; i < amulets.Count; i++)
+        //{
+        //    amulets.Clear();
+        //    InventorySlotRecord newRecord = new InventorySlotRecord
+        //    {
+        //        itemID = amulets[i].data.itemId,
+        //        amount = amulets[i].stackSize,
+        //    };
+        //    records.Add(newRecord);
+        //}
+
+        //for (int i = 0; i < defenceParts.Count; i++)
+        //{
+        //    defenceParts.Clear();
+        //    InventorySlotRecord newRecord = new InventorySlotRecord
+        //    {
+        //        itemID = defenceParts[i].data.itemId,
+        //        amount = defenceParts[i].stackSize,
+        //    };
+        //    records.Add(newRecord);
+        //}
+
+        //for (int i = 0; i < materials.Count; i++)
+        //{
+        //    materials.Clear();
+        //    InventorySlotRecord newRecord = new InventorySlotRecord
+        //    {
+        //        itemID = materials[i].data.itemId,
+        //        amount = materials[i].stackSize,
+        //    };
+        //    records.Add(newRecord);
+        //}
+
+        //for (int i = 0; i < weapons.Count; i++)
+        //{
+        //    weapons.Clear();
+        //    InventorySlotRecord newRecord = new InventorySlotRecord
+        //    {
+        //        itemID = weapons[i].data.itemId,
+        //        amount = weapons[i].stackSize,
+        //    };
+        //    records.Add(newRecord);
+        //}
+
+        LoadSavedItems(usableItems, records);
+        LoadSavedItems(weapons, records);
+        LoadSavedItems(amulets, records);
+        LoadSavedItems(defenceParts, records);
+        LoadSavedItems(materials, records);
+
+        return records;
+    }
+
+    private void LoadSavedItems(List<InventoryItem> items, List<InventorySlotRecord> records)
+    {
+        for (int i = 0; i < items.Count; i++)
+        {
+            items.Clear();
+            InventorySlotRecord newRecord = new InventorySlotRecord
+            {
+                itemID = items[i].data.itemId,
+                amount = items[i].stackSize,
+            };
+            records.Add(newRecord);
+        }
+    }
+
+    public void RestoreState(object state)
+    {
+        List<InventorySlotRecord> record = (List<InventorySlotRecord>)state;
+        for (int i = 0; i < record.Count; i++)
+        {
+            if (itemDataDictionary.TryGetValue(record[i].itemID, out ItemData itemToLoad))
+            {
+                AddItem(itemToLoad, record[i].amount);
+                loadedItems.Add(itemToLoad);
+            }
+        }
+    }
+
+    [System.Serializable]
+    private struct InventorySlotRecord
+    {
+        public string itemID;
+        public int amount;
+    }
+
 }
