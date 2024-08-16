@@ -720,75 +720,20 @@ public class Inventory : MonoBehaviour, ISaveable
     public object CaptureState()
     {
         List<InventorySlotRecord> records = new();
-        //for (int i = 0; i < usableItems.Count; i++)
-        //{
-        //    usableItems.Clear();
-        //    InventorySlotRecord newRecord = new InventorySlotRecord
-        //    {
-        //        itemID = usableItems[i].data.itemId,
-        //        amount = usableItems[i].stackSize,
-        //    };
-        //    records.Add(newRecord);
-        //}
 
-        //for (int i = 0; i < amulets.Count; i++)
-        //{
-        //    amulets.Clear();
-        //    InventorySlotRecord newRecord = new InventorySlotRecord
-        //    {
-        //        itemID = amulets[i].data.itemId,
-        //        amount = amulets[i].stackSize,
-        //    };
-        //    records.Add(newRecord);
-        //}
-
-        //for (int i = 0; i < defenceParts.Count; i++)
-        //{
-        //    defenceParts.Clear();
-        //    InventorySlotRecord newRecord = new InventorySlotRecord
-        //    {
-        //        itemID = defenceParts[i].data.itemId,
-        //        amount = defenceParts[i].stackSize,
-        //    };
-        //    records.Add(newRecord);
-        //}
-
-        //for (int i = 0; i < materials.Count; i++)
-        //{
-        //    materials.Clear();
-        //    InventorySlotRecord newRecord = new InventorySlotRecord
-        //    {
-        //        itemID = materials[i].data.itemId,
-        //        amount = materials[i].stackSize,
-        //    };
-        //    records.Add(newRecord);
-        //}
-
-        //for (int i = 0; i < weapons.Count; i++)
-        //{
-        //    weapons.Clear();
-        //    InventorySlotRecord newRecord = new InventorySlotRecord
-        //    {
-        //        itemID = weapons[i].data.itemId,
-        //        amount = weapons[i].stackSize,
-        //    };
-        //    records.Add(newRecord);
-        //}
-
-        LoadSavedItems(usableItems, records);
-        LoadSavedItems(weapons, records);
-        LoadSavedItems(amulets, records);
-        LoadSavedItems(defenceParts, records);
-        LoadSavedItems(materials, records);
+        SaveItems(usableItems,ref records);
+        SaveItems(weapons,ref records);
+        SaveItems(amulets,ref records);
+        SaveItems(defenceParts,ref records);
+        SaveItems(materials,ref records);
 
         return records;
     }
 
-    private void LoadSavedItems(List<InventoryItem> items, List<InventorySlotRecord> records)
+    private void SaveItems(List<InventoryItem> items,ref List<InventorySlotRecord> records)
     {
         for (int i = 0; i < items.Count; i++)
         {
-            items.Clear();
             InventorySlotRecord newRecord = new InventorySlotRecord
             {
                 itemID = items[i].data.itemId,
