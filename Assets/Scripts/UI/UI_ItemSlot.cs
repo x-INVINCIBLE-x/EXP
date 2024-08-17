@@ -91,12 +91,30 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
 
     public object CaptureState()
     {
-        return item;
+        Debug.Log(item.data.itemId + "  " + item.data.name);
+        InventorySlotRecord record = new InventorySlotRecord(item.data.itemId, item.stackSize);
+        return record;
     }
 
-    public void RestoreState(object state)
+    public virtual void RestoreState(object state)
     {
-        InventoryItem savedItem = (InventoryItem)state;
-        item = savedItem;
+        InventorySlotRecord record = (InventorySlotRecord)state;
+        ItemData data = Inventory.Instance.GetData(record.itemID);
+        InventoryItem saavedItem = new InventoryItem(data);
+        saavedItem.stackSize = record.amount;
+        UpdateSlot(saavedItem);
+    }
+
+    [System.Serializable]
+    public struct InventorySlotRecord
+    {
+        public string itemID;
+        public int amount;
+
+        public InventorySlotRecord(string id, int amt)
+        {
+            itemID = id;
+            amount = amt;
+        }
     }
 }

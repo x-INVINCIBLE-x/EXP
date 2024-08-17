@@ -97,13 +97,18 @@ public class Inventory : MonoBehaviour, ISaveable
         UpdateActiveBeltUI();
         UpdateBeltUI();
 
-        if(itemDataDictionary == null)
+        SetItemDictionary();
+    }
+
+    private void SetItemDictionary()
+    {
+        if (itemDataDictionary != null)
+            return;
+        
+        itemDataDictionary = new();
+        foreach (ItemData item in itemDataBase)
         {
-            itemDataDictionary = new();
-            foreach (ItemData item in itemDataBase)
-            {
-                itemDataDictionary.Add(item.itemId, item);
-            }
+            itemDataDictionary.Add(item.itemId, item);
         }
     }
 
@@ -717,19 +722,49 @@ public class Inventory : MonoBehaviour, ISaveable
 
     public void UpdateSelectedSlot(UI_ItemSlot selectedSlot) => this.selectedSlot = selectedSlot;
 
-    public object CaptureState()
+    public ItemData GetData(string id)
     {
-        List<InventorySlotRecord> records = new();
+        SetItemDictionary();
+        Debug.Log("Asked id: " + id);
+        if (itemDataDictionary.TryGetValue(id, out ItemData data))
+            return data;
 
-        SaveItems(usableItems,ref records);
-        SaveItems(weapons,ref records);
-        SaveItems(amulets,ref records);
-        SaveItems(defenceParts,ref records);
-        SaveItems(materials,ref records);
-
-        return records;
+        Debug.LogWarning("Unknown id asked from GetData");
+        return null;
     }
 
+
+    public object CaptureState()
+    {
+        List<InventorySlotRecord> itemRecord = new();
+        List<EquipmentSlotRecord> equipmentRecord = new();
+
+        SaveItems(usableItems,ref itemRecord);
+        SaveItems(weapons,ref itemRecord);
+        SaveItems(amulets,ref itemRecord);
+        SaveItems(defenceParts,ref itemRecord);
+        SaveItems(materials,ref itemRecord);
+
+        for (int i = 0; i < weaponsSlots.Length; i++)
+        {
+            if (weaponsSlots[i].item == null || weaponsSlots[i].item.data == null)
+                continue;
+
+            string id = weaponsSlots[i].item.data.itemId;
+            EquipmentSlotRecord record = new EquipmentSlotRecord
+            {
+                itemID = id,
+                slotID = weaponsSlots[i].GetComponent<SaveableEntity>().GetUniqueIdentifier()
+            };
+
+            equipmentRecord.Add(record);
+        }
+
+        SlotRecord slotRecord = new SlotRecord();
+        slotRecord.inventorySlotRecord = itemRecord;
+        slotRecord.equipmentSlotRecord = equipmentRecord;
+        return slotRecord;
+    }
     private void SaveItems(List<InventoryItem> items,ref List<InventorySlotRecord> records)
     {
         for (int i = 0; i < items.Count; i++)
@@ -745,15 +780,34 @@ public class Inventory : MonoBehaviour, ISaveable
 
     public void RestoreState(object state)
     {
-        List<InventorySlotRecord> record = (List<InventorySlotRecord>)state;
-        for (int i = 0; i < record.Count; i++)
+        SlotRecord record = (SlotRecord)state;
+        List<InventorySlotRecord> itemRecord = record.inventorySlotRecord;
+        List<EquipmentSlotRecord> equipmentRecord = record.equipmentSlotRecord;
+
+        for (int i = 0; i < itemRecord.Count; i++)
         {
-            if (itemDataDictionary.TryGetValue(record[i].itemID, out ItemData itemToLoad))
+            if (itemDataDictionary.TryGetValue(itemRecord[i].itemID, out ItemData itemToLoad))
             {
-                AddItem(itemToLoad, record[i].amount);
+                AddItem(itemToLoad, itemRecord[i].amount);
                 loadedItems.Add(itemToLoad);
             }
         }
+
+        for (int i = 0; i < equipmentRecord.Count; i++)
+        {
+            if (itemDataDictionary.TryGetValue(equipmentRecord[i].itemID, out ItemData itemToLoad))
+            {
+                var slotToAdd = weaponsSlots[0];
+                foreach (var slot in weaponsSlots)
+                    if (slot.GetComponent<SaveableEntity>().GetUniqueIdentifier() == equipmentRecord[i].slotID)
+                        slotToAdd = slot;
+
+                InventoryItem item = new InventoryItem(itemToLoad);
+                EquipItem(item, slotToAdd);
+                loadedItems.Add(itemToLoad);
+            }
+        }
+
     }
 
     [System.Serializable]
@@ -763,4 +817,17 @@ public class Inventory : MonoBehaviour, ISaveable
         public int amount;
     }
 
+    [System.Serializable]
+    private struct EquipmentSlotRecord
+    {
+        public string itemID;
+        public string slotID;
+    }
+
+    [System.Serializable]
+    private struct SlotRecord
+    {
+        public List<InventorySlotRecord> inventorySlotRecord;
+        public List<EquipmentSlotRecord> equipmentSlotRecord;
+    }
 }

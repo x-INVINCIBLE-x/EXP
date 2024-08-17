@@ -37,4 +37,9 @@ public class UI_EquipmentSlot : UI_ItemSlot
         itemImage.sprite = defaultImage;
         itemImage.color = Color.white;
     }
+
+    public override void RestoreState(object state)
+    {
+        base.RestoreState(state);
+    }
 }

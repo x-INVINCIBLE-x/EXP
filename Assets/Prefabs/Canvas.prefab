@@ -14403,7 +14403,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Weapon_Slot
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -4314285904843630254, guid: 1d1b28548f7827e40813075a6c4a75bd, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
