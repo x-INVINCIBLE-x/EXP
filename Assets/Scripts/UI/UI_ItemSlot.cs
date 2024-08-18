@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,6 +9,7 @@ using UnityEngine.UI;
 public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
     //, ISaveable
 {
+    public string uniqueIdentifier;
     [SerializeField] protected Image itemImage;
     [SerializeField] protected TextMeshProUGUI itemText;
     [SerializeField] protected Sprite defaultImage;
@@ -15,6 +18,9 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
     public InventoryItem item;
     [SerializeField] private bool isSelected;
     [SerializeField] private GameObject selectionVisualizer;
+
+    // CACHED STATE
+    static Dictionary<string, UI_ItemSlot> globalLookup = new Dictionary<string, UI_ItemSlot>();
 
     private void Awake()
     {
@@ -117,4 +123,52 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
             amount = amt;
         }
     }
+
+    #region ID Generator
+    public string GetUniqueIdentifier()
+    {
+        return uniqueIdentifier;
+    }
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (Application.IsPlaying(gameObject)) return;
+        if (string.IsNullOrEmpty(gameObject.scene.path)) return;
+
+        SerializedObject serializedObject = new SerializedObject(this);
+        SerializedProperty property = serializedObject.FindProperty("uniqueIdentifier");
+
+        if (string.IsNullOrEmpty(property.stringValue) || !IsUnique(property.stringValue))
+        {
+            property.stringValue = System.Guid.NewGuid().ToString();
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        globalLookup[property.stringValue] = this;
+    }
+#endif
+
+    private bool IsUnique(string candidate)
+    {
+        if (!globalLookup.ContainsKey(candidate)) return true;
+
+        if (globalLookup[candidate] == this) return true;
+
+        if (globalLookup[candidate] == null)
+        {
+            globalLookup.Remove(candidate);
+            return true;
+        }
+
+        if (globalLookup[candidate].GetUniqueIdentifier() != candidate)
+        {
+            globalLookup.Remove(candidate);
+            return true;
+        }
+
+        return false;
+    }
+    #endregion
+
 }

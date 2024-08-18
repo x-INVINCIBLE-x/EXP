@@ -20,6 +20,11 @@ public class Inventory : MonoBehaviour, ISaveable
     public List<InventoryItem> amulets = new();
     public Dictionary<ItemData_Equipment, InventoryItem> amuletsDictionary = new();
 
+    //TODO: Dictionary for all equipment Slots UID : slot
+    //TODO: List that contains all the slots for save system
+    public List<UI_ItemSlot> slots = new();
+    public Dictionary<string, UI_ItemSlot> slotsDictionary;
+
     //public List<InventoryItem> upperBelt = new();
     //public List<InventoryItem> lowerBelt = new();
     //public List<InventoryItem> extraBag = new();
@@ -98,6 +103,7 @@ public class Inventory : MonoBehaviour, ISaveable
         UpdateBeltUI();
 
         SetItemDictionary();
+        SetSlotDictionary();
     }
 
     private void SetItemDictionary()
@@ -109,6 +115,29 @@ public class Inventory : MonoBehaviour, ISaveable
         foreach (ItemData item in itemDataBase)
         {
             itemDataDictionary.Add(item.itemId, item);
+        }
+    }
+
+    private void SetSlotDictionary()
+    {
+        if(slotsDictionary != null) return;
+
+        slotsDictionary = new();
+        AddSlotsToSave(defencePartsSlots);
+        AddSlotsToSave(amuletSlots);
+        AddSlotsToSave(weaponsSlots);
+
+        AddSlotsToSave(upperBeltSlots);
+        AddSlotsToSave(lowerBeltSlots);
+        AddSlotsToSave(extraBeltSlots);
+    }
+
+    private void AddSlotsToSave<T>(T[] slotList) where T :UI_ItemSlot
+    {
+        foreach (var slot in slotList)
+        {
+            slots.Add(slot);
+            slotsDictionary.Add(slot.GetUniqueIdentifier(), slot);
         }
     }
 
@@ -138,6 +167,10 @@ public class Inventory : MonoBehaviour, ISaveable
     //Temporary Input Check
     private void Update()
     {
+        //Temporay for Testing saving system
+        if (Input.GetKeyDown(KeyCode.I))
+            AddStartingItems();
+
         if (!UI.instance.hasActivePanels())
             return;
 
@@ -745,16 +778,16 @@ public class Inventory : MonoBehaviour, ISaveable
         SaveItems(defenceParts,ref itemRecord);
         SaveItems(materials,ref itemRecord);
 
-        for (int i = 0; i < weaponsSlots.Length; i++)
+        for (int i = 0; i < slots.Count; i++)
         {
-            if (weaponsSlots[i].item == null || weaponsSlots[i].item.data == null)
+            if (slots[i].item == null || slots[i].item.data == null)
                 continue;
 
-            string id = weaponsSlots[i].item.data.itemId;
+            string id = slots[i].item.data.itemId;
             EquipmentSlotRecord record = new EquipmentSlotRecord
             {
                 itemID = id,
-                slotID = weaponsSlots[i].GetComponent<SaveableEntity>().GetUniqueIdentifier()
+                slotID = slots[i].GetUniqueIdentifier()
             };
 
             equipmentRecord.Add(record);
@@ -797,10 +830,16 @@ public class Inventory : MonoBehaviour, ISaveable
         {
             if (itemDataDictionary.TryGetValue(equipmentRecord[i].itemID, out ItemData itemToLoad))
             {
-                var slotToAdd = weaponsSlots[0];
-                foreach (var slot in weaponsSlots)
-                    if (slot.GetComponent<SaveableEntity>().GetUniqueIdentifier() == equipmentRecord[i].slotID)
-                        slotToAdd = slot;
+                //var slotToAdd = slots[0];
+                //foreach (var slot in slots)
+                //    if (slot.GetUniqueIdentifier() == equipmentRecord[i].slotID)
+                //        slotToAdd = slot;
+
+                if (!slotsDictionary.TryGetValue(equipmentRecord[i].slotID, out var slotToAdd))
+                {
+                    Debug.LogWarning("unknown slot found: " + equipmentRecord[i].slotID);
+                    continue;
+                }
 
                 InventoryItem item = new InventoryItem(itemToLoad);
                 EquipItem(item, slotToAdd);
