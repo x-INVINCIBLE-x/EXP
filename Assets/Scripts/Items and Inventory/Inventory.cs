@@ -201,6 +201,15 @@ public class Inventory : MonoBehaviour, ISaveable
             AddItem(startingItems[i]);
     }
 
+    private InventoryItem SearchEquipmentIn<T>(Dictionary<T, InventoryItem> equipmentDict, T equipment) where T : ItemData
+    {
+
+        if (equipmentDict.TryGetValue(equipment, out InventoryItem item))
+            return item;
+
+        return null;
+    }
+
     #region Add Item to Inventory
     public void AddItem(ItemData item, int size = 1)
     {
@@ -753,6 +762,8 @@ public class Inventory : MonoBehaviour, ISaveable
 
     public void UpdateSelectedSlot(UI_ItemSlot selectedSlot) => this.selectedSlot = selectedSlot;
 
+    #region Saving Logic
+
     public ItemData GetData(string id)
     {
         SetItemDictionary();
@@ -764,18 +775,26 @@ public class Inventory : MonoBehaviour, ISaveable
         return null;
     }
 
-
     public object CaptureState()
     {
         List<InventorySlotRecord> itemRecord = new();
         List<EquipmentSlotRecord> equipmentRecord = new();
 
-        SaveItems(usableItems,ref itemRecord);
-        SaveItems(weapons,ref itemRecord);
-        SaveItems(amulets,ref itemRecord);
-        SaveItems(defenceParts,ref itemRecord);
-        SaveItems(materials,ref itemRecord);
+        SaveItems(usableItems, ref itemRecord);
+        SaveItems(weapons, ref itemRecord);
+        SaveItems(amulets, ref itemRecord);
+        SaveItems(defenceParts, ref itemRecord);
+        SaveItems(materials, ref itemRecord);
+        SaveEquipmentSlot(equipmentRecord);
 
+        SlotRecord slotRecord = new SlotRecord();
+        slotRecord.inventorySlotRecord = itemRecord;
+        slotRecord.equipmentSlotRecord = equipmentRecord;
+        return slotRecord;
+    }
+
+    private void SaveEquipmentSlot(List<EquipmentSlotRecord> equipmentRecord)
+    {
         for (int i = 0; i < slots.Count; i++)
         {
             if (slots[i].item == null || slots[i].item.data == null)
@@ -790,12 +809,8 @@ public class Inventory : MonoBehaviour, ISaveable
 
             equipmentRecord.Add(record);
         }
-
-        SlotRecord slotRecord = new SlotRecord();
-        slotRecord.inventorySlotRecord = itemRecord;
-        slotRecord.equipmentSlotRecord = equipmentRecord;
-        return slotRecord;
     }
+
     private void SaveItems(List<InventoryItem> items,ref List<InventorySlotRecord> records)
     {
         for (int i = 0; i < items.Count; i++)
@@ -856,15 +871,6 @@ public class Inventory : MonoBehaviour, ISaveable
 
     }
 
-    private InventoryItem SearchEquipmentIn<T>(Dictionary<T, InventoryItem> equipmentDict, T equipment) where T : ItemData
-    {
-
-        if (equipmentDict.TryGetValue(equipment, out InventoryItem item))
-            return item;
-
-        return null;
-    }
-
     [System.Serializable]
     private struct InventorySlotRecord
     {
@@ -885,4 +891,6 @@ public class Inventory : MonoBehaviour, ISaveable
         public List<InventorySlotRecord> inventorySlotRecord;
         public List<EquipmentSlotRecord> equipmentSlotRecord;
     }
+
+    #endregion
 }
