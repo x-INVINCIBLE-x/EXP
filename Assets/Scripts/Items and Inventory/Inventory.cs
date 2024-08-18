@@ -20,8 +20,6 @@ public class Inventory : MonoBehaviour, ISaveable
     public List<InventoryItem> amulets = new();
     public Dictionary<ItemData_Equipment, InventoryItem> amuletsDictionary = new();
 
-    //TODO: Dictionary for all equipment Slots UID : slot
-    //TODO: List that contains all the slots for save system
     public List<UI_ItemSlot> slots = new();
     public Dictionary<string, UI_ItemSlot> slotsDictionary;
 
@@ -826,14 +824,11 @@ public class Inventory : MonoBehaviour, ISaveable
             }
         }
 
+        InventoryItem item = null;
         for (int i = 0; i < equipmentRecord.Count; i++)
         {
             if (itemDataDictionary.TryGetValue(equipmentRecord[i].itemID, out ItemData itemToLoad))
             {
-                //var slotToAdd = slots[0];
-                //foreach (var slot in slots)
-                //    if (slot.GetUniqueIdentifier() == equipmentRecord[i].slotID)
-                //        slotToAdd = slot;
 
                 if (!slotsDictionary.TryGetValue(equipmentRecord[i].slotID, out var slotToAdd))
                 {
@@ -841,12 +836,33 @@ public class Inventory : MonoBehaviour, ISaveable
                     continue;
                 }
 
-                InventoryItem item = new InventoryItem(itemToLoad);
+                ItemData_Equipment equipment = itemToLoad as ItemData_Equipment;
+                ItemData_Usable usableItem = itemToLoad as ItemData_Usable;
+                if (equipment)
+                {
+                    item = SearchEquipmentIn(weaponsDictionary, equipment);
+                    item ??= SearchEquipmentIn(amuletsDictionary, equipment);
+                    item ??= SearchEquipmentIn(defencePartsDictionary, equipment);
+
+                }
+                else if (usableItem)
+                {
+                    item = SearchEquipmentIn(usableItemsDictionary, usableItem);
+                }
                 EquipItem(item, slotToAdd);
                 loadedItems.Add(itemToLoad);
             }
         }
 
+    }
+
+    private InventoryItem SearchEquipmentIn<T>(Dictionary<T, InventoryItem> equipmentDict, T equipment) where T : ItemData
+    {
+
+        if (equipmentDict.TryGetValue(equipment, out InventoryItem item))
+            return item;
+
+        return null;
     }
 
     [System.Serializable]
