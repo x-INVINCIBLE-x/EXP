@@ -235,9 +235,11 @@ public class Inventory : MonoBehaviour, ISaveable
             AddItem(item, ref weapons, ref weaponsDictionary, size);
     }
 
-    public void AddItem(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<ItemData, InventoryItem> itemDictionary, int size = 1)
+    //Test area
+    public void AddItem<T>(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<T, InventoryItem> itemDictionary, int size = 1) where T : ItemData
     {
-        if (itemDictionary.TryGetValue(item, out InventoryItem value))
+        T itemData = item as T;
+        if (itemDictionary.TryGetValue(itemData, out InventoryItem value))
         {
             value.AddStack();
         }
@@ -246,43 +248,61 @@ public class Inventory : MonoBehaviour, ISaveable
             InventoryItem newItem = new InventoryItem(item);
             newItem.stackSize = size;
             itemList.Add(newItem);
-            itemDictionary[item] = newItem;
+            itemDictionary[itemData] = newItem;
         }
     }
+    //End test area
 
-    public void AddItem(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<ItemData_Equipment, InventoryItem> itemDictionary, int size = 1)
-    {
-        ItemData_Equipment equipmwnt = item as ItemData_Equipment;
+    #region REPLACED BY GENERIC FUNCTION
+    //public void AddItem(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<ItemData, InventoryItem> itemDictionary, int size = 1)
+    //{
+    //    if (itemDictionary.TryGetValue(item, out InventoryItem value))
+    //    {
+    //        value.AddStack();
+    //    }
+    //    else
+    //    {
+    //        InventoryItem newItem = new InventoryItem(item);
+    //        newItem.stackSize = size;
+    //        itemList.Add(newItem);
+    //        itemDictionary[item] = newItem;
+    //    }
+    //}
 
-        if (itemDictionary.TryGetValue(equipmwnt, out InventoryItem value))
-        {
-            value.AddStack();
-        }
-        else
-        {
-            InventoryItem newItem = new InventoryItem(equipmwnt);
-            newItem.stackSize = size;
-            itemList.Add(newItem);
-            itemDictionary[equipmwnt] = newItem;
-        }
-    }
+    //public void AddItem(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<ItemData_Equipment, InventoryItem> itemDictionary, int size = 1)
+    //{
+    //    ItemData_Equipment equipmwnt = item as ItemData_Equipment;
 
-    public void AddItem(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<ItemData_Usable, InventoryItem> itemDictionary, int size = 1)
-    {
-        ItemData_Usable usableItem = item as ItemData_Usable;
+    //    if (itemDictionary.TryGetValue(equipmwnt, out InventoryItem value))
+    //    {
+    //        value.AddStack();
+    //    }
+    //    else
+    //    {
+    //        InventoryItem newItem = new InventoryItem(equipmwnt);
+    //        newItem.stackSize = size;
+    //        itemList.Add(newItem);
+    //        itemDictionary[equipmwnt] = newItem;
+    //    }
+    //}
 
-        if (itemDictionary.TryGetValue(usableItem, out InventoryItem value))
-        {
-            value.AddStack();
-        }
-        else
-        {
-            InventoryItem newItem = new InventoryItem(usableItem);
-            newItem.stackSize = size;
-            itemList.Add(newItem);
-            itemDictionary[usableItem] = newItem;
-        }
-    }
+    //public void AddItem(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<ItemData_Usable, InventoryItem> itemDictionary, int size = 1)
+    //{
+    //    ItemData_Usable usableItem = item as ItemData_Usable;
+
+    //    if (itemDictionary.TryGetValue(usableItem, out InventoryItem value))
+    //    {
+    //        value.AddStack();
+    //    }
+    //    else
+    //    {
+    //        InventoryItem newItem = new InventoryItem(usableItem);
+    //        newItem.stackSize = size;
+    //        itemList.Add(newItem);
+    //        itemDictionary[usableItem] = newItem;
+    //    }
+    //}
+    #endregion
     #endregion
 
     #region Equip/ Unequip
@@ -446,47 +466,64 @@ public class Inventory : MonoBehaviour, ISaveable
                 RemoveItem(value, ref usableItems, ref usableItemsDictionary);
         }
     }
-
-    public void RemoveItem(InventoryItem item, ref List<InventoryItem> itemLIst, ref Dictionary<ItemData, InventoryItem> itemDictionary)
+    //tEST aREA
+    public void RemoveItem<T>(InventoryItem item, ref List<InventoryItem> itemLIst, ref Dictionary<T, InventoryItem> itemDictionary) where T : ItemData
     {
+        T itemData = item.data as T;
         if (item.stackSize == 1)
         {
             itemLIst.Remove(item);
-            itemDictionary.Remove(item.data);
+            itemDictionary.Remove(itemData);
         }
         else
             item.RemoveStack();
 
-        ShowBagItemSlots(item.data.itemType);
+        ShowBagItemSlots(itemData.itemType);
     }
+    //eND tEST aREA
 
-    public void RemoveItem(InventoryItem item, ref List<InventoryItem> itemLIst, ref Dictionary<ItemData_Equipment, InventoryItem> itemDictionary)
-    {
-        ItemData_Equipment equipment = item.data as ItemData_Equipment;
-        if (item.stackSize == 1)
-        {
-            itemLIst.Remove(item);
-            itemDictionary.Remove(equipment);
-        }
-        else
-            item.RemoveStack();
+    #region Replaced by Generic
+    //public void RemoveItem(InventoryItem item, ref List<InventoryItem> itemLIst, ref Dictionary<ItemData, InventoryItem> itemDictionary)
+    //{
+    //    if (item.stackSize == 1)
+    //    {
+    //        itemLIst.Remove(item);
+    //        itemDictionary.Remove(item.data);
+    //    }
+    //    else
+    //        item.RemoveStack();
 
-        ShowBagItemSlots(equipment.itemType, equipment.equipmentType);
-    }
+    //    ShowBagItemSlots(item.data.itemType);
+    //}
 
-    public void RemoveItem(InventoryItem item, ref List<InventoryItem> itemLIst, ref Dictionary<ItemData_Usable, InventoryItem> itemDictionary)
-    {
-        if (item.stackSize == 1)
-        {
-            itemLIst.Remove(item);
-            itemDictionary.Remove(item.data as ItemData_Usable);
-        }
-        else
-            item.RemoveStack();
+    //public void RemoveItem(InventoryItem item, ref List<InventoryItem> itemLIst, ref Dictionary<ItemData_Equipment, InventoryItem> itemDictionary)
+    //{
+    //    ItemData_Equipment equipment = item.data as ItemData_Equipment;
+    //    if (item.stackSize == 1)
+    //    {
+    //        itemLIst.Remove(item);
+    //        itemDictionary.Remove(equipment);
+    //    }
+    //    else
+    //        item.RemoveStack();
 
-        ShowBagItemSlots(item.data.itemType);
-    }
+    //    ShowBagItemSlots(equipment.itemType, equipment.equipmentType);
+    //}
 
+    //public void RemoveItem(InventoryItem item, ref List<InventoryItem> itemLIst, ref Dictionary<ItemData_Usable, InventoryItem> itemDictionary)
+    //{
+    //    if (item.stackSize == 1)
+    //    {
+    //        itemLIst.Remove(item);
+    //        itemDictionary.Remove(item.data as ItemData_Usable);
+    //    }
+    //    else
+    //        item.RemoveStack();
+
+    //    ShowBagItemSlots(item.data.itemType);
+    //}
+
+    #endregion
 
     #endregion
 
