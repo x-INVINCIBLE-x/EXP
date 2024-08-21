@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviour, ISaveable
 {
     public static Inventory Instance { get; private set; }
 
@@ -19,6 +19,9 @@ public class Inventory : MonoBehaviour
 
     public List<InventoryItem> amulets = new();
     public Dictionary<ItemData_Equipment, InventoryItem> amuletsDictionary = new();
+
+    public List<UI_ItemSlot> slots = new();
+    public Dictionary<string, UI_ItemSlot> slotsDictionary;
 
     //public List<InventoryItem> upperBelt = new();
     //public List<InventoryItem> lowerBelt = new();
@@ -62,6 +65,13 @@ public class Inventory : MonoBehaviour
     private BeltType activeBeltSelected = BeltType.UpperBelt;
 
     private InputManager inputManager;
+
+    [Header("Data base")]
+    public List<ItemData> itemDataBase;
+    private static Dictionary<string, ItemData> itemDataDictionary;
+    public List<ItemData> loadedItems;
+    public List<ItemData_Equipment> loadedEquipment;
+
     private void Awake()
     {
         if (Instance == null)
@@ -84,11 +94,49 @@ public class Inventory : MonoBehaviour
 
     private void Start()
     {
-        AddStartingItems();
+        //AddStartingItems();
         ShowBagItemSlots(ItemType.UsableItem);
         CleanSlots();
         UpdateActiveBeltUI();
         UpdateBeltUI();
+
+        SetItemDictionary();
+        SetSlotDictionary();
+    }
+
+    private void SetItemDictionary()
+    {
+        if (itemDataDictionary != null)
+            return;
+        
+        itemDataDictionary = new();
+        foreach (ItemData item in itemDataBase)
+        {
+            itemDataDictionary.Add(item.itemId, item);
+        }
+    }
+
+    private void SetSlotDictionary()
+    {
+        if(slotsDictionary != null) return;
+
+        slotsDictionary = new();
+        AddSlotsToSave(defencePartsSlots);
+        AddSlotsToSave(amuletSlots);
+        AddSlotsToSave(weaponsSlots);
+
+        AddSlotsToSave(upperBeltSlots);
+        AddSlotsToSave(lowerBeltSlots);
+        AddSlotsToSave(extraBeltSlots);
+    }
+
+    private void AddSlotsToSave<T>(T[] slotList) where T :UI_ItemSlot
+    {
+        foreach (var slot in slotList)
+        {
+            slots.Add(slot);
+            slotsDictionary.Add(slot.GetUniqueIdentifier(), slot);
+        }
     }
 
     private void OnEnable()
@@ -117,6 +165,10 @@ public class Inventory : MonoBehaviour
     //Temporary Input Check
     private void Update()
     {
+        //Temporay for Testing saving system
+        if (Input.GetKeyDown(KeyCode.I))
+            AddStartingItems();
+
         if (!UI.instance.hasActivePanels())
             return;
 
@@ -149,76 +201,55 @@ public class Inventory : MonoBehaviour
             AddItem(startingItems[i]);
     }
 
+    private InventoryItem SearchEquipmentIn<T>(Dictionary<T, InventoryItem> equipmentDict, T equipment) where T : ItemData
+    {
+        if (equipmentDict.TryGetValue(equipment, out InventoryItem item))
+            return item;
+
+        return null;
+    }
+
     #region Add Item to Inventory
-    public void AddItem(ItemData item)
+    public void AddItem(ItemData item, int size = 1)
     {
         if (item.itemType == ItemType.UsableItem)
-            AddItem(item, ref usableItems, ref usableItemsDictionary);
+            AddItem(item, ref usableItems, ref usableItemsDictionary, size);
         if (item.itemType == ItemType.Material)
-            AddItem(item, ref materials, ref materialsDictionary);
+            AddItem(item, ref materials, ref materialsDictionary, size);
         if (item.itemType == ItemType.Equipment)
             AddToEquipments(item);
     }
 
-    private void AddToEquipments(ItemData item)
+    private void AddToEquipments(ItemData item, int size = 1)
     {
         ItemData_Equipment equipment = item as ItemData_Equipment;
 
         if (equipment == null) return;
 
         if (equipment.equipmentType == EquipmentType.Amulet)
-            AddItem(item, ref amulets, ref amuletsDictionary);
+            AddItem(item, ref amulets, ref amuletsDictionary, size);
         if (equipment.equipmentType == EquipmentType.Defence)
-            AddItem(item, ref defenceParts, ref defencePartsDictionary);
+            AddItem(item, ref defenceParts, ref defencePartsDictionary, size);
         if (equipment.equipmentType == EquipmentType.Weapon)
-            AddItem(item, ref weapons, ref weaponsDictionary);
+            AddItem(item, ref weapons, ref weaponsDictionary, size);
     }
 
-    public void AddItem(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<ItemData, InventoryItem> itemDictionary)
+    public void AddItem<T>(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<T, InventoryItem> itemDictionary, int size = 1) where T : ItemData
     {
-        if (itemDictionary.TryGetValue(item, out InventoryItem value))
+        T itemData = item as T;
+        if (itemDictionary.TryGetValue(itemData, out InventoryItem value))
         {
             value.AddStack();
         }
         else
         {
             InventoryItem newItem = new InventoryItem(item);
+            newItem.stackSize = size;
             itemList.Add(newItem);
-            itemDictionary[item] = newItem;
+            itemDictionary[itemData] = newItem;
         }
     }
 
-    public void AddItem(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<ItemData_Equipment, InventoryItem> itemDictionary)
-    {
-        ItemData_Equipment equipmwnt = item as ItemData_Equipment;
-
-        if (itemDictionary.TryGetValue(equipmwnt, out InventoryItem value))
-        {
-            value.AddStack();
-        }
-        else
-        {
-            InventoryItem newItem = new InventoryItem(equipmwnt);
-            itemList.Add(newItem);
-            itemDictionary[equipmwnt] = newItem;
-        }
-    }
-
-    public void AddItem(ItemData item, ref List<InventoryItem> itemList, ref Dictionary<ItemData_Usable, InventoryItem> itemDictionary)
-    {
-        ItemData_Usable usableItem = item as ItemData_Usable;
-
-        if (itemDictionary.TryGetValue(usableItem, out InventoryItem value))
-        {
-            value.AddStack();
-        }
-        else
-        {
-            InventoryItem newItem = new InventoryItem(usableItem);
-            itemList.Add(newItem);
-            itemDictionary[usableItem] = newItem;
-        }
-    }
     #endregion
 
     #region Equip/ Unequip
@@ -383,46 +414,19 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void RemoveItem(InventoryItem item, ref List<InventoryItem> itemLIst, ref Dictionary<ItemData, InventoryItem> itemDictionary)
+    public void RemoveItem<T>(InventoryItem item, ref List<InventoryItem> itemLIst, ref Dictionary<T, InventoryItem> itemDictionary) where T : ItemData
     {
+        T itemData = item.data as T;
         if (item.stackSize == 1)
         {
             itemLIst.Remove(item);
-            itemDictionary.Remove(item.data);
+            itemDictionary.Remove(itemData);
         }
         else
             item.RemoveStack();
 
-        ShowBagItemSlots(item.data.itemType);
+        ShowBagItemSlots(itemData.itemType);
     }
-
-    public void RemoveItem(InventoryItem item, ref List<InventoryItem> itemLIst, ref Dictionary<ItemData_Equipment, InventoryItem> itemDictionary)
-    {
-        ItemData_Equipment equipment = item.data as ItemData_Equipment;
-        if (item.stackSize == 1)
-        {
-            itemLIst.Remove(item);
-            itemDictionary.Remove(equipment);
-        }
-        else
-            item.RemoveStack();
-
-        ShowBagItemSlots(equipment.itemType, equipment.equipmentType);
-    }
-
-    public void RemoveItem(InventoryItem item, ref List<InventoryItem> itemLIst, ref Dictionary<ItemData_Usable, InventoryItem> itemDictionary)
-    {
-        if (item.stackSize == 1)
-        {
-            itemLIst.Remove(item);
-            itemDictionary.Remove(item.data as ItemData_Usable);
-        }
-        else
-            item.RemoveStack();
-
-        ShowBagItemSlots(item.data.itemType);
-    }
-
 
     #endregion
 
@@ -600,6 +604,7 @@ public class Inventory : MonoBehaviour
 
     #endregion
 
+    #region Shift Belt Slots
     public void ShiftBeltSlots(BeltType beltType)
     {
         if (beltType == BeltType.UpperBelt)
@@ -646,6 +651,9 @@ public class Inventory : MonoBehaviour
         ShiftBeltSlots(BeltType.LowerBelt);
     }
 
+    #endregion
+
+    #region Use Items
     public void UseBeltItem()
     {
         UI_ActiveBeltSlot activeSlot;
@@ -690,5 +698,139 @@ public class Inventory : MonoBehaviour
         usableItem.UseItem(PlayerManager.instance.player.stats);
     }
 
+    #endregion
+
     public void UpdateSelectedSlot(UI_ItemSlot selectedSlot) => this.selectedSlot = selectedSlot;
+
+    #region Saving Logic
+
+    public ItemData GetData(string id)
+    {
+        SetItemDictionary();
+        Debug.Log("Asked id: " + id);
+        if (itemDataDictionary.TryGetValue(id, out ItemData data))
+            return data;
+
+        Debug.LogWarning("Unknown id asked from GetData");
+        return null;
+    }
+
+    public object CaptureState()
+    {
+        List<InventorySlotRecord> itemRecord = new();
+        List<EquipmentSlotRecord> equipmentRecord = new();
+
+        SaveItems(usableItems, ref itemRecord);
+        SaveItems(weapons, ref itemRecord);
+        SaveItems(amulets, ref itemRecord);
+        SaveItems(defenceParts, ref itemRecord);
+        SaveItems(materials, ref itemRecord);
+        SaveEquipmentSlot(equipmentRecord);
+
+        SlotRecord slotRecord = new SlotRecord();
+        slotRecord.inventorySlotRecord = itemRecord;
+        slotRecord.equipmentSlotRecord = equipmentRecord;
+        return slotRecord;
+    }
+
+    private void SaveEquipmentSlot(List<EquipmentSlotRecord> equipmentRecord)
+    {
+        for (int i = 0; i < slots.Count; i++)
+        {
+            if (slots[i].item == null || slots[i].item.data == null)
+                continue;
+
+            string id = slots[i].item.data.itemId;
+            EquipmentSlotRecord record = new EquipmentSlotRecord
+            {
+                itemID = id,
+                slotID = slots[i].GetUniqueIdentifier()
+            };
+
+            equipmentRecord.Add(record);
+        }
+    }
+
+    private void SaveItems(List<InventoryItem> items,ref List<InventorySlotRecord> records)
+    {
+        for (int i = 0; i < items.Count; i++)
+        {
+            InventorySlotRecord newRecord = new InventorySlotRecord
+            {
+                itemID = items[i].data.itemId,
+                amount = items[i].stackSize,
+            };
+            records.Add(newRecord);
+        }
+    }
+
+    public void RestoreState(object state)
+    {
+        SlotRecord record = (SlotRecord)state;
+        List<InventorySlotRecord> itemRecord = record.inventorySlotRecord;
+        List<EquipmentSlotRecord> equipmentRecord = record.equipmentSlotRecord;
+
+        for (int i = 0; i < itemRecord.Count; i++)
+        {
+            if (itemDataDictionary.TryGetValue(itemRecord[i].itemID, out ItemData itemToLoad))
+            {
+                AddItem(itemToLoad, itemRecord[i].amount);
+                loadedItems.Add(itemToLoad);
+            }
+        }
+
+        InventoryItem item = null;
+        for (int i = 0; i < equipmentRecord.Count; i++)
+        {
+            if (itemDataDictionary.TryGetValue(equipmentRecord[i].itemID, out ItemData itemToLoad))
+            {
+
+                if (!slotsDictionary.TryGetValue(equipmentRecord[i].slotID, out var slotToAdd))
+                {
+                    Debug.LogWarning("unknown slot found: " + equipmentRecord[i].slotID);
+                    continue;
+                }
+
+                ItemData_Equipment equipment = itemToLoad as ItemData_Equipment;
+                ItemData_Usable usableItem = itemToLoad as ItemData_Usable;
+                if (equipment)
+                {
+                    item = SearchEquipmentIn(weaponsDictionary, equipment);
+                    item ??= SearchEquipmentIn(amuletsDictionary, equipment);
+                    item ??= SearchEquipmentIn(defencePartsDictionary, equipment);
+
+                }
+                else if (usableItem)
+                {
+                    item = SearchEquipmentIn(usableItemsDictionary, usableItem);
+                }
+                EquipItem(item, slotToAdd);
+                loadedItems.Add(itemToLoad);
+            }
+        }
+
+    }
+
+    [System.Serializable]
+    private struct InventorySlotRecord
+    {
+        public string itemID;
+        public int amount;
+    }
+
+    [System.Serializable]
+    private struct EquipmentSlotRecord
+    {
+        public string itemID;
+        public string slotID;
+    }
+
+    [System.Serializable]
+    private struct SlotRecord
+    {
+        public List<InventorySlotRecord> inventorySlotRecord;
+        public List<EquipmentSlotRecord> equipmentSlotRecord;
+    }
+
+    #endregion
 }

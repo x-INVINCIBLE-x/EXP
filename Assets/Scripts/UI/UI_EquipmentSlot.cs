@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -37,4 +38,10 @@ public class UI_EquipmentSlot : UI_ItemSlot
         itemImage.sprite = defaultImage;
         itemImage.color = Color.white;
     }
+
+    public override void RestoreState(object state)
+    {
+        base.RestoreState(state);
+    }
+
 }

@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
+[System.Serializable]
 [CreateAssetMenu(fileName = "WeaponData", menuName ="Item/Weapon")]
 public class WeaponData : ItemData_Equipment
 {

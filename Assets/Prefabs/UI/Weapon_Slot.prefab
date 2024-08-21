@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 3468171858874818128}
   - component: {fileID: 6844743591333132238}
   - component: {fileID: 5137676722191248902}
+  - component: {fileID: -4314285904843630254}
   m_Layer: 5
   m_Name: Weapon_Slot
   m_TagString: Untagged
@@ -174,3 +175,16 @@ MonoBehaviour:
   selectionVisualizer: {fileID: 5477809338184676865}
   selectionUI: {fileID: 0}
   equipmentType: 0
+--- !u!114 &-4314285904843630254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7013610347319833345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ea9374b509b70f4bba37e4a2ca8cf00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueIdentifier: 
