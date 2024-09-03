@@ -97,7 +97,8 @@ public class PortalCore : MonoBehaviour, IInteractable
     {
         foreach (PortalCore portal in FindObjectsOfType<PortalCore>())
         {
-            if (portal == this || portal.Destination != finalDestination && portal.Phase != finalPhase) { continue; }
+            if (portal.Destination != finalDestination && portal.Phase != finalPhase) { continue; }
+            Debug.Log(portal.Destination + "  " +  portal.Phase);
             return portal;
         }
 
