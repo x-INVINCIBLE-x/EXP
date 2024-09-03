@@ -83,7 +83,7 @@ public class PortalCore : MonoBehaviour, IInteractable
             UpdatePlayer(otherPortal);
         }
 
-        //savingWrapper.Save();
+        savingWrapper.Save();
 
         //yield return new WaitForSeconds(timeBetweenFade);
 

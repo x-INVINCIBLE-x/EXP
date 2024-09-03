@@ -11,6 +11,11 @@ public class SavingWrapper : MonoBehaviour
     [SerializeField] int firstLevelBuildIndex = 1;
     [SerializeField] int menuLevelBuildIndex = 0;
 
+    private void Start()
+    {
+        LoadGame(currentSaveKey);
+    }
+
     public void ContinueGame()
     {
         StartCoroutine(LoadLastScene());
@@ -20,7 +25,7 @@ public class SavingWrapper : MonoBehaviour
     {
         SetCurrentSave(saveFile);
         StartCoroutine(LoadFirstScene());
-    }
+    } 
 
     public void LoadGame(string saveFile)
     {

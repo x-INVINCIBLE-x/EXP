@@ -33,7 +33,7 @@ public class PlayerWeaponController : MonoBehaviour
     private void Start()
     {
         stats = PlayerManager.instance.player.stats;
-        //InitializeWeapons();   Temporary
+        InitializeWeapons();   //Temporary
         AddModifiersOfCurrentWeapon();
     }
 
@@ -208,6 +208,9 @@ public class PlayerWeaponController : MonoBehaviour
     {
         if (currentWeapon == null)
             return;
+
+        if(stats == null)
+            stats = PlayerManager.instance.player.stats;
 
         stats.fireAtk.AddModifier(new StatModifier(currentWeapon.fireAtk, StatModType.Flat, currentWeapon));
         stats.electricAtk.AddModifier(new StatModifier(currentWeapon.electricAtk, StatModType.Flat, currentWeapon));

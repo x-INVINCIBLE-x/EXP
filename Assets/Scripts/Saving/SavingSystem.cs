@@ -27,6 +27,7 @@ public class SavingSystem : MonoBehaviour
             buildIndex = (int)state["lastSceneBuildIndex"];
         }
         yield return SceneManager.LoadSceneAsync(buildIndex);
+        yield return new WaitForSeconds(0.1f); //temp
         RestoreState(state);
     }
 
