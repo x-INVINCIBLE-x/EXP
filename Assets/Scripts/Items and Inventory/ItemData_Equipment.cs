@@ -28,6 +28,9 @@ public class ItemData_Equipment : ItemData
     public void AddModifiers()
     {
         playerStats = PlayerManager.instance.player.stats;
+        
+        if (playerStats.statDictionary == null)
+            playerStats.InitializeStatDictionary();
 
         foreach (Modifier modifier in modifiers)
         {

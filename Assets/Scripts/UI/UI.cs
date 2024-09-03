@@ -17,6 +17,7 @@ public class UI : MonoBehaviour
 
     [SerializeField] private GameObject HUD;
 
+    #region Inventory
     [Header("Panels")]
     public GameObject inventoryPanel;
     public GameObject equipmentPanel;
@@ -43,6 +44,11 @@ public class UI : MonoBehaviour
     [SerializeField] private InputManager inputManager;
 
     [SerializeField] private GameObject[] selectedSlotVisualizer;
+    #endregion
+
+    [Header("Portal Core Info")]
+    public GameObject portalUI;
+
     private void Awake()
     {
         if(instance == null)
@@ -74,6 +80,7 @@ public class UI : MonoBehaviour
         inputManager.BackEvent -= ClosePanel;
     }
 
+    #region Inventory Functions
     public void SwitchTo(Panels panelToOpen)
     {
         foreach (var panel in panelsDictionary.Keys)
@@ -85,7 +92,6 @@ public class UI : MonoBehaviour
                 panelsDictionary[panel].SetActive(true);
         }
     }
-
     public void EnableInteractionPanel(Transform itemSlotTransform, bool canUse, bool canMoveToEquipment, bool canBeDestroyed, ItemData item = null)
     {
         interactionPanel.Setup(canUse, canMoveToEquipment, canBeDestroyed, item);
@@ -188,4 +194,7 @@ public class UI : MonoBehaviour
     }
 
     public bool hasActivePanels() => activePanels.Count > 0;
+    #endregion
+
+    public void SetPortalUI(bool active) => portalUI.SetActive(active);
 }

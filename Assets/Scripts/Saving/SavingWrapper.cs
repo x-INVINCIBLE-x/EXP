@@ -76,6 +76,7 @@ public class SavingWrapper : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             Load();
+            //LoadGame(currentSaveKey);
         }
         if (Input.GetKeyDown(KeyCode.Delete))
         {

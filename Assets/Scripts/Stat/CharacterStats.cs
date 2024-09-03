@@ -165,7 +165,7 @@ public class CharacterStats : MonoBehaviour
         currentFableSlot = fableSlot.Value;
     }
 
-    private void InitializeStatDictionary()
+    public void InitializeStatDictionary()
     {
         statDictionary = new Dictionary<Stats, Stat>
         {

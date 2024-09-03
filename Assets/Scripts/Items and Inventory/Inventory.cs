@@ -119,7 +119,7 @@ public class Inventory : MonoBehaviour, ISaveable
     private void SetSlotDictionary()
     {
         if(slotsDictionary != null) return;
-
+        
         slotsDictionary = new();
         AddSlotsToSave(defencePartsSlots);
         AddSlotsToSave(amuletSlots);
@@ -296,8 +296,8 @@ public class Inventory : MonoBehaviour, ISaveable
         PlayerWeaponController controller = PlayerManager.instance.player.weaponController;
         WeaponData weaponData = item as WeaponData;
 
-        if (weaponData.isEquipped)
-            return;
+        //if (weaponData.isEquipped)
+        //    return;
 
         if (itemSlot == weaponsSlots[0])
         {
@@ -320,7 +320,7 @@ public class Inventory : MonoBehaviour, ISaveable
 
         if (!beltSlot || !usableItem)
         {
-            Debug.LogWarning("Usable Belt or Item NUll");
+            Debug.LogWarning("Usable Belt or Item NULL");
             return;
         }
 
@@ -784,6 +784,8 @@ public class Inventory : MonoBehaviour, ISaveable
         {
             if (itemDataDictionary.TryGetValue(equipmentRecord[i].itemID, out ItemData itemToLoad))
             {
+                if (slotsDictionary == null)
+                    SetSlotDictionary();
 
                 if (!slotsDictionary.TryGetValue(equipmentRecord[i].slotID, out var slotToAdd))
                 {
@@ -804,6 +806,7 @@ public class Inventory : MonoBehaviour, ISaveable
                 {
                     item = SearchEquipmentIn(usableItemsDictionary, usableItem);
                 }
+                
                 EquipItem(item, slotToAdd);
                 loadedItems.Add(itemToLoad);
             }
