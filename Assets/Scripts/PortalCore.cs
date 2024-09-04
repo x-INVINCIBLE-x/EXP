@@ -15,7 +15,7 @@ public enum Phase
     Phase1, Phase2, Phase3, Phase4, Phase5
 }
 
-public class PortalCore : MonoBehaviour, IInteractable
+public class PortalCore : Interactable
 {
     [field: SerializeField] public Destination Destination { get; private set; }
     [field: SerializeField] public Phase Phase { get; private set; }
@@ -37,13 +37,14 @@ public class PortalCore : MonoBehaviour, IInteractable
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected override void OnTriggerEnter(Collider other)
     {
-        if (!IsActivaed)
-        {
-            BuildIndex = SceneManager.GetActiveScene().buildIndex;
-            return;
-        }
+        base.OnTriggerEnter(other);
+        //if (!IsActivaed)
+        //{
+        //    BuildIndex = SceneManager.GetActiveScene().buildIndex;
+        //    return;
+        //}
     }
 
     public void TeleportTo(Destination finalDestination, Phase finalPhase, int buildIndex)
