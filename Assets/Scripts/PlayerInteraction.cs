@@ -5,13 +5,24 @@ public class PlayerInteraction : MonoBehaviour
 {
     [SerializeField] private GameObject interactUI;
 
+    private Player player;
     private List<Interactable> interactables = new List<Interactable>();
     private Interactable closestInteractable;
 
+    private void Awake()
+    {
+        player = GetComponent<Player>();
+    }
+
     private void Start()
     {
-        Player player = GetComponent<Player>();
-        //player.inputManager.Interaction.performed += context => InteractWithClosest();
+        player.inputManager.ClearInteractEvent();
+        player.inputManager.Interact += InteractWithClosest;
+    }
+
+    private void OnDisable()
+    {
+        player.inputManager.Interact -= InteractWithClosest;
     }
 
     private void Update()

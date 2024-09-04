@@ -70,11 +70,11 @@ public class Player : MonoBehaviour, ISaveable
         stats = GetComponent<PlayerStat>();
 
         mainCamera = Camera.main;
+        inputManager = InputManager.Instance;
     }
 
     private void Start()
     {
-        inputManager = InputManager.Instance;
         FreeLookState = new PlayerFreeLookState(stateMachine, this, "FreeLook");
         TargetState = new PlayerTargetState(stateMachine, this, "TargetLook");
         SprintState = new PlayerSprintState(stateMachine, this, "Sprint");

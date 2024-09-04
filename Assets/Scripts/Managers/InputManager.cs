@@ -23,6 +23,7 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
     public event Action UpdateUpperBeltEvent;
     public event Action UpdateLowerBeltEvent;
     public event Action UseEvent;
+    public event Action Interact;
     public event Action<int> On1Event;
     public event Action<int> On2Event;
     public event Action<int> On3Event;
@@ -150,6 +151,12 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
            UseEvent?.Invoke();
     }
 
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            Interact?.Invoke();
+    }
+
     public void On_1(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -172,5 +179,10 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
     {
         if (context.performed)
             On4Event?.Invoke(3);
+    }
+
+    public void ClearInteractEvent()
+    {
+        Interact = null;
     }
 }

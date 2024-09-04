@@ -31,7 +31,7 @@ public class PortalCore : Interactable
         ui = UI.instance;
     }
 
-    public void Interact()
+    public override void Interaction()
     {
         ui.SetPortalUI(true);
 

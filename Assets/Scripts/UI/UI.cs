@@ -51,7 +51,7 @@ public class UI : MonoBehaviour
 
     private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
             instance = this;
 
         panelsDictionary = new Dictionary<Panels, GameObject>();
@@ -88,7 +88,7 @@ public class UI : MonoBehaviour
             HideToolTips();
             panelsDictionary[panel].SetActive(false);
 
-            if(panel == panelToOpen)
+            if (panel == panelToOpen)
                 panelsDictionary[panel].SetActive(true);
         }
     }
@@ -183,7 +183,7 @@ public class UI : MonoBehaviour
         activePanels[activePanels.Count - 1].gameObject.SetActive(false);
         Inventory.Instance.UpdateSelectedSlot(null);
 
-        if(activePanels.Count == 0)
+        if (activePanels.Count == 0)
             HUD.SetActive(true);
     }
 
@@ -196,5 +196,8 @@ public class UI : MonoBehaviour
     public bool hasActivePanels() => activePanels.Count > 0;
     #endregion
 
-    public void SetPortalUI(bool active) => portalUI.SetActive(active);
+    public void SetPortalUI(bool active)
+    {
+        portalUI.SetActive(active);
+    }
 }
