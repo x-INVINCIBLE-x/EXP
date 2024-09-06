@@ -52,14 +52,13 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
         Movement = context.ReadValue<Vector2>();
     }
 
-
     public void OnTarget(InputAction.CallbackContext context)
     {
         if(context.performed)
             TargetEvent?.Invoke();
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         controls.Disable();
     }
@@ -185,4 +184,7 @@ public class InputManager : MonoBehaviour, PlayerControls.IPlayerActions
     {
         Interact = null;
     }
+
+    public void EnableControls() => controls.Enable();
+    public void DisableControls() => controls.Disable();
 }

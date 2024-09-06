@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 3554288644043823519}
   m_Layer: 0
   m_Name: Portal
-  m_TagString: Untagged
+  m_TagString: Portal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -119,6 +119,7 @@ Transform:
   - {fileID: 2125010443740792617}
   - {fileID: 3438808571646891490}
   - {fileID: 2554034488407481469}
+  - {fileID: 1809799649054463810}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 25.41, z: 0}
 --- !u!114 &2649495091396422667
@@ -135,7 +136,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Destination>k__BackingField: 0
   <Phase>k__BackingField: 0
-  <SpawnPoint>k__BackingField: {fileID: 5452202714102001373}
+  <SpawnPoint>k__BackingField: {fileID: 1809799649054463810}
+  fadeOutTime: 2
+  fadeInTime: 1
+  timeBetweenFade: 1
 --- !u!65 &3554288644043823519
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -323,6 +327,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &6528738276372775062
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1809799649054463810}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1809799649054463810
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6528738276372775062}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5452202714102001373}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7279002055883917317
 GameObject:
   m_ObjectHideFlags: 0

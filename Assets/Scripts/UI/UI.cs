@@ -40,7 +40,7 @@ public class UI : MonoBehaviour
     public UI_PanelToolTip panelToolTip;
 
     private UI_ItemSlot lastSlotSelected;
-    private List<UI_Panel> activePanels = new();
+    [SerializeField] private List<UI_Panel> activePanels = new();
     [SerializeField] private InputManager inputManager;
 
     [SerializeField] private GameObject[] selectedSlotVisualizer;
@@ -154,10 +154,6 @@ public class UI : MonoBehaviour
     {
         lastSlotSelected?.UnSelect();
     }
-
-    public void AddToActivePanels(UI_Panel panel) => activePanels.Add(panel);
-    public void RemoveFromActivePanel(UI_Panel panel) => activePanels.Remove(panel);
-
     public void ActivateSlotVisualizer(BeltType type)
     {
         if (type == BeltType.UpperBelt)
@@ -198,6 +194,12 @@ public class UI : MonoBehaviour
 
     public void SetPortalUI(bool active)
     {
+        if (portalUI == null) return;
+
         portalUI.SetActive(active);
     }
+
+    public void AddToActivePanels(UI_Panel panel) => activePanels.Add(panel);
+    public void RemoveFromActivePanel(UI_Panel panel) => activePanels.Remove(panel);
+
 }

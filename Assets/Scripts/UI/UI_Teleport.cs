@@ -13,7 +13,7 @@ public class UI_Teleport : MonoBehaviour, IPointerDownHandler
 
     private void Awake()
     {
-        //portal = GetComponentInParent<PortalCore>();
+        portal = GameObject.FindWithTag("Portal").GetComponent<PortalCore>();
     }
 
 

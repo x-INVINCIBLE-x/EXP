@@ -6,8 +6,8 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] private GameObject interactUI;
 
     private Player player;
-    private List<Interactable> interactables = new List<Interactable>();
-    private Interactable closestInteractable;
+    [SerializeField] private List<Interactable> interactables = new List<Interactable>();
+    [SerializeField] private Interactable closestInteractable;
 
     private void Awake()
     {
@@ -16,6 +16,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Start()
     {
+        interactables.Clear();
         player.inputManager.ClearInteractEvent();
         player.inputManager.Interact += InteractWithClosest;
     }

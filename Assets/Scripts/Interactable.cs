@@ -12,7 +12,6 @@ public class Interactable : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        Debug.Log("emter");
         PlayerInteraction playerInteraction = other.GetComponent<PlayerInteraction>();
 
         if (playerInteraction == null)

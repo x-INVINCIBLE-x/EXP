@@ -24,17 +24,23 @@ public class PortalCore : Interactable
     public int BuildIndex { get; private set; }
     public bool IsActivaed { get; private set; }
 
+    [SerializeField] private float fadeOutTime = 2f;
+    [SerializeField] private float fadeInTime = 1f;
+    [SerializeField] private float timeBetweenFade = 1f;
+
     private UI ui;
 
-    private void Awake()
+    private void Start()
     {
         ui = UI.instance;
     }
 
     public override void Interaction()
     {
-        ui.SetPortalUI(true);
+        //if (ui == null) 
+        //    ui = UI.instance;
 
+        ui.SetPortalUI(true);
     }
 
     protected override void OnTriggerEnter(Collider other)
@@ -53,29 +59,24 @@ public class PortalCore : Interactable
         StartCoroutine(Transition(finalDestination, finalPhase, buildIndex));
     }
 
-    //private void Teleport(int buildIndex)
-    //{
-    //    StartCoroutine(Transition(buildIndex));
-    //}
-
     IEnumerator Transition(Destination finalDestination, Phase finalPhase, int buildIndex)
     {
         DontDestroyOnLoad(gameObject);
 
-        //Todo: Disable player controiller
+        InputManager.Instance.DisableControls();
 
-        //Fader fader = FindObjectOfType<Fader>();
+        Fader fader = FindObjectOfType<Fader>();
 
         SavingWrapper savingWrapper = FindObjectOfType<SavingWrapper>();
 
-        //yield return fader.FadeOut(fadeOutTime);
-
+        yield return fader.FadeOut(fadeOutTime);
+        
         savingWrapper.Save();
 
         yield return SceneManager.LoadSceneAsync(buildIndex);
 
-        //Todo: Enable player controiller
         yield return new WaitForSeconds(0.1f);
+        InputManager.Instance.DisableControls();
         savingWrapper.Load();
 
         PortalCore otherPortal = GetOtherPortal(finalDestination, finalPhase);
@@ -86,11 +87,11 @@ public class PortalCore : Interactable
 
         savingWrapper.Save();
 
-        //yield return new WaitForSeconds(timeBetweenFade);
+        yield return new WaitForSeconds(timeBetweenFade);
 
-// Todo:: Enable player control again
+        InputManager.Instance.EnableControls();
 
-        //yield return fader.FadeIn(fadeInTime);
+        yield return fader.FadeIn(fadeInTime);
         Destroy(gameObject);
     }
 

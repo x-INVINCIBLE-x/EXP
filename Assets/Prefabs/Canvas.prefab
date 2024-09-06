@@ -700,6 +700,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2190411783296755077}
+  - component: {fileID: 5069196764136930138}
   m_Layer: 5
   m_Name: Portal_Core
   m_TagString: Untagged
@@ -727,6 +728,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5069196764136930138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501525799244322792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 754d60c7158de7f4a9d022c82f2a22ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ui: {fileID: 85705221774620623}
 --- !u!1 &522663686228847141
 GameObject:
   m_ObjectHideFlags: 0
@@ -5975,6 +5989,7 @@ GameObject:
   - component: {fileID: 7924931563938985905}
   - component: {fileID: 7900336687401859324}
   - component: {fileID: 3982935556211270447}
+  - component: {fileID: 6090584284268233787}
   m_Layer: 5
   m_Name: Teleporter_Panel
   m_TagString: Untagged
@@ -6040,6 +6055,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6090584284268233787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4966081978405417357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 754d60c7158de7f4a9d022c82f2a22ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ui: {fileID: 85705221774620623}
 --- !u!1 &5139718358460089140
 GameObject:
   m_ObjectHideFlags: 0
@@ -7219,6 +7247,7 @@ MonoBehaviour:
   equipmentToolTip: {fileID: 6522781987167889985}
   selectionToolTip: {fileID: 5507460448216357676}
   panelToolTip: {fileID: 1374554065478034278}
+  activePanels: []
   inputManager: {fileID: 0}
   selectedSlotVisualizer:
   - {fileID: 4159534386909184313}

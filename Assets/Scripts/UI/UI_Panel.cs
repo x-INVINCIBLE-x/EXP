@@ -8,7 +8,7 @@ public class UI_Panel : MonoBehaviour
 
     private void Awake()
     {
-        ui = GetComponentInParent<UI>();
+        ui = GetComponentInParent<UI>(true);
     }
 
     private void OnEnable()
