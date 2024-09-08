@@ -5,20 +5,12 @@ using UnityEngine.EventSystems;
 
 public class UI_Teleport : MonoBehaviour, IPointerDownHandler
 {
-    public PortalCore portal;
-
     public Destination destination;
     public Phase phase;
-    public int buildIndex;
-
-    private void Awake()
-    {
-        portal = GameObject.FindWithTag("Portal").GetComponent<PortalCore>();
-    }
-
+    public int buildIndex; 
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        portal.TeleportTo(destination, phase, buildIndex);
+        TeleportManager.instance.TeleportTo(destination, phase, buildIndex);
     }
 }

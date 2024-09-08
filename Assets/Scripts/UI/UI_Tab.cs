@@ -16,12 +16,6 @@ public class UI_Tab : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, 
     {
         UI.instance.DeselectSlot();
 
-        //if (tabToOpen.TryGetComponent(out UI_BagInternalPanels _))
-        //{
-
-        //    return;
-        //}
-
         tabToOpen.SetActive(true);
     }
 
