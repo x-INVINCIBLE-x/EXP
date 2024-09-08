@@ -7,38 +7,30 @@ using UnityEngine.UIElements;
 
 public class UI_Tab : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] private string tabName;
-    [SerializeField] [TextArea] private string tabDescription;
-    [SerializeField] private GameObject tabToOpen;
+    [SerializeField] protected string tabName;
+    [SerializeField] [TextArea] protected string tabDescription;
+    [SerializeField] protected GameObject tabToOpen;
 
-    [SerializeField] private ItemType itemType;
-    [SerializeField] private EquipmentType equipmentType;
-
-    [SerializeField] private TextMeshProUGUI nameDisplay;
-    public void OnPointerDown(PointerEventData eventData)
+    [SerializeField] protected TextMeshProUGUI nameDisplay;
+    public virtual void OnPointerDown(PointerEventData eventData)
     {
         UI.instance.DeselectSlot();
 
-        if (tabToOpen.TryGetComponent(out UI_BagInternalPanels _))
-        {
-            if (nameDisplay)
-                nameDisplay.text = tabName;
+        //if (tabToOpen.TryGetComponent(out UI_BagInternalPanels _))
+        //{
 
-            //UI.instance.SwitchBagPanel(internalPanel);
-            UI.instance.HideToolTips();
-            Inventory.Instance.ShowBagItemSlots(itemType, equipmentType);
-            return;
-        }
+        //    return;
+        //}
 
         tabToOpen.SetActive(true);
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public virtual void OnPointerEnter(PointerEventData eventData)
     {
         UI.instance.panelToolTip.ShowToolTip(tabName, tabDescription);
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public virtual void OnPointerExit(PointerEventData eventData)
     {
         UI.instance.panelToolTip.HideToolTip();
     }

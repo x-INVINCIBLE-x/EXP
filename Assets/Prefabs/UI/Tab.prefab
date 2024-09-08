@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7388829059534277128}
   - component: {fileID: 4791796235314685553}
   - component: {fileID: 929061775600710877}
-  - component: {fileID: 637873561189424667}
+  - component: {fileID: 1404501753111653337}
   m_Layer: 5
   m_Name: Tab
   m_TagString: Untagged
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &637873561189424667
+--- !u!114 &1404501753111653337
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -85,9 +85,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1644507539272169344}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11cdc170e290efb43abd4815e408571f, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a5aa23e165f5354aa0f8abbc6a9667d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tabName: 
+  tabDescription: 
   tabToOpen: {fileID: 0}
+  nameDisplay: {fileID: 0}
   itemType: 0
-  equipmentType: 6
+  equipmentType: 0
