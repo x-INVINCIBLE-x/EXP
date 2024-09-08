@@ -169,7 +169,7 @@ public class Inventory : MonoBehaviour, ISaveable
         if (Input.GetKeyDown(KeyCode.I))
             AddStartingItems();
 
-        if (!UI.instance.hasActivePanels())
+        if (!UI.instance.HasActivePanels())
             return;
 
         if (Input.GetKeyDown(KeyCode.R))

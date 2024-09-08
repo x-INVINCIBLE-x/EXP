@@ -6,8 +6,7 @@ using UnityEngine.SceneManagement;
 public class TeleportManager : MonoBehaviour
 {
     public static TeleportManager instance;
-    private List<Teleporter> activeTeleporters = new();
-
+    [SerializeField] private List<Teleporter> activeTeleporters = new();
 
     [SerializeField] private float fadeOutTime = 1f;
     [SerializeField] private float fadeInTime = 1f;
@@ -27,7 +26,7 @@ public class TeleportManager : MonoBehaviour
         activeTeleporters.Add(teleporter);
     }
 
-
+    #region Teleportation logic
     public void TeleportTo(Destination finalDestination, Phase finalPhase, int buildIndex)
     {
         int currIndex = SceneManager.GetActiveScene().buildIndex;
@@ -87,9 +86,24 @@ public class TeleportManager : MonoBehaviour
         player.transform.rotation = portal.SpawnPoint.rotation;
     }
 
+    #endregion
+    public List<Teleporter> GetTeleportrersFrom(Destination destination)
+    {
+        List<Teleporter> specificTeleporters = new();
+
+        foreach (Teleporter teleporter in activeTeleporters)
+        {
+            if (teleporter.location == destination)
+                specificTeleporters.Add(teleporter);
+        }
+
+        return specificTeleporters;
+    }
+
     public List<Teleporter> GetActiveTeleporters() => activeTeleporters;
 }
 
+[System.Serializable]
 public class Teleporter
 {
     public Teleporter(string name, Destination location, Phase phase, int buildIndex, Sprite sprite)

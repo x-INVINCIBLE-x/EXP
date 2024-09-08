@@ -39,6 +39,12 @@ public class UI : MonoBehaviour
     public UI_EquipmentToolTip selectionToolTip;
     public UI_PanelToolTip panelToolTip;
 
+    [Header("Teleporter Info")]
+    [SerializeField] private Transform teleporterTabParent;
+    public UI_TeleportTab[] teleporterTabs;
+    [SerializeField] private Transform teleporterParent;
+    public UI_Teleport[] teleportSlots;
+
     private UI_ItemSlot lastSlotSelected;
     [SerializeField] private List<UI_Panel> activePanels = new();
     [SerializeField] private InputManager inputManager;
@@ -61,6 +67,8 @@ public class UI : MonoBehaviour
         panelsDictionary[Panels.bagPanel] = bagPanel;
 
         bagItemSlotsParent = GetComponentsInChildren<UI_BagInternalPanels>(true);
+        teleporterTabs = GetComponentsInChildren<UI_TeleportTab>(true);
+        teleportSlots = GetComponentsInChildren<UI_Teleport>(true);
     }
 
     private void Start()
@@ -152,7 +160,9 @@ public class UI : MonoBehaviour
 
     public void DeselectSlot()
     {
-        lastSlotSelected?.UnSelect();
+        if (!lastSlotSelected)
+            return;
+        lastSlotSelected.UnSelect();
     }
     public void ActivateSlotVisualizer(BeltType type)
     {
@@ -189,8 +199,47 @@ public class UI : MonoBehaviour
         inventoryPanel.SetActive(true);
     }
 
-    public bool hasActivePanels() => activePanels.Count > 0;
+    public bool HasActivePanels() => activePanels.Count > 0;
     #endregion
+
+    public void ShowTeleportLocation(Destination destination)
+    {
+        List<Teleporter> availableTeleporters = TeleportManager.instance.GetTeleportrersFrom(destination);
+        for (int i = 0; i < teleportSlots.Length; i++)
+            teleportSlots[i++].CleanSlot();
+
+        if (availableTeleporters.Count == 0)
+            return;
+
+        int j = 0;
+        for (j = 0;  j < availableTeleporters.Count; j++)
+        {
+            Teleporter currTeleporter = availableTeleporters[j];
+            teleportSlots[j].UpdateSlot(currTeleporter.name,
+                                        currTeleporter.location,
+                                        currTeleporter.phase,
+                                        currTeleporter.buildIndex,
+                                        currTeleporter.sprite);
+        }
+
+        while (j < teleportSlots.Length)
+            teleportSlots[j++].CleanSlot();
+    }
+
+    public void SetPortalUITabs()
+    {
+        TeleportManager teleportManager = TeleportManager.instance;
+        foreach(UI_TeleportTab teleportTab in teleporterTabs)
+        {
+            if (teleportManager.GetTeleportrersFrom(teleportTab.location).Count == 0)
+            {
+                teleportTab.gameObject.SetActive(false);
+                break;
+            }
+            else
+                teleportTab.gameObject.SetActive(true);
+        }
+    }
 
     public void SetPortalUI(bool active)
     {

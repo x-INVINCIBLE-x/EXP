@@ -17,12 +17,15 @@ public enum Phase
 
 public class PortalCore : Interactable
 {
+    [SerializeField] private string locationName;
+    [SerializeField] private Sprite locationSprite;
     [field: SerializeField] public Destination Destination { get; private set; }
     [field: SerializeField] public Phase Phase { get; private set; }
 
-    [field: SerializeField] public Transform SpawnPoint { get; private set; } // position to Teleport to
-    public int BuildIndex { get; private set; }
-    public bool IsActivaed { get; private set; }
+    [field: SerializeField] public Transform SpawnPoint { get; private set; }
+
+    private int buildIndex;
+    private bool isActivaed;
 
     private UI ui;
 
@@ -36,17 +39,21 @@ public class PortalCore : Interactable
         //if (ui == null) 
         //    ui = UI.instance;
 
+        if (!isActivaed)
+        {
+            buildIndex = SceneManager.GetActiveScene().buildIndex;
+            TeleportManager.instance.AddTeleporter(locationName, Destination, Phase, buildIndex, locationSprite);
+            isActivaed = true;
+            return;
+        }
+
+        ui.SetPortalUITabs();
         ui.SetPortalUI(true);
     }
 
     protected override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
-        //if (!IsActivaed)
-        //{
-        //    BuildIndex = SceneManager.GetActiveScene().buildIndex;
-        //    return;
-        //}
-    }
 
+    }
 }
