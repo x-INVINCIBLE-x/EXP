@@ -15,7 +15,7 @@ public enum Phase
     Phase1, Phase2, Phase3, Phase4, Phase5
 }
 
-public class PortalCore : Interactable
+public class PortalCore : Interactable, ISaveable
 {
     [SerializeField] private string locationName;
     [SerializeField] private Sprite locationSprite;
@@ -25,7 +25,7 @@ public class PortalCore : Interactable
     [field: SerializeField] public Transform SpawnPoint { get; private set; }
 
     private int buildIndex;
-    private bool isActivaed;
+    [SerializeField] private bool isActivaed;
 
     private UI ui;
 
@@ -55,5 +55,15 @@ public class PortalCore : Interactable
     {
         base.OnTriggerEnter(other);
 
+    }
+
+    public object CaptureState()
+    {
+        return isActivaed;
+    }
+
+    public void RestoreState(object state)
+    {
+        isActivaed = (bool)state;
     }
 }

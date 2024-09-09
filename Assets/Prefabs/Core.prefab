@@ -1943,7 +1943,7 @@ MonoBehaviour:
   tabDescription: 
   tabToOpen: {fileID: 1571398244607510677}
   nameDisplay: {fileID: 0}
-  location: 0
+  location: 4
   sprite: {fileID: 0}
 --- !u!224 &4933592056615058007 stripped
 RectTransform:
@@ -2108,7 +2108,7 @@ MonoBehaviour:
   tabDescription: 
   tabToOpen: {fileID: 1571398244607510677}
   nameDisplay: {fileID: 0}
-  location: 0
+  location: 2
   sprite: {fileID: 0}
 --- !u!224 &4749873930876654880 stripped
 RectTransform:
@@ -2461,6 +2461,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 374401578584814270}
     m_Modifications:
+    - target: {fileID: 85705221774620623, guid: 7444d731778b08c49af858bc82deda32, type: 3}
+      propertyPath: teleporterParent
+      value: 
+      objectReference: {fileID: 475138038782596680}
+    - target: {fileID: 85705221774620623, guid: 7444d731778b08c49af858bc82deda32, type: 3}
+      propertyPath: teleporterTabParent
+      value: 
+      objectReference: {fileID: 6090090227243334912}
     - target: {fileID: 517431823591767524, guid: 7444d731778b08c49af858bc82deda32, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -3822,7 +3830,7 @@ MonoBehaviour:
   tabDescription: 
   tabToOpen: {fileID: 1571398244607510677}
   nameDisplay: {fileID: 0}
-  location: 0
+  location: 3
   sprite: {fileID: 0}
 --- !u!1001 &7144235976549219716
 PrefabInstance:
@@ -4266,7 +4274,7 @@ MonoBehaviour:
   tabDescription: 
   tabToOpen: {fileID: 1571398244607510677}
   nameDisplay: {fileID: 0}
-  location: 0
+  location: 1
   sprite: {fileID: 0}
 --- !u!1001 &8528654371388352381
 PrefabInstance:

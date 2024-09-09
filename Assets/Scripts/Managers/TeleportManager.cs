@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class TeleportManager : MonoBehaviour
+public class TeleportManager : MonoBehaviour, ISaveable
 {
     public static TeleportManager instance;
     [SerializeField] private List<Teleporter> activeTeleporters = new();
@@ -101,23 +101,33 @@ public class TeleportManager : MonoBehaviour
     }
 
     public List<Teleporter> GetActiveTeleporters() => activeTeleporters;
+
+    public object CaptureState()
+    {
+        return activeTeleporters;
+    }
+
+    public void RestoreState(object state)
+    {
+        activeTeleporters = (List<Teleporter>)state;
+    }
 }
 
 [System.Serializable]
 public class Teleporter
 {
+    public string name;
+    public Destination location;
+    public Phase phase;
+    public int buildIndex;
+    //public Sprite sprite;
+
     public Teleporter(string name, Destination location, Phase phase, int buildIndex, Sprite sprite)
     {
         this.name = name;
         this.location = location;
         this.phase = phase;
         this.buildIndex = buildIndex;
-        this.sprite = sprite;
+        //this.sprite = sprite;
     }
-
-    public string name;
-    public Destination location;
-    public Phase phase;
-    public int buildIndex;
-    public Sprite sprite;
 }

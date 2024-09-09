@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3175244495908053654}
   - component: {fileID: 3886098169147709708}
+  - component: {fileID: 3877005271245681812}
   m_Layer: 0
   m_Name: TeleportManager
   m_TagString: Untagged
@@ -44,6 +45,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a922246a9b62a243806222eb04ae61f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activeTeleporters: []
   fadeOutTime: 1
   fadeInTime: 1
   timeBetweenFade: 1
+--- !u!114 &3877005271245681812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936959179763657704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ea9374b509b70f4bba37e4a2ca8cf00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueIdentifier: TeleportManager

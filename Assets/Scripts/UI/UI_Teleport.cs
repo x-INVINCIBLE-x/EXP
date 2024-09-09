@@ -16,7 +16,7 @@ public class UI_Teleport : MonoBehaviour, IPointerDownHandler
     public int buildIndex;
     public Sprite sprite;
 
-    public void UpdateSlot(string locationName, Destination location, Phase phase, int buildIndex, Sprite sprite)
+    public void UpdateSlot(string locationName, Destination location, Phase phase, int buildIndex, Sprite sprite = null)
     {
         this.locationName = locationName;
         this.location = location;

@@ -218,8 +218,8 @@ public class UI : MonoBehaviour
             teleportSlots[j].UpdateSlot(currTeleporter.name,
                                         currTeleporter.location,
                                         currTeleporter.phase,
-                                        currTeleporter.buildIndex,
-                                        currTeleporter.sprite);
+                                        currTeleporter.buildIndex);
+                                        //currTeleporter.sprite);
         }
 
         while (j < teleportSlots.Length)
@@ -234,7 +234,6 @@ public class UI : MonoBehaviour
             if (teleportManager.GetTeleportrersFrom(teleportTab.location).Count == 0)
             {
                 teleportTab.gameObject.SetActive(false);
-                break;
             }
             else
                 teleportTab.gameObject.SetActive(true);

@@ -10,10 +10,10 @@ public class UI_TeleportTab : UI_Tab
 
     public override void OnPointerDown(PointerEventData eventData)
     {
-        if (TeleportManager.instance.GetTeleportrersFrom(location).Count == 0)
-            gameObject.SetActive(false);
-        else
-            gameObject.SetActive(true);
+        //if (TeleportManager.instance.GetTeleportrersFrom(location).Count == 0)
+        //    gameObject.SetActive(false);
+        //else
+        //    gameObject.SetActive(true);
 
         base.OnPointerDown(eventData);
         UI.instance.ShowTeleportLocation(location);

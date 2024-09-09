@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 5452202714102001373}
   - component: {fileID: 2649495091396422667}
   - component: {fileID: 3554288644043823519}
+  - component: {fileID: 712111760393108490}
   m_Layer: 0
   m_Name: Portal
   m_TagString: Portal
@@ -134,12 +135,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff5932096a8a7cc418624ea8c7859df6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  locationName: 
+  locationSprite: {fileID: 0}
   <Destination>k__BackingField: 0
   <Phase>k__BackingField: 0
   <SpawnPoint>k__BackingField: {fileID: 1809799649054463810}
-  fadeOutTime: 1
-  fadeInTime: 1
-  timeBetweenFade: 1
+  isActivaed: 0
 --- !u!65 &3554288644043823519
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -161,6 +162,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4.5660734, y: 1.9384937, z: 4.1439953}
   m_Center: {x: 0, y: 0.98352337, z: 0}
+--- !u!114 &712111760393108490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030588291220431422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ea9374b509b70f4bba37e4a2ca8cf00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueIdentifier: 77246ed3-d9b4-49cc-809b-e83ec1a0e053
 --- !u!1 &4366682442295105639
 GameObject:
   m_ObjectHideFlags: 0
