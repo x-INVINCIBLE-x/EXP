@@ -36,7 +36,7 @@ public class UI_Teleport : MonoBehaviour, IPointerDownHandler
             return;
         }
 
-        TeleportManager.instance.TeleportTo(location, phase, buildIndex);
+        TeleportManager.instance.TeleportToTeleportal(location, phase, buildIndex);
     }
 
     public void CleanSlot()

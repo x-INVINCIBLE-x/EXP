@@ -27,13 +27,18 @@ public class TeleportManager : MonoBehaviour, ISaveable
     }
 
     #region Teleportation logic
-    public void TeleportTo(Destination finalDestination, Phase finalPhase, int buildIndex)
+    public void TeleportToTeleportal(Destination finalDestination, Phase finalPhase, int buildIndex)
     {
         int currIndex = SceneManager.GetActiveScene().buildIndex;
         StartCoroutine(Transition(finalDestination, finalPhase, buildIndex));
     }
 
-    IEnumerator Transition(Destination finalDestination, Phase finalPhase, int buildIndex)
+    public void TeleportToPortal(Destination finalDestination, Phase finalPhase, int buildIndex)
+    {
+        StartCoroutine(Transition(finalDestination, finalPhase, buildIndex, true));
+    }
+
+    IEnumerator Transition(Destination finalDestination, Phase finalPhase, int buildIndex, bool isPortal = false)
     {
         InputManager.Instance.DisableControls();
 
@@ -51,11 +56,7 @@ public class TeleportManager : MonoBehaviour, ISaveable
         InputManager.Instance.DisableControls();
         savingWrapper.Load();
 
-        PortalCore otherPortal = GetOtherPortal(finalDestination, finalPhase);
-        if (otherPortal != null)
-        {
-            UpdatePlayer(otherPortal);
-        }
+        UpdatePosition(finalDestination, finalPhase, isPortal);
 
         savingWrapper.Save();
 
@@ -67,11 +68,31 @@ public class TeleportManager : MonoBehaviour, ISaveable
         yield return new WaitForEndOfFrame();
     }
 
-    private PortalCore GetOtherPortal(Destination finalDestination, Phase finalPhase)
+    private void UpdatePosition(Destination finalDestination, Phase finalPhase, bool isPortal)
+    {
+        if (isPortal)
+        {
+            Portal otherPortal = GetOtherPortal(finalDestination, finalPhase);
+            if (otherPortal != null)
+            {
+                UpdatePlayer(otherPortal.Spawnpoint);
+            }
+        }
+        else
+        {
+            PortalCore otherTeleporter = GetOtherTeleporter(finalDestination, finalPhase);
+            if (otherTeleporter != null)
+            {
+                UpdatePlayer(otherTeleporter.SpawnPoint);
+            }
+        }
+    }
+
+    private PortalCore GetOtherTeleporter(Destination finalDestination, Phase finalPhase)
     {
         foreach (PortalCore portal in FindObjectsOfType<PortalCore>())
         {
-            if (portal.Destination != finalDestination && portal.Phase != finalPhase) { continue; }
+            if (portal.Destination != finalDestination || portal.Phase != finalPhase) { continue; }
             Debug.Log(portal.Destination + "  " + portal.Phase);
             return portal;
         }
@@ -79,11 +100,24 @@ public class TeleportManager : MonoBehaviour, ISaveable
         return null;
     }
 
-    private void UpdatePlayer(PortalCore portal)
+    private Portal GetOtherPortal(Destination finalDestination, Phase finalPhase)
+    {
+        Portal[] portals = FindObjectsOfType<Portal>();
+
+        foreach (Portal portal in FindObjectsOfType<Portal>())
+        {
+            Debug.Log(portal.Destination + "  " + portal.Phase);
+            if (portal.Destination != finalDestination || portal.Phase != finalPhase) { continue; }
+            return portal;
+        }
+
+        return null;
+    }
+
+    private void UpdatePlayer(Transform spawnPoint)
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        player.transform.position = portal.SpawnPoint.position;
-        player.transform.rotation = portal.SpawnPoint.rotation;
+        player.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
     }
 
     #endregion
