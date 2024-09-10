@@ -231,7 +231,7 @@ public class UI : MonoBehaviour
         TeleportManager teleportManager = TeleportManager.instance;
         foreach(UI_TeleportTab teleportTab in teleporterTabs)
         {
-            if (teleportManager.GetTeleportrersFrom(teleportTab.location).Count == 0)
+            if (teleportManager.GetTeleportrersFrom(teleportTab.location) == null)
             {
                 teleportTab.gameObject.SetActive(false);
             }

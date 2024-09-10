@@ -6,12 +6,11 @@ using UnityEngine.SceneManagement;
 public class TeleportManager : MonoBehaviour, ISaveable
 {
     public static TeleportManager instance;
-    [SerializeField] private List<Teleporter> activeTeleporters = new();
-
+    private SerializableDictionary<Destination, List<Teleporter>> currentTeleporters = new();
     [SerializeField] private float fadeOutTime = 1f;
     [SerializeField] private float fadeInTime = 1f;
     [SerializeField] private float timeBetweenFade = 1f;
-
+    
     private void Awake()
     {
         if (instance == null)
@@ -23,13 +22,16 @@ public class TeleportManager : MonoBehaviour, ISaveable
     public void AddTeleporter(string name, Destination location, Phase phase, int buildIndex, Sprite sprite)
     {
         Teleporter teleporter = new Teleporter(name, location, phase, buildIndex, sprite);
-        activeTeleporters.Add(teleporter);
+
+        if (!currentTeleporters.ContainsKey(location))
+            currentTeleporters.Add(location, new List<Teleporter>());
+
+        currentTeleporters[location].Add(teleporter);
     }
 
     #region Teleportation logic
     public void TeleportToTeleportal(Destination finalDestination, Phase finalPhase, int buildIndex)
     {
-        int currIndex = SceneManager.GetActiveScene().buildIndex;
         StartCoroutine(Transition(finalDestination, finalPhase, buildIndex));
     }
 
@@ -90,7 +92,9 @@ public class TeleportManager : MonoBehaviour, ISaveable
 
     private PortalCore GetOtherTeleporter(Destination finalDestination, Phase finalPhase)
     {
-        foreach (PortalCore portal in FindObjectsOfType<PortalCore>())
+        GameObject teleporterParent = GameObject.FindWithTag("Teleporter");
+
+        foreach (PortalCore portal in teleporterParent.GetComponentsInChildren<PortalCore>())
         {
             if (portal.Destination != finalDestination || portal.Phase != finalPhase) { continue; }
             Debug.Log(portal.Destination + "  " + portal.Phase);
@@ -102,9 +106,9 @@ public class TeleportManager : MonoBehaviour, ISaveable
 
     private Portal GetOtherPortal(Destination finalDestination, Phase finalPhase)
     {
-        Portal[] portals = FindObjectsOfType<Portal>();
+        GameObject portalParent = GameObject.FindWithTag("Portal");
 
-        foreach (Portal portal in FindObjectsOfType<Portal>())
+        foreach (Portal portal in portalParent.GetComponentsInChildren<Portal>())
         {
             Debug.Log(portal.Destination + "  " + portal.Phase);
             if (portal.Destination != finalDestination || portal.Phase != finalPhase) { continue; }
@@ -125,25 +129,20 @@ public class TeleportManager : MonoBehaviour, ISaveable
     {
         List<Teleporter> specificTeleporters = new();
 
-        foreach (Teleporter teleporter in activeTeleporters)
-        {
-            if (teleporter.location == destination)
-                specificTeleporters.Add(teleporter);
-        }
+        if (!currentTeleporters.ContainsKey(destination))
+            return null;
 
-        return specificTeleporters;
+        return currentTeleporters[destination];
     }
-
-    public List<Teleporter> GetActiveTeleporters() => activeTeleporters;
 
     public object CaptureState()
     {
-        return activeTeleporters;
+        return currentTeleporters;
     }
 
     public void RestoreState(object state)
     {
-        activeTeleporters = (List<Teleporter>)state;
+        currentTeleporters = (SerializableDictionary<Destination, List<Teleporter>>)state;
     }
 }
 

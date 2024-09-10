@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 712111760393108490}
   m_Layer: 0
   m_Name: PortalCore
-  m_TagString: Portal
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ea9374b509b70f4bba37e4a2ca8cf00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uniqueIdentifier: 77246ed3-d9b4-49cc-809b-e83ec1a0e053
+  uniqueIdentifier: 
 --- !u!1 &4366682442295105639
 GameObject:
   m_ObjectHideFlags: 0
