@@ -25,9 +25,6 @@ public class PlayerStopState : PlayerState
         Vector3 movement = CalculateMovement();
         Move(movement);
 
-        //if (movement != Vector3.zero)
-        //    ChangeToLocomotion(0.7f);
-        Debug.Log(HasAnimationPassed(animName, 0.3f));
         if ((HasAnimationPassed(animName, 0.3f) && movement.sqrMagnitude != 0) || HasAnimationCompleted(animName))
         {
                 ChangeToLocomotion(0.3f);

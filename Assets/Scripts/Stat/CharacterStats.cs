@@ -201,7 +201,10 @@ public class CharacterStats : MonoBehaviour
     private void Update()
     {
         if (!isConsumingStamina && currentStamina < stamina.Value)
+        {
+            Hit?.Invoke();
             currentStamina += staminaRegain.Value * Time.deltaTime;
+        }
     }
 
     public virtual void DoDamage(CharacterStats targetStats)
@@ -343,6 +346,7 @@ public class CharacterStats : MonoBehaviour
     {
         if(currentStamina > staminaAmount)
         {
+            Hit?.Invoke();
             currentStamina -= staminaAmount;
             return true;
         }
@@ -354,6 +358,7 @@ public class CharacterStats : MonoBehaviour
     {
         if(currentFableSlot > (slots * 100))
         {
+            Hit?.Invoke();
             currentFableSlot -= (slots * 100);
             return true;
         }

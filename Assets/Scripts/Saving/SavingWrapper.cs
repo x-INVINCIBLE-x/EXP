@@ -50,26 +50,26 @@ public class SavingWrapper : MonoBehaviour
 
     private IEnumerator LoadLastScene()
     {
-        //Fader fader = FindObjectOfType<Fader>();
-        //yield return fader.FadeOut(fadeOutTime);
+        Fader fader = FindObjectOfType<Fader>();
+        yield return fader.FadeOut(fadeOutTime);
         yield return GetComponent<SavingSystem>().LoadLastScene(GetCurrentSave());
-        //yield return fader.FadeIn(fadeInTime);
+        yield return fader.FadeIn(fadeInTime);
     }
 
     private IEnumerator LoadFirstScene()
     {
-        //Fader fader = FindObjectOfType<Fader>();
-        //yield return fader.FadeOut(fadeOutTime);
+        Fader fader = FindObjectOfType<Fader>();
+        yield return fader.FadeOut(fadeOutTime);
         yield return SceneManager.LoadSceneAsync(firstLevelBuildIndex);
-        //yield return fader.FadeIn(fadeInTime);
+        yield return fader.FadeIn(fadeInTime);
     }
 
     private IEnumerator LoadMenuScene()
     {
-        //Fader fader = FindObjectOfType<Fader>();
-        //yield return fader.FadeOut(fadeOutTime);
+        Fader fader = FindObjectOfType<Fader>();
+        yield return fader.FadeOut(fadeOutTime);
         yield return SceneManager.LoadSceneAsync(menuLevelBuildIndex);
-        //yield return fader.FadeIn(fadeInTime);
+        yield return fader.FadeIn(fadeInTime);
     }
 
     private void Update()
