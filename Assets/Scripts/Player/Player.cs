@@ -21,6 +21,8 @@ public class Player : MonoBehaviour, ISaveable
     public PlayerJumpState JumpState { get; private set; }
     public PlayerWeaponController weaponController { get; private set; }
     public PlayerWeaponVisuals weaponVisiuals { get; private set; }
+    public PlayerStopState stopRunState { get; private set; }
+    public PlayerStopState stopWalkState { get; private set; }
 
     public float walkSpeed;
     public float runSpeed;
@@ -50,6 +52,7 @@ public class Player : MonoBehaviour, ISaveable
 
     public bool isBusy = false;
     public bool canMove = true;
+    [HideInInspector] public bool isMoving = false;
     public bool canCounter = false;
 
     //TEMPORARY
@@ -79,6 +82,8 @@ public class Player : MonoBehaviour, ISaveable
         TargetState = new PlayerTargetState(stateMachine, this, "TargetLook");
         SprintState = new PlayerSprintState(stateMachine, this, "Sprint");
         JumpState = new PlayerJumpState(stateMachine, this, "Jump");
+        stopRunState = new PlayerStopState(stateMachine, this, "Run To Stop", 0.1f);
+        stopWalkState = new PlayerStopState(stateMachine, this, "Walk To Stop", 0.3f);
 
         stateMachine.InitializeState(FreeLookState);
     }

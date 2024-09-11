@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class TeleportManager : MonoBehaviour, ISaveable
 {
     public static TeleportManager instance;
-    private SerializableDictionary<Destination, List<Teleporter>> currentTeleporters = new();
+    [SerializeField] private SerializableDictionary<Destination, List<Teleporter>> currentTeleporters = new();
     [SerializeField] private float fadeOutTime = 1f;
     [SerializeField] private float fadeInTime = 1f;
     [SerializeField] private float timeBetweenFade = 1f;
@@ -77,7 +77,7 @@ public class TeleportManager : MonoBehaviour, ISaveable
             Portal otherPortal = GetOtherPortal(finalDestination, finalPhase);
             if (otherPortal != null)
             {
-                UpdatePlayer(otherPortal.Spawnpoint);
+                UpdatePlayer(otherPortal.SpawnPoint);
             }
         }
         else

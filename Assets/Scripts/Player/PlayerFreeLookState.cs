@@ -32,13 +32,19 @@ public class PlayerFreeLookState : PlayerDynamicViewState
         Vector3 movement = CalculateMovement();
         if (movement != Vector3.zero)
         {
+            player.isMoving = true;
             FreeLookDirection(movement);
 
             player.anim.SetFloat(FreeLookHash, 1f, 0.1f, Time.deltaTime);
             Move(movement, player.walkSpeed);
         }
-        else
-            player.anim.SetFloat(FreeLookHash, 0, 0.15f, Time.deltaTime);
+        else if (player.isMoving)
+        {
+            //if (player.characterController.velocity.sqrMagnitude < 14f)
+                stateMachine.ChangeState(player.stopWalkState);
+        }
+        else if (movement == Vector3.zero)
+            player.anim.SetFloat(FreeLookHash, 0, 0f, Time.deltaTime);
     }
 
     public override void Exit()

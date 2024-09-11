@@ -24,6 +24,9 @@ public class PlayerSprintState : PlayerState
         base.Update();
         MovementTimer();
 
+        Vector3 movement = CalculateMovement();
+        Move(movement, player.runSpeed);
+
         if (!player.stats.HasEnoughStamina(player.sprintStaminaRate * Time.deltaTime))
         {
             ChangeToLocomotion();
@@ -32,12 +35,17 @@ public class PlayerSprintState : PlayerState
 
         if (timer > 0.12f || (!player.inputManager.isSprinting && timer > 0.2f))
         {
-            ChangeToLocomotion();
+            if (movement.sqrMagnitude == 0)
+            {
+                stateMachine.ChangeState(player.stopRunState);
+            }
+            else
+                ChangeToLocomotion();
+            return;
         }
-
-        Vector3 movement = CalculateMovement();
-        Move(movement, player.runSpeed);
-        FreeLookDirection(movement);
+        if (movement.sqrMagnitude != 0)
+            FreeLookDirection(movement);
+        
     }
     public override void Exit()
     {

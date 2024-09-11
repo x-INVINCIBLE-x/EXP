@@ -1432,7 +1432,7 @@ MonoBehaviour:
   <Destination>k__BackingField: 0
   <Phase>k__BackingField: 0
   <BuildIndex>k__BackingField: 1
-  <Spawnpoint>k__BackingField: {fileID: 8761850309166815046}
+  <SpawnPoint>k__BackingField: {fileID: 8761850309166815046}
 --- !u!65 &4116642597121035792
 BoxCollider:
   m_ObjectHideFlags: 0

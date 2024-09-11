@@ -8,7 +8,7 @@ public class Portal : MonoBehaviour
     [field: SerializeField] public Destination Destination { get; private set; }
     [field: SerializeField] public Phase Phase {  get; private set; }
     [field: SerializeField] public int BuildIndex {  get; private set; }
-    [field: SerializeField] public Transform Spawnpoint { get; private set; }
+    [field: SerializeField] public Transform SpawnPoint { get; private set; }
 
     private void OnTriggerEnter(Collider other)
     {
