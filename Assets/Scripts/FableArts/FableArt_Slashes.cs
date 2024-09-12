@@ -22,5 +22,6 @@ public class FableArt_Slashes : FableArt_Attack
             yield return new WaitForSeconds(attacks[i].clip.length * 0.6f);
             i++;
         }
+        yield return null;
     }
 }

@@ -57,6 +57,7 @@ public class PlayerFableArtState : PlayerState
     {
         base.Exit();
 
+        player.SetCanMove(true);
         player.anim.SetFloat(animationSpeedHash, 1f);
     }
 

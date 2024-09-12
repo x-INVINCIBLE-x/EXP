@@ -49,5 +49,6 @@ public class FableArt_ChargeAttack : FableArt_Attack
         
         player.SetBusy(false);
         player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, chargeAttacks[i].attackData.AnimationName, animationSpeedMultiplier));
+        yield return null;
     }
 }

@@ -23,7 +23,7 @@ public class UI_HUDSlider : UI_HUD
     protected override void Start()
     {
         base.Start();
-        playerStat.Hit += UpdateUI;
+        playerStat.UpdateHUD += UpdateUI;
     }
     private void UpdateUI()
     {
@@ -33,6 +33,6 @@ public class UI_HUDSlider : UI_HUD
 
     private void OnDisable()
     {
-        playerStat.Hit += UpdateUI;
+        playerStat.UpdateHUD += UpdateUI;
     }
 }

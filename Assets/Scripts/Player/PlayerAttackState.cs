@@ -51,7 +51,7 @@ public class PlayerAttackState : PlayerState
     public override void Update()
     {
         base.Update();
-        SetFacingDirectoion();
+        SetFacingDirection();
 
         //if(!HasAnimationPassed(animName, 0.8f))
             Move(player.transform.forward, attack.movementSpeed);
@@ -78,7 +78,7 @@ public class PlayerAttackState : PlayerState
         player.stats.SetConsumingStamina(false);
     }
 
-    private void SetFacingDirectoion()
+    private void SetFacingDirection()
     {
         stateTimer -= Time.deltaTime;
         if (stateTimer < 0)

@@ -109,7 +109,7 @@ public class CharacterStats : MonoBehaviour
     private Dictionary<AilmentType, Action> ailmentActions;
     public Dictionary<Stats, Stat> statDictionary;
 
-    public event Action Hit;
+    public event Action UpdateHUD;
 
     [System.Serializable]
     public class AilmentStatus
@@ -202,8 +202,8 @@ public class CharacterStats : MonoBehaviour
     {
         if (!isConsumingStamina && currentStamina < stamina.Value)
         {
-            Hit?.Invoke();
             currentStamina += staminaRegain.Value * Time.deltaTime;
+            UpdateHUD?.Invoke();
         }
     }
 
@@ -215,10 +215,10 @@ public class CharacterStats : MonoBehaviour
             return;
         }
 
-        targetStats.Hit?.Invoke();
         targetStats.TakePhysicalDamage(physicalAtk.Value);
 
         DoAilmentDamage(targetStats);
+        targetStats.UpdateHUD?.Invoke();
     }
 
     public void DoAilmentDamage(CharacterStats targetStats)
@@ -346,8 +346,8 @@ public class CharacterStats : MonoBehaviour
     {
         if(currentStamina > staminaAmount)
         {
-            Hit?.Invoke();
             currentStamina -= staminaAmount;
+            UpdateHUD?.Invoke();
             return true;
         }
 
@@ -358,8 +358,8 @@ public class CharacterStats : MonoBehaviour
     {
         if(currentFableSlot > (slots * 100))
         {
-            Hit?.Invoke();
             currentFableSlot -= (slots * 100);
+            UpdateHUD?.Invoke();
             return true;
         }
         return false;

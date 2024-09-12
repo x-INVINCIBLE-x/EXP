@@ -29,7 +29,7 @@ public class PlayerBlockState : PlayerState
 
         player.stats.physicalDef.AddModifier(new StatModifier(player.weaponController.currentWeapon.guardAmount, StatModType.Flat, this));
 
-        player.stats.Hit += OnHit;
+        player.stats.UpdateHUD += OnHit;
 
         perfectblockTimer = player.perfectBlockTimer;
 
@@ -94,7 +94,7 @@ public class PlayerBlockState : PlayerState
 
         player.stats.physicalDef.RemoveAllModifiersFromSource(this);
 
-        player.stats.Hit -= OnHit;
+        player.stats.UpdateHUD -= OnHit;
 
         player.stats.SetBlocking(false);
         player.stats.SetPerfectBlock(false);

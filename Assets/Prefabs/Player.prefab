@@ -1387,6 +1387,7 @@ MonoBehaviour:
   dodgeStamina: 25
   isBusy: 0
   canMove: 1
+  isMoving: 0
   canCounter: 0
   boxDimensions: {x: 1.5, y: 1, z: 1}
   maxDistance: 4
@@ -1484,7 +1485,7 @@ MonoBehaviour:
     BaseValue: 0
     statModifiers: []
   fableSlot:
-    BaseValue: 1e+11
+    BaseValue: 500
     statModifiers: []
   guardRegain:
     BaseValue: 0
@@ -1612,6 +1613,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactUI: {fileID: 0}
+  interactables: []
+  closestInteractable: {fileID: 0}
 --- !u!114 &5751820146497761150
 MonoBehaviour:
   m_ObjectHideFlags: 0
