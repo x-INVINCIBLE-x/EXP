@@ -16,6 +16,7 @@ public class FableArt_Slashes : FableArt_Attack
     private IEnumerator StartAttack()
     {
         int i = 0;
+
         while (i < attacks.Length)
         {
             player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, attacks[i], animationSpeedMultiplier));

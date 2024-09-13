@@ -14,6 +14,7 @@ public enum FableArtType
 public class FableArt : ScriptableObject
 {
     protected readonly int animationSpeedHash = Animator.StringToHash("AttackSpeedMultiplier");
+    public GameObject[] effects;
 
     public Player player => PlayerManager.instance.player;
     public FableArtType type;
