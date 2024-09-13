@@ -94,7 +94,6 @@ public class CharacterStats : MonoBehaviour
     public AilmentStatus shockStatus;
     public AilmentStatus breakStatus;
 
-    public float ailmentLimit = 100;
     public float ailmentLimitOffset = 10;
 
     public float currentHealth;
@@ -106,7 +105,7 @@ public class CharacterStats : MonoBehaviour
     public bool isPerfectBlock { get; private set; } = false;
     public bool isConsumingStamina { get; private set; } = false;
 
-    private Dictionary<AilmentType, Action> ailmentActions;
+    protected Dictionary<AilmentType, Action> ailmentActions;
     public Dictionary<Stats, Stat> statDictionary;
 
     public event Action UpdateHUD;
@@ -114,11 +113,12 @@ public class CharacterStats : MonoBehaviour
     [System.Serializable]
     public class AilmentStatus
     {
-        public float Value = 0f;
+        public float Value;
         public Stat resistance;
         public Stat defence;
         public bool isMaxed = false;
-
+        public float ailmentLimit = 100;
+        public event Action<AilmentStatus> ailmentEffectEnded;
         public IEnumerator ReduceValueOverTime()
         {
             while (Value > 0)
@@ -126,19 +126,24 @@ public class CharacterStats : MonoBehaviour
                 if (Value > 0)
                 {
                     Value -= resistance.Value * Time.deltaTime;
-
+                    
                     if (Value <= 0)
                     {
+                        if (isMaxed)
+                            ailmentEffectEnded?.Invoke(this);
+
                         Value = 0;
                         isMaxed = false;
                     }
+
+                    yield return new WaitForEndOfFrame();
                 }
                 yield return null;
             }
         }
     }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         InitializeValues();
 
@@ -249,29 +254,38 @@ public class CharacterStats : MonoBehaviour
             targetStats.TryApplyAilmentEffect(_breakAtk, ref targetStats.breakStatus, AilmentType.Break);
     }
 
-    private void TryApplyAilmentEffect(float ailmentAtk, ref AilmentStatus ailmentStatus, AilmentType ailmentType)
+    protected virtual void TryApplyAilmentEffect(float ailmentAtk, ref AilmentStatus ailmentStatus, AilmentType ailmentType)
     {
         if (ailmentStatus.isMaxed)
             return;
 
         float ailmentDefence = ailmentStatus.defence.Value;
-
         float effectAmount = ailmentAtk - ailmentDefence;
         ReduceHealthBy(effectAmount);
-        ailmentStatus.Value = Mathf.Min(ailmentLimit + ailmentLimitOffset, ailmentStatus.Value + effectAmount);
+
+        ailmentStatus.Value = Mathf.Min(ailmentStatus.ailmentLimit + ailmentLimitOffset, ailmentStatus.Value + effectAmount);
         StartCoroutine(ailmentStatus.ReduceValueOverTime());
 
-        if (ailmentStatus.Value >= ailmentLimit)
-        {
-            ApplyAilment(ailmentType);
-            ailmentStatus.isMaxed = true;
-        }
+        UI.instance.ailmentSlider[((int)ailmentType)].gameObject.SetActive(true);
+        StartCoroutine(UI.instance.ailmentSlider[((int)ailmentType)].UpdateUI());
+
+        if (ailmentStatus.Value < ailmentStatus.ailmentLimit)
+            return;
+
+        ApplyAilment(ailmentType);
+        ailmentStatus.isMaxed = true;
+        ailmentStatus.ailmentEffectEnded += AilmentEffectEnded;
     }
 
     private void ApplyAilment(AilmentType ailmentType)
     {
         if (ailmentActions.TryGetValue(ailmentType,out var ailmentEffect))
             ailmentEffect();
+    }
+
+    protected virtual void AilmentEffectEnded(AilmentStatus ailmentStatus)
+    {
+        ailmentStatus.ailmentEffectEnded -= AilmentEffectEnded;
     }
 
     #region Ailment Specific functions

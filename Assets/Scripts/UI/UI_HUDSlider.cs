@@ -7,32 +7,36 @@ public enum SliderStat
 {
     Health,
     Stamina,
-    Fable 
+    Fable,
 }
 
-public class UI_HUDSlider : UI_HUD
+public class UI_HUDSlider : MonoBehaviour
 {
-    [SerializeField] private Slider slider;
+    [SerializeField] protected Slider slider;
     [SerializeField] private SliderStat stat;
+    protected UI_HUD uiHUD;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         slider = GetComponentInChildren<Slider>();
+        uiHUD = GetComponentInParent<UI_HUD>();
     }
 
-    protected override void Start()
+    protected virtual void Start()
     {
-        base.Start();
-        playerStat.UpdateHUD += UpdateUI;
+        if (!uiHUD.playerStat)
+            uiHUD.playerStat = PlayerManager.instance.player.stats;
+
+        uiHUD.playerStat.UpdateHUD += UpdateUI;
     }
     private void UpdateUI()
     {
-        float[] values = sliderStats[stat]();
+        float[] values = uiHUD.sliderStats[stat]();
         slider.value = values[1] / values[0];
     }
 
     private void OnDisable()
     {
-        playerStat.UpdateHUD += UpdateUI;
+        uiHUD.playerStat.UpdateHUD += UpdateUI;
     }
 }

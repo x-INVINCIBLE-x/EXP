@@ -39,6 +39,15 @@ public class UI : MonoBehaviour
     public UI_EquipmentToolTip selectionToolTip;
     public UI_PanelToolTip panelToolTip;
 
+    [Header("HUD")]
+    [Tooltip("Fire, Electric, Acid, Disruption, Shock, Break")]
+    public UI_AilmentSlider[] ailmentSlider;
+    //public UI_AilmentSlider electricAilmentSlider;
+    //public UI_AilmentSlider acidAilmentSlider;
+    //public UI_AilmentSlider shockAilmentSlider;
+    //public UI_AilmentSlider breakAilmentSlider;
+    //public UI_AilmentSlider disruptionAilmentSlider;
+
     [Header("Teleporter Info")]
     [SerializeField] private Transform teleporterTabParent;
     public UI_TeleportTab[] teleporterTabs;

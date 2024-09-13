@@ -1473,10 +1473,10 @@ MonoBehaviour:
     BaseValue: 0
     statModifiers: []
   health:
-    BaseValue: 100
+    BaseValue: 1000
     statModifiers: []
   stamina:
-    BaseValue: 1e+10
+    BaseValue: 100
     statModifiers: []
   staminaRegain:
     BaseValue: 10
@@ -1544,58 +1544,63 @@ MonoBehaviour:
   fireStatus:
     Value: 0
     resistance:
+      BaseValue: 5
+      statModifiers: []
+    defence:
+      BaseValue: 0
+      statModifiers: []
+    isMaxed: 0
+    ailmentLimit: 100
+  electricStatus:
+    Value: 0
+    resistance:
       BaseValue: 10
       statModifiers: []
     defence:
       BaseValue: 0
       statModifiers: []
     isMaxed: 0
-  electricStatus:
-    Value: 0
-    resistance:
-      BaseValue: 0
-      statModifiers: []
-    defence:
-      BaseValue: 0
-      statModifiers: []
-    isMaxed: 0
+    ailmentLimit: 100
   acidStatus:
     Value: 0
     resistance:
-      BaseValue: 0
+      BaseValue: 2
       statModifiers: []
     defence:
       BaseValue: 0
       statModifiers: []
     isMaxed: 0
+    ailmentLimit: 100
   disruptionStatus:
     Value: 0
     resistance:
-      BaseValue: 0
+      BaseValue: 5
       statModifiers: []
     defence:
       BaseValue: 0
       statModifiers: []
     isMaxed: 0
+    ailmentLimit: 100
   shockStatus:
     Value: 0
     resistance:
-      BaseValue: 0
+      BaseValue: 5
       statModifiers: []
     defence:
       BaseValue: 0
       statModifiers: []
     isMaxed: 0
+    ailmentLimit: 100
   breakStatus:
     Value: 0
     resistance:
-      BaseValue: 0
+      BaseValue: 5
       statModifiers: []
     defence:
       BaseValue: 0
       statModifiers: []
     isMaxed: 0
-  ailmentLimit: 100
+    ailmentLimit: 100
   ailmentLimitOffset: 10
   currentHealth: 0
   currentStamina: 0
