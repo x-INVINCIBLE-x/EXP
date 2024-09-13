@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class PlayerFX : MonoBehaviour
 {
-    [SerializeField] private GameObject playerEffects;
+    [SerializeField] private Transform playerEffects;
     [SerializeField] private GameObject effectPrefab;
     [Tooltip("Fire, Electric, Acid, Disruption, Shock, Break")] 
     [SerializeField] private List<Material> ailmentMaterials;
 
     private readonly Dictionary<int, GameObject> appliedEffects = new();
+    private int dir = -1;
 
     public void ApplyEffectFX(AilmentType type, CharacterStats.AilmentStatus ailmentStatus)
     {
@@ -17,10 +18,14 @@ public class PlayerFX : MonoBehaviour
         if (appliedEffects.ContainsKey(code))
             return;
 
-        GameObject newEffect = Instantiate(effectPrefab, playerEffects.transform);
+        GameObject newEffect = Instantiate(effectPrefab, playerEffects);
         Renderer renderer = newEffect.GetComponent<Renderer>();
         renderer.material = ailmentMaterials[((int)type)];
+        newEffect.transform.localPosition =
+            new(0, 0, (appliedEffects.Count) * -0.05f);
 
+        dir *= -1;
+        newEffect.GetComponent<RotationEffect>().Setup(dir);
         appliedEffects[code] = newEffect;
     }
 
