@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   fableSlot: 0
-  animationSpeedMultiplier: 1
+  effects:
+  - effectItem: {fileID: 7155335147208632822, guid: 97c43495f80a3244fad1301dfafbe252, type: 3}
+    residueEffect: {fileID: 0}
+    offestForEffects: {x: 0, y: 0, z: 0}
   absoluteBlockCLip: {fileID: 0}
   invincibleTime: 1

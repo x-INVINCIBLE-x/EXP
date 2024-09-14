@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using UnityEngine;
 
 public class PlayerFableArtState : PlayerState
@@ -10,16 +11,18 @@ public class PlayerFableArtState : PlayerState
     private Vector3 movement;
     private Attack attack;
     private float stateTimer = 0.2f;
-
-    public PlayerFableArtState(PlayerStateMachine stateMachine, Player player, string animName, Attack attack = null, float animationSpeedMultiplier = 1f) : base(stateMachine, player, animName)
+   
+    private EffectData effect;
+    public PlayerFableArtState(PlayerStateMachine stateMachine, Player player, string animName, Attack attack = null, float animationSpeedMultiplier = 1f, EffectData effect = null) : base(stateMachine, player, animName)
     {
         this.attack = attack;
         this.animationSpeedMultiplier = animationSpeedMultiplier;
+        this.effect = effect;
     }
 
-    public PlayerFableArtState(PlayerStateMachine stateMachine, Player player, Attack attack, float animationSpeedMultiplier = 1f) : this(stateMachine, player, null, attack, animationSpeedMultiplier) { }
-    public PlayerFableArtState(PlayerStateMachine stateMachine, Player player, string animName, float animationSpeedMultiplier): this(stateMachine, player, animName, null, animationSpeedMultiplier) { }
-    
+    public PlayerFableArtState(PlayerStateMachine stateMachine, Player player, Attack attack, float animationSpeedMultiplier = 1f, EffectData effect = null) : this(stateMachine, player, null, attack, animationSpeedMultiplier, effect) { }
+    public PlayerFableArtState(PlayerStateMachine stateMachine, Player player, string animName, float animationSpeedMultiplier, EffectData effect = null) : this(stateMachine, player, animName, null, animationSpeedMultiplier, effect) { }
+    //public PlayerFableArtState(PlayerStateMachine stateMachine, Player player, string animName, float animationSpeedMultiplier, EffectData effect) : this(stateMachine, player, animName, null, animationSpeedMultiplier, effect) { }
     public override void Enter()
     {
         base.Enter();
@@ -31,6 +34,10 @@ public class PlayerFableArtState : PlayerState
             player.anim.SetFloat(animationSpeedHash, animationSpeedMultiplier);
 
         movement = player.inputManager.Movement;
+        
+        player.fx.StartEffect(effect);
+
+
         StopMovement();
     }
 
@@ -59,6 +66,7 @@ public class PlayerFableArtState : PlayerState
 
         player.SetCanMove(true);
         player.anim.SetFloat(animationSpeedHash, 1f);
+        player.fx.RemoveEffect(effect);
     }
 
     private void ChooseAttackAnimation()
@@ -82,4 +90,5 @@ public class PlayerFableArtState : PlayerState
             FreeLookDirection(movement);
         }
     }
+
 }

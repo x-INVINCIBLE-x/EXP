@@ -23,6 +23,7 @@ public class Player : MonoBehaviour, ISaveable
     public PlayerWeaponVisuals weaponVisiuals { get; private set; }
     public PlayerStopState stopRunState { get; private set; }
     public PlayerStopState stopWalkState { get; private set; }
+    public PlayerFX fx;
 
     public float walkSpeed;
     public float runSpeed;
@@ -71,6 +72,7 @@ public class Player : MonoBehaviour, ISaveable
         forceReciever = GetComponentInChildren<ForceReciever>();
         weaponVisiuals = GetComponent<PlayerWeaponVisuals>();
         stats = GetComponent<PlayerStat>();
+        fx = GetComponent<PlayerFX>();
 
         mainCamera = Camera.main;
         inputManager = InputManager.Instance;

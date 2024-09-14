@@ -26,9 +26,9 @@ public class FableArt_Buff : FableArt
     private IEnumerator StartBuffEffect(CharacterStats stat)
     {
         AddBuffs(stat);
-
+        StartAllEffects();
         yield return new WaitForSeconds(duration);
-
+        StopEffects();
         RemoveBuffs(stat);
     }
 

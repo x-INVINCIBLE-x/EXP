@@ -16,6 +16,6 @@ public class FableArt_MultiAttack : FableArt_Attack
 
     private void StartAttack(int index)
     {
-        player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, attacks[index], animationSpeedMultiplier));
+        player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, attacks[index], animationSpeedMultiplier, effects[index]));
     }
 }

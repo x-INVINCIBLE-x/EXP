@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 3
   fableSlot: 0
-  animationSpeedMultiplier: 1
+  effects:
+  - effectItem: {fileID: 9017484664307500583, guid: 1245b8d2997d5b34fb1637be70a7eb05, type: 3}
+    residueEffect: {fileID: 0}
+    offestForEffects: {x: 0, y: 0, z: 0}
   activateAnimation: {fileID: 0}
   duration: 3
   physicalAtk: 5

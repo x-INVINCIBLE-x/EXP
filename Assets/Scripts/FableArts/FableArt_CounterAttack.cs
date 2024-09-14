@@ -16,8 +16,10 @@ public class FableArt_CounterAttack : FableArt
 
     public IEnumerator StartCounterCooldown()
     {
+        StartAllEffects();
         player.canCounter = true;
         yield return new WaitForSeconds(counterTimer);
         player.canCounter = false;
+        StopEffects();
     }
 }

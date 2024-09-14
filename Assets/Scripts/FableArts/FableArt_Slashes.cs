@@ -16,13 +16,14 @@ public class FableArt_Slashes : FableArt_Attack
     private IEnumerator StartAttack()
     {
         int i = 0;
-
+        StartAllEffects();
         while (i < attacks.Length)
         {
             player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, attacks[i], animationSpeedMultiplier));
             yield return new WaitForSeconds(attacks[i].clip.length * 0.6f);
             i++;
         }
+        StopEffects();
         yield return null;
     }
 }

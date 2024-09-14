@@ -19,6 +19,14 @@ public class FableArt_AbsoluteBlock : FableArt
         if(absoluteBlockCLip != null)
             blockAnimName = absoluteBlockCLip.name;
 
+        CoroutineManager.instance.StartRoutine(Effect(invincibleTime));
         player.stateMachine.ChangeState(new PlayerBlockState(player.stateMachine, player, blockAnimName, invincibleTime));
+    }
+
+    IEnumerator Effect(float duraion)
+    {
+        StartAllEffects();
+        yield return new WaitForSeconds(duraion);
+        StopEffects();
     }
 }

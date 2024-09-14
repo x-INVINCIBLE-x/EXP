@@ -35,10 +35,10 @@ public class FableArt_ChargeAttack : FableArt_Attack
                 continue;
 
             i++;
-
             if (i == chargeAttacks.Length)
                 break;
 
+            StartEffectAt(i);
             player.anim.CrossFadeInFixedTime(chargeAttacks[i].holdAnim.name, 0.051f, 0);
             if (i != chargeAttacks.Length)
                 elapsedTime += chargeAttacks[i].duration;
@@ -48,7 +48,8 @@ public class FableArt_ChargeAttack : FableArt_Attack
         i = Mathf.Clamp(i, 0, chargeAttacks.Length - 1);
         
         player.SetBusy(false);
-        player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, chargeAttacks[i].attackData.AnimationName, animationSpeedMultiplier));
+        player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, chargeAttacks[i].attackData.AnimationName, animationSpeedMultiplier, effects[i]));
+        StopEffects();
         yield return null;
     }
 }
