@@ -15,8 +15,8 @@ MonoBehaviour:
   type: 0
   fableSlot: 0
   effects:
-  - effectItem: {fileID: 7155335147208632822, guid: 97c43495f80a3244fad1301dfafbe252, type: 3}
-    residueEffect: {fileID: 0}
+  - effectItem: {fileID: 371323933652713977, guid: 5046c7ab536561d44b5acf1d2b37262c, type: 3}
+    residueEffect: {fileID: 1348030250377384503, guid: 63b9da4d8a2ea1e4aa78f78e49c9c35e, type: 3}
     offestForEffects: {x: 0, y: 0, z: 0}
   absoluteBlockCLip: {fileID: 0}
   invincibleTime: 1

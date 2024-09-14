@@ -13,7 +13,6 @@ public class PlayerFX : MonoBehaviour
     private int dir = -1;
 
     [Header("Fable Fx")]
-    private List<EffectData> effects = new();
     private Dictionary<EffectData, GameObject> activeEffects = new();
 
 
@@ -41,23 +40,11 @@ public class PlayerFX : MonoBehaviour
         Destroy(effectToRemove);
     }
 
-    public virtual void StartEffectAt(int index)
-    {
-        if (index >= effects.Count)
-        {
-            Debug.LogWarning("out of bound fable effect from fable attackl Call");
-            return;
-        }
-
-        activeEffects.Add(effects[index], Instantiate(effects[index].effectItem, transform.position + effects[index].offestForEffects, Quaternion.identity));
-    }
-
     public virtual void StartEffect(EffectData effect)
     {
         if (effect == null)
             return;
 
-        Debug.Log(effect.effectItem.name);
         activeEffects.Add(effect, Instantiate(effect.effectItem, transform.position + effect.offestForEffects, Quaternion.identity));
     }
 
@@ -72,22 +59,8 @@ public class PlayerFX : MonoBehaviour
             activeEffects.Remove(effect);
             Destroy(objectToRemove);
         }
-    }
-
-
-    public virtual void RemoveEffects()
-    {
-        if (activeEffects == null)
-        {
-            Debug.Log("No Effect To Destroy");
-            return;
-        }
-
-        foreach(var effect in activeEffects)
-        {
-            GameObject objecttoRemove = effect.Value;
-            activeEffects.Remove(effect.Key);
-            Destroy(objecttoRemove);
-        }
+        
+        if(effect.residueEffect != null)
+            Instantiate(effect.residueEffect, transform.position + effect.offestForEffects, Quaternion.identity);
     }
 }

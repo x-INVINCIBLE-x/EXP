@@ -15,7 +15,7 @@ MonoBehaviour:
   type: 0
   fableSlot: 0
   effects:
-  - effectItem: {fileID: 9017484664307500583, guid: 1245b8d2997d5b34fb1637be70a7eb05, type: 3}
-    residueEffect: {fileID: 0}
+  - effectItem: {fileID: 7053385775836331393, guid: 354b6251e950209409c75ab984acf000, type: 3}
+    residueEffect: {fileID: 1348030250377384503, guid: 63b9da4d8a2ea1e4aa78f78e49c9c35e, type: 3}
     offestForEffects: {x: 0, y: 0, z: 0}
   counterTimer: 1

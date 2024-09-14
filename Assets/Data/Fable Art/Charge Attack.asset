@@ -16,13 +16,13 @@ MonoBehaviour:
   fableSlot: 0
   effects:
   - effectItem: {fileID: 4932088507883938021, guid: 0e5709a7ddb77924090c112cf73bb98a, type: 3}
-    residueEffect: {fileID: 0}
+    residueEffect: {fileID: 1348030250377384503, guid: 63b9da4d8a2ea1e4aa78f78e49c9c35e, type: 3}
     offestForEffects: {x: 0, y: 0, z: 0}
   - effectItem: {fileID: 7986504087968017091, guid: 12a56ee4630040c4eb17ae9707ed4cef, type: 3}
-    residueEffect: {fileID: 0}
+    residueEffect: {fileID: 1348030250377384503, guid: 63b9da4d8a2ea1e4aa78f78e49c9c35e, type: 3}
     offestForEffects: {x: 0, y: 0, z: 0}
   - effectItem: {fileID: 3744133877081091469, guid: a2a060732547fe64581bb0cb3c2bdf1d, type: 3}
-    residueEffect: {fileID: 0}
+    residueEffect: {fileID: 1348030250377384503, guid: 63b9da4d8a2ea1e4aa78f78e49c9c35e, type: 3}
     offestForEffects: {x: 0, y: 0, z: 0}
   animationSpeedMultiplier: 1
   chargeAttacks:

@@ -64,6 +64,9 @@ public class FableArt : ScriptableObject
 
         for (int i = activeEffects.Count - 1; i >= 0; i--)
         {
+            if (effects[i].residueEffect != null)
+                Instantiate(effects[i].residueEffect, player.transform.position + effects[i].offestForEffects, Quaternion.identity);
+
             GameObject effectToDelete = activeEffects[i];
 
             activeEffects.RemoveAt(i);
