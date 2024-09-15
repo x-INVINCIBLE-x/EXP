@@ -54,7 +54,7 @@ public class FableArt : ScriptableObject
         player.fx.StartEffect(effects[index]);
     }
 
-    public virtual void StopEffects()
+    public virtual void StopAllEffects()
     {
         if (activeEffects == null)
         {

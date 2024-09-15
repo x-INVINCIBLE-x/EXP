@@ -27,6 +27,6 @@ public class FableArt_AbsoluteBlock : FableArt
     {
         StartAllEffects();
         yield return new WaitForSeconds(duraion);
-        StopEffects();
+        StopAllEffects();
     }
 }

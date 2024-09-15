@@ -13,7 +13,7 @@ public class PlayerFX : MonoBehaviour
 
     [Header("Fable Fx")]
     private Dictionary<EffectData, List<GameObject>> activeEffects = new();
-
+    private Dictionary <int, GameObject> newObjects = new();
 
     public void ApplyEffectFX(AilmentType type, CharacterStats.AilmentStatus ailmentStatus)
     {
@@ -70,6 +70,32 @@ public class PlayerFX : MonoBehaviour
         }
 
         if (effect.residueEffect != null)
-            Instantiate(effect.residueEffect, transform.position + effect.offestForEffects, Quaternion.identity);
+        {
+            GameObject residue =  Instantiate(effect.residueEffect, transform.position + effect.offestForEffects, Quaternion.identity);
+            residue.AddComponent<DestroyObject>();
+        }
+    }
+
+    public virtual void CreateObject(GameObject obj, Vector3 offset = default)
+    {
+        if (obj == null) return;
+        
+        GameObject newObj = Instantiate(obj, transform.position + offset, Quaternion.identity);
+        newObjects.Add(obj.GetHashCode(), newObj);
+
+        newObj.transform.parent = transform;
+    }
+
+    public virtual void RemoveObject(GameObject obj)
+    {
+        if (obj == null) return;
+
+        int code = obj.GetHashCode();
+        if (newObjects.ContainsKey(code))
+        {
+            GameObject objectToRemove = newObjects[code];
+            newObjects.Remove(code);
+            Destroy(objectToRemove);
+        }
     }
 }

@@ -20,6 +20,6 @@ public class FableArt_CounterAttack : FableArt
         player.canCounter = true;
         yield return new WaitForSeconds(counterTimer);
         player.canCounter = false;
-        StopEffects();
+        StopAllEffects();
     }
 }

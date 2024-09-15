@@ -28,7 +28,7 @@ public class FableArt_Buff : FableArt
         AddBuffs(stat);
         StartAllEffects();
         yield return new WaitForSeconds(duration);
-        StopEffects();
+        StopAllEffects();
         RemoveBuffs(stat);
     }
 

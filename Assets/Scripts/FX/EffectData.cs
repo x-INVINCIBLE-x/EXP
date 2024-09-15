@@ -8,4 +8,5 @@ public class EffectData
     public GameObject effectItem;
     public GameObject residueEffect;
     public Vector3 offestForEffects;
+    public GameObject attackItem;
 }

@@ -25,7 +25,7 @@ public class PlayerFableArtState : PlayerState
     //public PlayerFableArtState(PlayerStateMachine stateMachine, Player player, string animName, float animationSpeedMultiplier, EffectData effect) : this(stateMachine, player, animName, null, animationSpeedMultiplier, effect) { }
     public override void Enter()
     {
-        //base.Enter();
+        base.Enter();
 
         stateTimer = 0.2f;
         ChooseAttackAnimation();
@@ -38,11 +38,12 @@ public class PlayerFableArtState : PlayerState
         else
             movement = player.transform.forward;
 
-        player.fx.StartEffect(effect);
-
+        //player.fx.StartEffect(effect);
+        if (effect != null)
+            player.fx.CreateObject(effect.attackItem, effect.offestForEffects);
 
         StopMovement();
-        player.SetCanMove(true);
+        player.SetCanMove(true); // Set to false after updating animation events
     }
 
     public override void Update()
@@ -69,7 +70,10 @@ public class PlayerFableArtState : PlayerState
 
         player.SetCanMove(true);
         player.anim.SetFloat(animationSpeedHash, 1f);
-        player.fx.RemoveEffect(effect);
+        //player.fx.RemoveEffect(effect);
+
+        if(effect != null)
+            player.fx.RemoveObject(effect.attackItem);
     }
 
     private void ChooseAttackAnimation()
