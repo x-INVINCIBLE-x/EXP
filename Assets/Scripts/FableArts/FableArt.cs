@@ -40,7 +40,7 @@ public class FableArt : ScriptableObject
     public virtual void StartAllEffects()
     {
         for (int i = 0; i < effects.Count; i++)
-            activeEffects.Add(Instantiate(effects[i].effectItem, player.transform.position + effects[i].offestForEffects, Quaternion.identity));
+            StartEffectAt(i);
     }
 
     public virtual void StartEffectAt(int index)
@@ -51,7 +51,7 @@ public class FableArt : ScriptableObject
             return;
         }
 
-        activeEffects.Add(Instantiate(effects[index].effectItem, player.transform.position + effects[index].offestForEffects, Quaternion.identity));
+        player.fx.StartEffect(effects[index]);
     }
 
     public virtual void StopEffects()
@@ -62,15 +62,9 @@ public class FableArt : ScriptableObject
             return;
         }
 
-        for (int i = activeEffects.Count - 1; i >= 0; i--)
+        for (int i = 0; i < effects.Count; i++)
         {
-            if (effects[i].residueEffect != null)
-                Instantiate(effects[i].residueEffect, player.transform.position + effects[i].offestForEffects, Quaternion.identity);
-
-            GameObject effectToDelete = activeEffects[i];
-
-            activeEffects.RemoveAt(i);
-            Destroy(effectToDelete);
+            player.fx.RemoveEffect(effects[i]);
         }
     }
 }

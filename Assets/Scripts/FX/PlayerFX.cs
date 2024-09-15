@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,14 +5,14 @@ public class PlayerFX : MonoBehaviour
 {
     [SerializeField] private Transform playerEffects;
     [SerializeField] private GameObject effectPrefab;
-    [Tooltip("Fire, Electric, Acid, Disruption, Shock, Break")] 
+    [Tooltip("Fire, Electric, Acid, Disruption, Shock, Break")]
     [SerializeField] private List<Material> ailmentMaterials;
 
     private readonly Dictionary<int, GameObject> appliedEffects = new();
     private int dir = -1;
 
     [Header("Fable Fx")]
-    private Dictionary<EffectData, GameObject> activeEffects = new();
+    private Dictionary<EffectData, List<GameObject>> activeEffects = new();
 
 
     public void ApplyEffectFX(AilmentType type, CharacterStats.AilmentStatus ailmentStatus)
@@ -45,22 +44,32 @@ public class PlayerFX : MonoBehaviour
         if (effect == null)
             return;
 
-        activeEffects.Add(effect, Instantiate(effect.effectItem, transform.position + effect.offestForEffects, Quaternion.identity));
+        GameObject newEffect = Instantiate(effect.effectItem, transform.position + effect.offestForEffects, Quaternion.identity);
+
+        if (!activeEffects.ContainsKey(effect))
+            activeEffects.Add(effect, new List<GameObject> { newEffect });
+        else
+            activeEffects[effect].Add(newEffect);
+
+        newEffect.transform.parent = transform;
     }
 
     public virtual void RemoveEffect(EffectData effect)
     {
-        if(effect == null)
+        if (effect == null)
             return;
 
-        if (activeEffects.ContainsKey(effect))
+        if (!activeEffects.ContainsKey(effect))
+            return;
+
+        foreach (GameObject toRemove in activeEffects[effect])
         {
-            GameObject objectToRemove = activeEffects[effect];
             activeEffects.Remove(effect);
-            Destroy(objectToRemove);
+            Destroy(toRemove);
+
         }
-        
-        if(effect.residueEffect != null)
+
+        if (effect.residueEffect != null)
             Instantiate(effect.residueEffect, transform.position + effect.offestForEffects, Quaternion.identity);
     }
 }

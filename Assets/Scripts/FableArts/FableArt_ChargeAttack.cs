@@ -48,8 +48,8 @@ public class FableArt_ChargeAttack : FableArt_Attack
         i = Mathf.Clamp(i, 0, chargeAttacks.Length - 1);
         
         player.SetBusy(false);
-        player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, chargeAttacks[i].attackData.AnimationName, animationSpeedMultiplier, effects[i]));
         StopEffects();
+        player.stateMachine.ChangeState(new PlayerFableArtState(player.stateMachine, player, chargeAttacks[i].attackData, animationSpeedMultiplier, effects[i]));
         yield return null;
     }
 }
