@@ -22,6 +22,7 @@ public class FableArt_ChargeAttack : FableArt_Attack
     private IEnumerator StartAttack()
     {
         player.SetBusy(true);
+        player.SetCanMove(false);
         yield return new WaitForEndOfFrame();
 
         int i = -1;

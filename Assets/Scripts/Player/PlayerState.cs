@@ -33,7 +33,7 @@ public class PlayerState
     {
         if (!player.canMove)
             return;
-
+        
         player.characterController.Move(((speed * movement) + player.forceReciever.Movement) * Time.deltaTime);
     }
 
