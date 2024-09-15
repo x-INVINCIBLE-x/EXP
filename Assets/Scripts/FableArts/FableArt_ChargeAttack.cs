@@ -40,7 +40,7 @@ public class FableArt_ChargeAttack : FableArt_Attack
                 break;
 
             StartEffectAt(i);
-            player.anim.CrossFadeInFixedTime(chargeAttacks[i].holdAnim.name, 0.051f, 0);
+            player.anim.CrossFadeInFixedTime(chargeAttacks[i].holdAnim.name, 0.51f, 0);
             if (i != chargeAttacks.Length)
                 elapsedTime += chargeAttacks[i].duration;
 
